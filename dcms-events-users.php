@@ -1,8 +1,8 @@
 <?php
 /*
-Plugin Name: Event users
+Plugin Name: Sporting Event users
 Plugin URI: https://decodecms.com
-Description: Integrates events users for gravity forms
+Description: Integrates events users
 Version: 1.0
 Author: Jhon Marreros Guzmán
 Author URI: https://decodecms.com
@@ -16,6 +16,8 @@ namespace dcms\event;
 
 use dcms\event\includes\Cpt;
 use dcms\event\includes\Plugin;
+use dcms\event\includes\Enqueue;
+use dcms\event\backend\Single;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -32,7 +34,7 @@ final class Loader{
 		define ('DCMS_EVENT_PATH', plugin_dir_path( __FILE__ ));
 		define ('DCMS_EVENT_URL', plugin_dir_url( __FILE__ ));
 		define ('DCMS_EVENT_BASE_NAME', plugin_basename( __FILE__ ));
-		define ('DCMS_MENU_EVENTS', 'edit.php?post_type=events_sporting');
+		define ('DCMS_EVENT_MENU', 'edit.php?post_type=events_sporting');
 		define ('DCMS_EVENT_DOMAIN', 'dcms-events-users');
 	}
 
@@ -41,6 +43,8 @@ final class Loader{
 		include_once ( DCMS_EVENT_PATH . '/helpers/helper.php');
 		include_once ( DCMS_EVENT_PATH . '/includes/plugin.php');
 		include_once ( DCMS_EVENT_PATH . '/includes/cpt.php');
+		include_once ( DCMS_EVENT_PATH . '/includes/enqueue.php');
+		include_once ( DCMS_EVENT_PATH . '/backend/single.php');
 	}
 
 	// Load tex domain
@@ -55,7 +59,7 @@ final class Loader{
 	public function add_link_plugin(){
 		add_action( 'plugin_action_links_' . plugin_basename( __FILE__ ), function( $links ){
 			return array_merge( array(
-				'<a href="' . esc_url( admin_url( DCMS_MENU_EVENTS . '?page=events-users' ) ) . '">' . __( 'Settings', DCMS_EVENT_DOMAIN ) . '</a>'
+				'<a href="' . esc_url( admin_url( DCMS_EVENT_MENU ) ) . '">' . __( 'Settings', DCMS_EVENT_DOMAIN ) . '</a>'
 			), $links );
 		} );
 	}
@@ -68,6 +72,8 @@ final class Loader{
 		$this->add_link_plugin();
 		new Plugin();
 		new Cpt();
+		new Enqueue();
+		new Single();
 	}
 
 }

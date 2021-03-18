@@ -9,7 +9,11 @@ class Cpt{
 
     public function __construct(){
         add_action('init', [$this, 'create_cpt_events']);
+
+		// Deshabilitamos Gutenberg
+		add_filter('use_block_editor_for_post_type', '__return_false', 5);
     }
+
 
     // Create cpt: events_sporting
     public function create_cpt_events(){
@@ -52,7 +56,7 @@ class Cpt{
             		'label'                 => __( 'Events Sporting', DCMS_EVENT_DOMAIN ),
             		'description'           => __( 'Manage events for Sporting subscritions', DCMS_EVENT_DOMAIN ),
             		'labels'                => $labels,
-            		'supports'              => array( 'title', 'author' ),
+            		'supports'              => array( 'title', 'author', 'editor' ),
             		'taxonomies'            => array(),
             		'hierarchical'          => false,
             		'public'                => true,
