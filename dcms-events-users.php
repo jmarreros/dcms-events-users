@@ -14,10 +14,14 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.txt
 
 namespace dcms\event;
 
+require __DIR__ . '/vendor/autoload.php';
+
 use dcms\event\includes\Cpt;
 use dcms\event\includes\Plugin;
 use dcms\event\includes\Enqueue;
 use dcms\event\backend\Single;
+use dcms\event\backend\Filter;
+use dcms\event\includes\Export;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -34,17 +38,9 @@ final class Loader{
 		define ('DCMS_EVENT_PATH', plugin_dir_path( __FILE__ ));
 		define ('DCMS_EVENT_URL', plugin_dir_url( __FILE__ ));
 		define ('DCMS_EVENT_BASE_NAME', plugin_basename( __FILE__ ));
-		define ('DCMS_EVENT_MENU', 'edit.php?post_type=events_sporting');
+		define ('DCMS_EVENT_CPT', 'events_sporting');
 		define ('DCMS_EVENT_DOMAIN', 'dcms-events-users');
-	}
-
-	// Load all the files we need
-	public function load_includes(){
-		include_once ( DCMS_EVENT_PATH . '/helpers/helper.php');
-		include_once ( DCMS_EVENT_PATH . '/includes/plugin.php');
-		include_once ( DCMS_EVENT_PATH . '/includes/cpt.php');
-		include_once ( DCMS_EVENT_PATH . '/includes/enqueue.php');
-		include_once ( DCMS_EVENT_PATH . '/backend/single.php');
+		define ('DCMS_EVENT_MENU', 'edit.php?post_type='.DCMS_EVENT_CPT);
 	}
 
 	// Load tex domain
@@ -67,18 +63,17 @@ final class Loader{
 	// Initialize all
 	public function init(){
 		$this->define_constants();
-		$this->load_includes();
 		$this->load_domain();
 		$this->add_link_plugin();
-		new Plugin();
 		new Cpt();
+		new Plugin();
 		new Enqueue();
 		new Single();
+		new Filter();
+		new Export();
 	}
 
 }
 
 $dcms_event_process = new Loader();
 $dcms_event_process->init();
-
-

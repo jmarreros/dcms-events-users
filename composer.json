@@ -1,0 +1,16 @@
+{
+    "name": "webservi/dcms-events-users",
+    "description": "Events for customers",
+    "authors": [
+        {
+            "name": "Jhon Marreros Guzman",
+            "email": "admin@decodecms.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {"dcms\\event\\": "./"}
+    },
+    "require": {
+        "phpoffice/phpspreadsheet": "^1.17"
+    }
+}

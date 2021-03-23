@@ -74,7 +74,7 @@ class Cpt{
             		'capability_type'       => 'page',
             		'show_in_rest'          => true,
             	);
-            	register_post_type( 'events_sporting', $args );
+            	register_post_type( DCMS_EVENT_CPT, $args );
     }
 
 }

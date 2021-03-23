@@ -17,6 +17,12 @@ class Enqueue{
                             DCMS_EVENT_VERSION,
                             true);
 
+        wp_register_script('admin-event-modal',
+                            DCMS_EVENT_URL.'/backend/assets/modal.js',
+                            ['jquery'],
+                            DCMS_EVENT_VERSION,
+                            true);
+
         wp_register_style('admin-event-style',
                             DCMS_EVENT_URL.'/backend/assets/style.css',
                             [],
