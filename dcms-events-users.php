@@ -18,7 +18,9 @@ require __DIR__ . '/vendor/autoload.php';
 
 use dcms\event\includes\Cpt;
 use dcms\event\includes\Plugin;
+use dcms\event\includes\Submenu;
 use dcms\event\includes\Enqueue;
+use dcms\event\includes\Shortcode;
 use dcms\event\backend\Single;
 use dcms\event\backend\Filter;
 use dcms\event\includes\Export;
@@ -41,6 +43,9 @@ final class Loader{
 		define ('DCMS_EVENT_CPT', 'events_sporting');
 		define ('DCMS_EVENT_DOMAIN', 'dcms-events-users');
 		define ('DCMS_EVENT_MENU', 'edit.php?post_type='.DCMS_EVENT_CPT);
+
+		// Shortcodes
+		define( 'DCMS_EVENT_ACCOUNT', 'sporting-user-account');
 	}
 
 	// Load tex domain
@@ -67,7 +72,9 @@ final class Loader{
 		$this->add_link_plugin();
 		new Cpt();
 		new Plugin();
+		new Submenu();
 		new Enqueue();
+		new Shortcode();
 		new Single();
 		new Filter();
 		new Export();

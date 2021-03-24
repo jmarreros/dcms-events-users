@@ -9,7 +9,6 @@ use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 class Export{
 
     public function __construct(){
-        error_log(print_r('Ingreso al consturctor',true));
         add_action('admin_post_process_export_list_customers', [$this, 'process_export_list_data']);
         // add_action('admin_post_nopriv_process_export_list_customers', [$this, 'process_export_list_data']);
     }

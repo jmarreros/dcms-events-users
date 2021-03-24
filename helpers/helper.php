@@ -24,4 +24,32 @@ class Helper{
         ];
         return $socio_type;
     }
+
+    // Get fields for account
+    public static function get_account_fields(){
+        return [
+            'identify'  => 'Identificativo',
+            'pin'       => 'PIN',
+            'number'    => 'Número',
+            'reference' => 'Referencia',
+            'nif'       => 'NIF',
+            'name'      => 'Nombre',
+            'lastname'    => 'Apellidos',
+            'birth'     => 'Fecha Nacimiento',
+            'sub_type'  => 'Tipo de Abono',
+            'address'   => 'Domicilio completo',
+            'postal_code'   => 'Código Postal',
+            'local'     => 'Localidad',
+            'email'     => 'E-Mail',
+            'phone'     => 'Teléfono',
+            'mobile'    => 'Móvil'
+        ];
+    }
+
+    // Aux function for the sql query
+    public static function get_account_fields_keys(){
+        return '"' . implode('","', array_keys(self::get_account_fields())) . '"';
+    }
+
+
 }
