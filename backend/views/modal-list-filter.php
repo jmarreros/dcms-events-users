@@ -48,23 +48,46 @@ $socio_type = Helper::get_socio_type();
                 <input type="number" id="events-before" value="" />
             </label>
         </div>
+
+        <!-- Buttons -->
+        <section class="top-ebuttons">
+            <a class="btn-clear" href="#"><?php _e('Clear', DCMS_EVENT_DOMAIN) ?></a>
+            <a class="btn-filter button button-primary" href="#"><?php _e('Filter', DCMS_EVENT_DOMAIN) ?></a>
+        </section>
+
     </section>
 
-    <!-- Buttons -->
-    <section class="top-ebuttons">
-        <a class="btn-clear" href="#"><?php _e('Clear', DCMS_EVENT_DOMAIN) ?></a>
-        <a class="btn-filter button button-primary" href="#"><?php _e('Filter', DCMS_EVENT_DOMAIN) ?></a>
-    </section>
 
     <!-- list results -->
     <section class="eresults">
+        <table class="tbl-results">
+            <tr>
+                <th>Firstname</th>
+                <th>Lastname</th>
+                <th>Age</th>
+                <th>Age</th>
+                <th>Age</th>
+            </tr>
+            <?php for($i=1;$i<1000;$i++): ?>
+            <tr>
+                <td>Jill</td>
+                <td>Smith</td>
+                <td>50</td>
+                <td>50</td>
+                <td>50</td>
+            </tr>
+            <?php endfor; ?>
+        </table>
+    </section>
 
+    <section class="footer-info">
+        Total: <strong> 1234 </strong>
     </section>
 
     <!-- Buttom buttons -->
     <section class="fotter-ebuttons">
         <a class="btn-cancel button button-secondary" href="#"><?php _e('Cancel', DCMS_EVENT_DOMAIN) ?></a>
-        <a class="btn-add button button-primary" href="#"><?php _e('Select users', DCMS_EVENT_DOMAIN) ?></a>
+        <a class="btn-add button button-primary" href="#"><?php _e('Select all', DCMS_EVENT_DOMAIN) ?></a>
     </section>
 </div>
 

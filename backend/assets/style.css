@@ -9,6 +9,7 @@
   height: 100%;
   overflow: auto;
   background-color: rgba(0, 0, 0, 0.7);
+  top: -20px;
 }
 
 .modal-content {
@@ -19,6 +20,54 @@
   margin: auto;
   width: 500px;
   position: relative;
+  /* padding: 10px 16px 14px; */
+}
+.modal-content .efilters {
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
+}
+
+.modal-content .efilter {
+  margin-bottom: 10px;
+}
+
+.modal-content .efilter span {
+  margin-bottom: 6px;
+}
+
+.modal-content .top-ebuttons {
+  float: right;
+  margin-top: -40px;
+}
+
+.modal-content .top-ebuttons a:first-child {
+  margin-right: 10px;
+}
+
+.modal-content #to-number,
+.modal-content #from-number {
+  max-width: 160px;
+}
+
+.modal-content .footer-info {
+  padding: 10px;
+}
+
+.modal-content .eresults {
+  padding: 2px 5px 2px;
+}
+
+.modal-content .tbl-results {
+  width: 100%;
+}
+
+.modal-content .tbl-results th {
+  background-color: #eee;
+}
+
+.modal-content .fotter-ebuttons {
+  text-align: right;
+  padding: 0 10px 10px;
 }
 
 /* .modal-content .close {
@@ -48,4 +97,10 @@
 #events-before {
   max-width: 52px;
   font-size: 12px;
+}
+
+.modal-content .eresults {
+  background-color: white;
+  overflow: auto;
+  max-height: 200px;
 }

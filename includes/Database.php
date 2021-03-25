@@ -25,6 +25,10 @@ class Database{
         return $this->wpdb->get_results( $sql );
     }
 
+
+    // Update user Account
+    // ==================
+
     // Update email user
     public function update_email_user( $email, $user_id){
         $res = wp_update_user( ['ID' => $user_id, 'user_email' => $email] );

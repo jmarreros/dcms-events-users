@@ -40,4 +40,14 @@
     //     $('section.message').show().html(res.message);
     // }
 
+
+    // For Modal
+    function openModal(){
+        $('modal-filter').show();
+    }
+    function closeModal(){
+        $('modal-filter').close();
+    }
+
 })(jQuery);
+

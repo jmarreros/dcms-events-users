@@ -18,8 +18,6 @@ class Single{
 
             wp_enqueue_style('admin-event-style');
             wp_enqueue_script('admin-event-script');
-            wp_enqueue_script('admin-event-modal');
-
             wp_localize_script('admin-event-script','dcms_vars',['ajaxurl'=>admin_url('admin-ajax.php')]);
 
             include_once ('views/single-list-filter.php');
