@@ -21,9 +21,18 @@ class Shortcode{
     public function show_user_account(){
         $db = new Database();
 
-        $id_user = 315;
+        wp_enqueue_style('event-style');
+        wp_enqueue_script('event-script');
+
+        wp_localize_script('event-script',
+                            'dcms_vars',
+                            [ 'ajaxurl'=>admin_url('admin-ajax.php'),
+                            'naccount' => wp_create_nonce('ajax-nonce-account')]);
+
+        $id_user = get_current_user_id();
         $data = $db->show_user_details($id_user);
         $text_fields = Helper::get_account_fields();
+        $editable_fields = Helper::get_editable_fields();
 
         include_once DCMS_EVENT_PATH.'views/details-users-account.php';
     }

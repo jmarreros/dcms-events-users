@@ -21,6 +21,7 @@ use dcms\event\includes\Plugin;
 use dcms\event\includes\Submenu;
 use dcms\event\includes\Enqueue;
 use dcms\event\includes\Shortcode;
+use dcms\event\includes\Account;
 use dcms\event\backend\Single;
 use dcms\event\backend\Filter;
 use dcms\event\includes\Export;
@@ -75,6 +76,7 @@ final class Loader{
 		new Submenu();
 		new Enqueue();
 		new Shortcode();
+		new Account();
 		new Single();
 		new Filter();
 		new Export();

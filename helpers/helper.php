@@ -46,10 +46,21 @@ class Helper{
         ];
     }
 
+    // Editable fields, and type of file
+    public static function get_editable_fields(){
+        return [
+            'address'   => 'text',
+            'postal_code'   => 'text',
+            'local'     => 'text',
+            'email'     => 'email',
+            'phone'     => 'number',
+            'mobile'    => 'number'
+        ];
+    }
+
     // Aux function for the sql query
     public static function get_account_fields_keys(){
         return '"' . implode('","', array_keys(self::get_account_fields())) . '"';
     }
-
 
 }
