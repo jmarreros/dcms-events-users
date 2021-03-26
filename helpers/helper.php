@@ -25,6 +25,18 @@ class Helper{
         return $socio_type;
     }
 
+    // Get fields for the filter event
+    public static function get_filter_fields(){
+        return [
+            'number'    => 'Número',
+            'name'      => 'Nombre',
+            'lastname'  => 'Apellidos',
+            'sub_type'  => 'Tipo de Abono',
+            'soc_type'  => 'Tipo de Socio',
+            'dcms-count-event' => 'Eventos'
+        ];
+    }
+
     // Get fields for account
     public static function get_account_fields(){
         return [
@@ -61,6 +73,11 @@ class Helper{
     // Aux function for the sql query
     public static function get_account_fields_keys(){
         return '"' . implode('","', array_keys(self::get_account_fields())) . '"';
+    }
+
+    // Aux to convert array to str with quotes
+    public static function array_to_str_quotes($arr){
+        return '"' . implode('","', $arr) . '"';
     }
 
 }

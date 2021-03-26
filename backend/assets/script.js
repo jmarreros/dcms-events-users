@@ -29,25 +29,15 @@
 
 	});
 
-    // Aux function to show message
-    // function show_message(res){
-    //     if (res.status == 0 ) {
-    //         $('section.message').addClass('error');
-    //     } else {
-    //         $('section.message').removeClass('error');
-    //     }
 
-    //     $('section.message').show().html(res.message);
-    // }
+    // Modal
+    $('#open-add-customers').click(function(){
+        $('.modal-filter').show();
+    })
 
-
-    // For Modal
-    function openModal(){
-        $('modal-filter').show();
-    }
-    function closeModal(){
-        $('modal-filter').close();
-    }
+    $('#cancel-add-customers').click(function(){
+        $('.modal-filter').hide();
+    })
 
 })(jQuery);
 
