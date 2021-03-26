@@ -24,39 +24,52 @@ class Database{
     public function filter_query_params( $numbers, $abonado_types, $socio_types ){
 
         $sql = "";
-        $select_in = "SELECT user_id FROM {$this->user_meta} WHERE user_id IN ";
+        $select     = "SELECT user_id FROM {$this->user_meta} WHERE ";
+        $select_in  = "SELECT user_id FROM {$this->user_meta} WHERE user_id IN ";
 
         // number filter
-        if ( count($numbers) >= 1 ){
+
+        if ( isset($numbers) && array_sum($numbers) > 0 ){
             $sql = "SELECT user_id FROM {$this->user_meta} WHERE meta_key = 'number' ";
 
-            if ( isset($numbers[0]) ){
+            if ( isset($numbers[0])  && $numbers[0] > 0 ){
                 $sql = $sql." AND CAST(meta_value AS UNSIGNED) > {$numbers[0]}";
             }
-            if ( isset($numbers[1]) ){
+            if ( isset($numbers[1]) && $numbers[1] > 0){
                 $sql = $sql." AND CAST(meta_value AS UNSIGNED) < {$numbers[1]}";
             }
         }
 
         // abonados type
         if ( ! empty($abonado_types) ){
-            $sql = $select_in . "({$sql})
-                                AND meta_key = 'sub_type'
-                                AND meta_value IN ({$abonado_types})";
+            if ( ! empty ($sql) ){
+                $sql = $select_in . "({$sql})
+                                    AND meta_key = 'sub_type'
+                                    AND meta_value IN ({$abonado_types})";
+            } else {
+                $sql = $select . "meta_key = 'sub_type'
+                                  AND meta_value IN ({$abonado_types})";
+            }
         }
 
         // Socios type
         if ( ! empty($socio_types) ){
-            $sql = $select_in . "({$sql})
-                                AND meta_key = 'soc_type'
-                                AND meta_value IN ({$socio_types})";
+            if ( ! empty ($sql) ){
+                $sql = $select_in . "({$sql})
+                                    AND meta_key = 'soc_type'
+                                    AND meta_value IN ({$socio_types})";
+            } else {
+                $sql = $select . "meta_key = 'soc_type'
+                                  AND meta_value IN ({$socio_types})";
+            }
         }
 
         // Final query, only with some fields
         $fields_filter = Helper::array_to_str_quotes(array_keys(Helper::get_filter_fields()));
 
+        if ( empty($sql) ) $sql = '""';
         $sql = "SELECT * FROM {$this->user_meta} WHERE user_id IN ({$sql})
-                                AND meta_key IN ({$fields_filter})";
+                                AND meta_key IN ({$fields_filter}) ORDER BY user_id";
 
         return $sql;
     }
@@ -64,6 +77,7 @@ class Database{
 
     // User Events
     // ============
+
     // Init activation create table
     public function create_table(){
 

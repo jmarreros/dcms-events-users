@@ -3,13 +3,18 @@
     $(".btn-filter").click(function(e){
         e.preventDefault();
 
+        let numbers = [ $('#from-number').val(), $('#to-number').val() ];
+
+
+        console.log(numbers);
+
 		$.ajax({
 			url : dcms_vars.ajaxurl,
 			type: 'post',
 			data: {
 				action : 'dcms_ajax_filter',
                 nonce : dcms_vars.nonce,
-                data: '🚀 hola 🚀'
+                numbers : numbers
 			},
             beforeSend: function(){
                 // $('.lds-ring').show();
