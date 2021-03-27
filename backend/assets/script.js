@@ -3,10 +3,19 @@
     $(".btn-filter").click(function(e){
         e.preventDefault();
 
+        // Fill values to send
         let numbers = [ $('#from-number').val(), $('#to-number').val() ];
 
+        let abonado_types = [];
+        $('.efilter.abonado-type input:checked').each( function(){
+            abonado_types.push($(this).val());
+        } );
 
-        console.log(numbers);
+        let socio_types = [];
+        $('.efilter.socio-type input:checked').each( function(){
+            socio_types.push($(this).val());
+        } );
+
 
 		$.ajax({
 			url : dcms_vars.ajaxurl,
@@ -14,7 +23,9 @@
 			data: {
 				action : 'dcms_ajax_filter',
                 nonce : dcms_vars.nonce,
-                numbers : numbers
+                numbers,
+                abonado_types,
+                socio_types
 			},
             beforeSend: function(){
                 // $('.lds-ring').show();

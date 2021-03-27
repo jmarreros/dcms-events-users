@@ -7,20 +7,20 @@ class Helper{
 
     public static function get_abonado_type(){
         $abonado_type = [
-            'adulto' => 'Adulto',
-            'jubilado' => 'Jubilado',
-            'discapacitado' => 'Discapacitado'
+            'ADULTO' => 'Adulto',
+            'JUBILADO' => 'Jubilado',
+            'DISCAPACITADO' => 'Discapacitado'
         ];
         return $abonado_type;
     }
 
     public static function get_socio_type(){
         $socio_type = [
-            'a' => 'A',
-            'b' => 'B',
-            'c' => 'C',
-            'd' => 'D',
-            'e' => 'E'
+            'OPCION A' => 'A',
+            'OPCION B' => 'B',
+            'OPCION C' => 'C',
+            'OPCION D' => 'D',
+            'OPCION E' => 'E'
         ];
         return $socio_type;
     }

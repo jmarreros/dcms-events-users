@@ -25,7 +25,7 @@ $socio_type = Helper::get_socio_type();
             </label>
         </div>
         <!-- Abonado type -->
-        <div class="efilter">
+        <div class="efilter abonado-type">
             <span><?= __('Abonado type', DCMS_EVENT_DOMAIN)?></span>
 
             <?php foreach ($abonado_type as $key => $value) { ?>
@@ -33,7 +33,7 @@ $socio_type = Helper::get_socio_type();
             <?php }?>
         </div>
         <!-- Abonado type -->
-        <div class="efilter">
+        <div class="efilter socio-type">
             <span><?= __('Socio type', DCMS_EVENT_DOMAIN)?></span>
 
             <?php foreach ($socio_type as $key => $value) { ?>

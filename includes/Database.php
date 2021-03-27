@@ -28,7 +28,6 @@ class Database{
         $select_in  = "SELECT user_id FROM {$this->user_meta} WHERE user_id IN ";
 
         // number filter
-
         if ( isset($numbers) && array_sum($numbers) > 0 ){
             $sql = "SELECT user_id FROM {$this->user_meta} WHERE meta_key = 'number' ";
 
