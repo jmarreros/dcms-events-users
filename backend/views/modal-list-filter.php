@@ -52,7 +52,10 @@ $socio_type = Helper::get_socio_type();
         <!-- Buttons -->
         <section class="top-ebuttons">
             <a class="btn-clear" href="#"><?php _e('Clear', DCMS_EVENT_DOMAIN) ?></a>
-            <a class="btn-filter button button-primary" href="#"><?php _e('Filter', DCMS_EVENT_DOMAIN) ?></a>
+            <a class="btn-filter button button-primary" href="#"><?php _e('Filter', DCMS_EVENT_DOMAIN) ?>
+                <div class="lds-ring" style="display:none"><div></div><div></div><div></div><div></div></div>
+            </a>
+
         </section>
 
     </section>
@@ -62,21 +65,15 @@ $socio_type = Helper::get_socio_type();
     <section class="eresults">
         <table class="tbl-results">
             <tr>
-                <th>Firstname</th>
-                <th>Lastname</th>
-                <th>Age</th>
-                <th>Age</th>
-                <th>Age</th>
+                <?php
+                    echo "<th>ID</th>";
+                    $fields = Helper::get_filter_fields();
+                    foreach ($fields as $field) {
+                        echo "<th> $field </th>";
+                    }
+                ?>
+                <?php ?>
             </tr>
-            <?php for($i=1;$i<1000;$i++): ?>
-            <tr>
-                <td>Jill</td>
-                <td>Smith</td>
-                <td>50</td>
-                <td>50</td>
-                <td>50</td>
-            </tr>
-            <?php endfor; ?>
         </table>
     </section>
 

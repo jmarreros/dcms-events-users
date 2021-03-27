@@ -1,7 +1,19 @@
 (function($){
 
+    // Clear button
+    $(".btn-clear").click( function(e) {
+        e.preventDefault();
+        $('.tbl-results tr').not(':first').remove();
+        $('.efilter input[type=number]').val('');
+        $('.efilter input:checkbox').removeAttr('checked');
+    });
+
+
+    // Filter button
     $(".btn-filter").click(function(e){
         e.preventDefault();
+
+        if ($(this).hasClass('disabled')) return;
 
         // Fill values to send
         let numbers = [ $('#from-number').val(), $('#to-number').val() ];
@@ -28,23 +40,44 @@
                 socio_types
 			},
             beforeSend: function(){
-                // $('.lds-ring').show();
-                // $('#send.button').val('Enviando ...').prop('disabled', true);;
-                // $('section.message').hide();
+                $('.lds-ring').show();
+                $('.btn-filter').addClass('disabled');
             }
         })
         .done( function(res) {
-            // res = JSON.parse(res);
-            console.log(res);
-            // show_message(res);
+            res = JSON.parse(res);
+            fill_table_filter(res);
         })
         .always( function() {
-            // $('.lds-ring').hide();
-            // $('#send.button').val('Enviar').prop('disabled', false);;
+            $('.lds-ring').hide();
+            $('.btn-filter').removeClass('disabled');
         });
 
 	});
 
+    // Build the result table
+    function fill_table_filter(res){
+
+        $('.tbl-results tr').not(':first').remove();
+
+        let str = '';
+        for(let i = 0; i < res.length; i++){
+            if ( res[i].number ){
+                str += `
+                    <tr>
+                        <td>${res[i].user_id}</td>
+                        <td>${res[i].number}</td>
+                        <td>${res[i].name}</td>
+                        <td>${res[i].lastname}</td>
+                        <td>${res[i].sub_type}</td>
+                        <td>${res[i].soc_type}</td>
+                        <td></td>
+                    </tr>
+                    `;
+            }
+        }
+        $('.tbl-results tr').first().after(str);
+    }
 
     // Modal
     $('#open-add-customers').click(function(){

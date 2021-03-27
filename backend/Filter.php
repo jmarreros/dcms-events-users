@@ -20,11 +20,35 @@ class Filter{
         $count_events = 1;
 
         $db = new Database();
-        $result = $db->filter_query_params($numbers, $abonado_types, $socio_types);
+        $items = $db->filter_query_params($numbers, $abonado_types, $socio_types);
 
-        error_log(print_r($result,true));
+        // Transform results cols to rows in arrays
+        $id = 0;
+        $arr = [];
+        $result = [];
+        foreach ($items as $item) {
 
-        echo '🚀';
+            if ( $item->user_id != $id && $id != 0 ){
+                $result[] = $arr;
+                $arr = [];
+            }
+
+            if ( ! $arr ) $arr['user_id']=$item->user_id;
+            $arr[$item->meta_key] = $item->meta_value;
+
+            $id = $item->user_id;
+        }
+        $result[] = $arr;
+
+        // Send data
+        echo json_encode($result);
         wp_die();
     }
 }
+
+
+
+// Build header
+// $header = Helper::get_filter_fields();
+// $header = array_merge ( ['user_id' => 'ID'], $header );
+// array_unshift($result, $header);

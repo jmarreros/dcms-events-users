@@ -33,7 +33,7 @@ class Helper{
             'lastname'  => 'Apellidos',
             'sub_type'  => 'Tipo de Abono',
             'soc_type'  => 'Tipo de Socio',
-            'dcms-count-event' => 'Eventos'
+            DCMS_EVENT_COUNT_META => 'Eventos'
         ];
     }
 

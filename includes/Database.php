@@ -67,10 +67,13 @@ class Database{
         $fields_filter = Helper::array_to_str_quotes(array_keys(Helper::get_filter_fields()));
 
         if ( empty($sql) ) $sql = '""';
-        $sql = "SELECT * FROM {$this->user_meta} WHERE user_id IN ({$sql})
-                                AND meta_key IN ({$fields_filter}) ORDER BY user_id";
+        $sql = "SELECT user_id, meta_key, meta_value FROM {$this->user_meta} WHERE user_id IN ({$sql})
+                                AND meta_key IN ({$fields_filter}) AND meta_value<>'' ORDER BY user_id";
 
-        return $sql;
+
+        error_log(print_r($sql,true));
+
+        return $this->wpdb->get_results( $sql );
     }
 
 
