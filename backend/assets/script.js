@@ -1,5 +1,8 @@
 (function($){
 
+    // to fill string data
+    let str = '';
+
     // Clear button
     $(".btn-clear").click( function(e) {
         e.preventDefault();
@@ -60,7 +63,7 @@
 
         $('.tbl-results tr').not(':first').remove();
 
-        let str = '';
+        str = '';
         for(let i = 0; i < res.length; i++){
             if ( res[i].number ){
                 str += `
@@ -79,6 +82,16 @@
         $('.tbl-results tr').first().after(str);
     }
 
+
+    // Fill tbl-users-event
+    $('.btn-select-all').click(function(e){
+        e.preventDefault();
+        $('.tbl-users-event tr').not(':first').remove();
+        $('.tbl-users-event tr').first().after(str);
+    });
+
+
+
     // Modal
     $('#open-add-customers').click(function(){
         $('.modal-filter').show();
@@ -87,6 +100,7 @@
     $('#cancel-add-customers').click(function(){
         $('.modal-filter').hide();
     })
+
 
 })(jQuery);
 

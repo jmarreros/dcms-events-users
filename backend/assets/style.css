@@ -1,5 +1,5 @@
 .modal-filter {
-  /* display: none; */
+  display: none;
   position: fixed;
   z-index: 99999;
   padding-top: 100px;
@@ -57,10 +57,12 @@
   padding: 2px 5px 2px;
 }
 
+.tbl-users-event,
 .modal-content .tbl-results {
   width: 100%;
 }
 
+.tbl-users-event th,
 .modal-content .tbl-results th {
   background-color: #eee;
 }
@@ -103,6 +105,27 @@
   background-color: white;
   overflow: auto;
   height: 200px;
+}
+
+.container-user-event {
+  background-color: #f6f7f7;
+  border: 1px solid #d6d7d9;
+}
+
+.container-table-event {
+  background-color: white;
+  margin: 0 12px 10px 12px;
+  height: 300px;
+  overflow: auto;
+}
+
+.butons-user-event {
+  text-align: right;
+  padding: 10px 12px;
+}
+
+.butons-user-event a:first-child {
+  margin-right: 6px;
 }
 
 /*Spinner*/
