@@ -32,10 +32,10 @@ class Database{
             $sql = "SELECT user_id FROM {$this->user_meta} WHERE meta_key = 'number' ";
 
             if ( isset($numbers[0])  && $numbers[0] > 0 ){
-                $sql = $sql." AND CAST(meta_value AS UNSIGNED) > {$numbers[0]}";
+                $sql = $sql." AND CAST(meta_value AS UNSIGNED) >= {$numbers[0]}";
             }
             if ( isset($numbers[1]) && $numbers[1] > 0){
-                $sql = $sql." AND CAST(meta_value AS UNSIGNED) < {$numbers[1]}";
+                $sql = $sql." AND CAST(meta_value AS UNSIGNED) <= {$numbers[1]}";
             }
         }
 
@@ -92,14 +92,22 @@ class Database{
         dbDelta($sql);
     }
 
-    // Select save user event
-    public function select_user_event(){
+    // Select saved user event to export
+    public function select_user_event_export(){
+        $fields_to_show = Helper::array_to_str_quotes(array_keys(Helper::get_fields_export()));
+        return $this->select_user_event($fields_to_show);
+    }
 
-        $fields = Helper::array_to_str_quotes(array_keys(Helper::get_filter_fields()));
+    // Select saved user event
+    public function select_user_event($fields_to_show = false){
+
+        if ( ! $fields_to_show ) {
+            $fields_to_show = Helper::array_to_str_quotes(array_keys(Helper::get_filter_fields()));
+        }
 
         $sql = "SELECT user_id, meta_key, meta_value FROM {$this->table_name} eu
                 INNER JOIN {$this->user_meta} um ON eu.id_user = um.user_id
-                WHERE meta_key in ( {$fields} )
+                WHERE meta_key in ( {$fields_to_show} )
                 ORDER BY user_id";
 
         return $this->wpdb->get_results( $sql );

@@ -2,6 +2,8 @@
 
 namespace dcms\event\includes;
 
+use dcms\event\helpers\Helper;
+use dcms\event\includes\Database;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
@@ -10,23 +12,46 @@ class Export{
 
     public function __construct(){
         add_action('admin_post_process_export_list_customers', [$this, 'process_export_list_data']);
-        // add_action('admin_post_nopriv_process_export_list_customers', [$this, 'process_export_list_data']);
     }
 
     // Export data
     public function process_export_list_data(){
         $spreadsheet = new Spreadsheet();
         $writer = new Xlsx($spreadsheet);
-
         $sheet = $spreadsheet->getActiveSheet();
 
-        // Headers
-        $sheet->setCellValue('A1', 'Identificador');
-        $sheet->setCellValue('B1', 'PIN');
-        $sheet->setCellValue('C1', 'Correo');
-        $sheet->setCellValue('D1', 'Fecha');
+        // Get fields
+        $fields = Helper::get_fields_export();
 
-        $filename = 'list_customers.xlsx';
+        // Fill headers
+        $icol = 1;
+        foreach ($fields as $value) {
+            $sheet->setCellValueByColumnAndRow($icol, 1, $value);
+            $icol++;
+        }
+        $styleArray = Helper::get_style_header_cells();
+        $sheet->getStyle('A1:S1')->applyFromArray($styleArray);
+
+        // Data
+        $db = new Database();
+        $items = $db->select_user_event_export();
+
+        $rows = Helper::transform_columns_arr($items);
+
+        // Fill excel body
+        $irow = 2;
+        foreach ($rows as $row) {
+            $icol = 1;
+            foreach ($fields as $key => $value) {
+                if ( isset($row[$key]) ){
+                    $sheet->setCellValueByColumnAndRow($icol, $irow, $row[$key]);
+                }
+                $icol++;
+            }
+            $irow++;
+        }
+
+        $filename = 'list_user_event.xlsx';
 
         header('Content-Type: application/vnd.ms-excel');
         header('Content-Disposition: attachment;filename='. $filename);

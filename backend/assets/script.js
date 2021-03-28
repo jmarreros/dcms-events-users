@@ -46,7 +46,7 @@
                 socio_types
 			},
             beforeSend: function(){
-                $('.lds-ring').show();
+                $('.btn-filter .lds-ring').show();
                 $('.btn-filter').addClass('disabled');
             }
         })
@@ -55,7 +55,7 @@
             fill_table_filter(res);
         })
         .always( function() {
-            $('.lds-ring').hide();
+            $('.btn-filter .lds-ring').hide();
             $('.btn-filter').removeClass('disabled');
         });
 
@@ -103,8 +103,6 @@
             alert('No hay registros para agregar');
         }
     });
-
-
 
     // Modal
     $('#open-add-customers').click(function(){

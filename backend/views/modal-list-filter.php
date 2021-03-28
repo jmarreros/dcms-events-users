@@ -84,7 +84,9 @@ $socio_type = Helper::get_socio_type();
     <!-- Buttom buttons -->
     <section class="fotter-ebuttons">
         <a id="cancel-add-customers" class="btn-cancel button button-secondary" href="#"><?php _e('Cancel', DCMS_EVENT_DOMAIN) ?></a>
-        <a class="btn-select-all button button-primary" href="#"><?php _e('Select all', DCMS_EVENT_DOMAIN) ?></a>
+        <a class="btn-select-all button button-primary" href="#"><?php _e('Select all', DCMS_EVENT_DOMAIN) ?>
+            <div class="lds-ring" style="display:none"><div></div><div></div><div></div><div></div></div>
+        </a>
     </section>
 </div>
 

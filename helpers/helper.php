@@ -25,6 +25,46 @@ class Helper{
         return $socio_type;
     }
 
+    // Get fields to export
+    public static function get_fields_export(){
+        return [
+            'identify'  => 'Identificativo', // Login column
+            'pin'       => 'PIN', // Password Column
+            'number'    => 'Número',
+            'reference' => 'Referencia',
+            'nif'       => 'NIF',
+            'name'      => 'Nombre',
+            'lastname'    => 'Apellidos',
+            'birth'     => 'Fecha Nacimiento',
+            'sub_type'  => 'Tipo de Abono',
+            'address'   => 'Domicilio completo',
+            'postal_code'   => 'Código Postal',
+            'local'     => 'Localidad',
+            'email'     => 'E-Mail',
+            'phone'     => 'Teléfono',
+            'mobile'    => 'Móvil',
+            'soc_type'  => 'Tipo de socio',
+            'observation7'   => 'Observa 7',
+            'observation5'   => 'Observa 5',
+            'sub_permit'=> 'Permiso Abono'
+        ];
+    }
+
+    //Style for headers to export
+    public static function get_style_header_cells(){
+        return [
+            'font' => [
+                'bold' => true,
+            ],
+            'fill' => [
+                'fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID,
+                'startColor' => [
+                    'argb' => 'FFFFFE55',
+                ],
+            ],
+        ];
+    }
+
     // Get fields for the filter event
     public static function get_filter_fields(){
         return [
@@ -87,7 +127,7 @@ class Helper{
 
              $id = $item->user_id;
          }
-         $result[] = $arr;
+         if ( $arr ) $result[] = $arr;
 
          return $result;
     }
