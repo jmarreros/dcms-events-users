@@ -70,6 +70,28 @@ class Helper{
         ];
     }
 
+    // Transform results cols to rows in arrays from $items object
+    public static function transform_columns_arr($items){
+         $id = 0;
+         $arr = [];
+         $result = [];
+         foreach ($items as $item) {
+
+             if ( $item->user_id != $id && $id != 0 ){
+                 $result[] = $arr;
+                 $arr = [];
+             }
+
+             if ( ! $arr ) $arr['user_id']=$item->user_id;
+             $arr[$item->meta_key] = $item->meta_value;
+
+             $id = $item->user_id;
+         }
+         $result[] = $arr;
+
+         return $result;
+    }
+
     // Aux function for the sql query
     public static function get_account_fields_keys(){
         return '"' . implode('","', array_keys(self::get_account_fields())) . '"';

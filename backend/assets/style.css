@@ -128,6 +128,18 @@
   margin-right: 6px;
 }
 
+.top-user-event {
+  display: flex;
+}
+
+.top-user-event > section {
+  width: 50%;
+}
+
+.user-event-info {
+  padding: 10px 12px;
+}
+
 /*Spinner*/
 .lds-ring {
   display: inline-block;

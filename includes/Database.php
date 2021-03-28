@@ -70,9 +70,6 @@ class Database{
         $sql = "SELECT user_id, meta_key, meta_value FROM {$this->user_meta} WHERE user_id IN ({$sql})
                                 AND meta_key IN ({$fields_filter}) AND meta_value<>'' ORDER BY user_id";
 
-
-        error_log(print_r($sql,true));
-
         return $this->wpdb->get_results( $sql );
     }
 
@@ -93,6 +90,45 @@ class Database{
 
         require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
         dbDelta($sql);
+    }
+
+    // Select save user event
+    public function select_user_event(){
+
+        $fields = Helper::array_to_str_quotes(array_keys(Helper::get_filter_fields()));
+
+        $sql = "SELECT user_id, meta_key, meta_value FROM {$this->table_name} eu
+                INNER JOIN {$this->user_meta} um ON eu.id_user = um.user_id
+                WHERE meta_key in ( {$fields} )
+                ORDER BY user_id";
+
+        return $this->wpdb->get_results( $sql );
+    }
+
+    // Delete users from event
+    public function remove_users_event($post_id){
+        $sql = "DELETE FROM {$this->table_name} WHERE id_post = {$post_id}";
+        return $this->wpdb->query($sql);
+    }
+
+    // Insert users event
+    public function save_users_event($ids_user, $post_id){
+        $sql_insert = "INSERT INTO {$this->table_name} (id_user, id_post) VALUES ";
+        $sql_values = "";
+
+        foreach ($ids_user as $id_user) {
+            if ( intval($id_user) > 0 ){
+                $sql_values .= "( {$id_user} , {$post_id} ),";
+            }
+        }
+
+        if ( ! empty($sql_values) ){
+            $sql = $sql_insert . substr($sql_values, 0, -1);
+
+            return $this->wpdb->query($sql);
+        }
+
+        return false;
     }
 
 

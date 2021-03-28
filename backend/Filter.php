@@ -22,23 +22,8 @@ class Filter{
         $db = new Database();
         $items = $db->filter_query_params($numbers, $abonado_types, $socio_types);
 
-        // Transform results cols to rows in arrays
-        $id = 0;
-        $arr = [];
-        $result = [];
-        foreach ($items as $item) {
-
-            if ( $item->user_id != $id && $id != 0 ){
-                $result[] = $arr;
-                $arr = [];
-            }
-
-            if ( ! $arr ) $arr['user_id']=$item->user_id;
-            $arr[$item->meta_key] = $item->meta_value;
-
-            $id = $item->user_id;
-        }
-        $result[] = $arr;
+        // Transform cols to row
+        $result = Helper::transform_columns_arr($items);
 
         // Send data
         echo json_encode($result);

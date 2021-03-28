@@ -78,7 +78,7 @@ $socio_type = Helper::get_socio_type();
     </section>
 
     <section class="footer-info">
-        Total: <strong> 1234 </strong>
+        Total: <strong> <span class="total-info"></span> </strong>
     </section>
 
     <!-- Buttom buttons -->

@@ -2,6 +2,8 @@
 
     // to fill string data
     let str = '';
+    let str_ids = '';
+    let count = 0;
 
     // Clear button
     $(".btn-clear").click( function(e) {
@@ -9,6 +11,7 @@
         $('.tbl-results tr').not(':first').remove();
         $('.efilter input[type=number]').val('');
         $('.efilter input:checkbox').removeAttr('checked');
+        $('.modal-filter .total-info').text('');
     });
 
 
@@ -64,8 +67,12 @@
         $('.tbl-results tr').not(':first').remove();
 
         str = '';
+        count = 0;
+        str_ids = '';
         for(let i = 0; i < res.length; i++){
             if ( res[i].number ){
+                count++;
+                str_ids += res[i].user_id + ',';
                 str += `
                     <tr>
                         <td>${res[i].user_id}</td>
@@ -80,14 +87,21 @@
             }
         }
         $('.tbl-results tr').first().after(str);
+        $('.modal-filter .total-info').text(count);
     }
-
 
     // Fill tbl-users-event
     $('.btn-select-all').click(function(e){
         e.preventDefault();
-        $('.tbl-users-event tr').not(':first').remove();
-        $('.tbl-users-event tr').first().after(str);
+        if ( str.length > 0){
+            $('.tbl-users-event tr').not(':first').remove();
+            $('.tbl-users-event tr').first().after(str);
+            $('#id_user_event').val(str_ids.slice(0, -1));
+            $('.modal-filter').hide();
+            $('.user-event-info .total-info').text(count);
+        } else{
+            alert('No hay registros para agregar');
+        }
     });
 
 
