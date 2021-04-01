@@ -15,6 +15,9 @@ class Single{
     // Show filter area and users saved for event
     public function add_filter_area( $post ){
         $screen = get_current_screen();
+        $id_post = $post->ID;
+        $status_post = $post->post_status;
+        $items = [];
 
         if( $screen->post_type == DCMS_EVENT_CPT ) {
 
@@ -22,8 +25,10 @@ class Single{
             wp_enqueue_script('admin-event-script');
             wp_localize_script('admin-event-script','dcms_vars',['ajaxurl'=>admin_url('admin-ajax.php')]);
 
-            $db = new Database();
-            $items = $db->select_user_event();
+            if ( $status_post != 'auto-draft' ){
+                $db = new Database();
+                $items = $db->select_users_event($id_post);
+            }
 
             include_once ('views/single-list-filter.php');
         }

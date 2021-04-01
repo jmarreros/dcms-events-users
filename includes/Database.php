@@ -92,14 +92,14 @@ class Database{
         dbDelta($sql);
     }
 
-    // Select saved user event to export
-    public function select_user_event_export(){
+    // Select saved users event to export
+    public function select_users_event_export($id_post){
         $fields_to_show = Helper::array_to_str_quotes(array_keys(Helper::get_fields_export()));
-        return $this->select_user_event($fields_to_show);
+        return $this->select_users_event($id_post, $fields_to_show);
     }
 
-    // Select saved user event
-    public function select_user_event($fields_to_show = false){
+    // Select saved users in a post event
+    public function select_users_event($id_post, $fields_to_show = false){
 
         if ( ! $fields_to_show ) {
             $fields_to_show = Helper::array_to_str_quotes(array_keys(Helper::get_filter_fields()));
@@ -107,13 +107,13 @@ class Database{
 
         $sql = "SELECT user_id, meta_key, meta_value FROM {$this->table_name} eu
                 INNER JOIN {$this->user_meta} um ON eu.id_user = um.user_id
-                WHERE meta_key in ( {$fields_to_show} )
+                WHERE id_post = {$id_post} AND meta_key in ( {$fields_to_show} )
                 ORDER BY user_id";
 
         return $this->wpdb->get_results( $sql );
     }
 
-    // Delete users from event
+    // Delete users from a post event
     public function remove_users_event($post_id){
         $sql = "DELETE FROM {$this->table_name} WHERE id_post = {$post_id}";
         return $this->wpdb->query($sql);

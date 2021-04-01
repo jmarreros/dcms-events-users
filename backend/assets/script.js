@@ -95,8 +95,8 @@
         e.preventDefault();
         if ( str.length > 0){
             $('.tbl-users-event tr').not(':first').remove();
-            $('.tbl-users-event tr').first().after(str);
-            $('#id_user_event').val(str_ids.slice(0, -1));
+            $('.tbl-results tr').not(':first').clone().insertAfter($('.tbl-users-event tr').first());
+            $('#id_user_event').val(str_ids.slice(0, -1)); // hidden field
             $('.modal-filter').hide();
             $('.user-event-info .total-info').text(count);
         } else{

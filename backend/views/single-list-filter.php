@@ -2,6 +2,8 @@
 use dcms\event\helpers\Helper;
 
 // $items
+// $id_post
+
 $data = Helper::transform_columns_arr($items);
 $count = count($data);
 ?>
@@ -13,7 +15,7 @@ $count = count($data);
         </section>
 
         <section class="butons-user-event">
-            <a class="btn-export button button-primary" href="<?= admin_url() ?>admin-post.php?action=process_export_list_customers" target="_blank"><?php _e('Export all', DCMS_EVENT_DOMAIN) ?></a>
+            <a class="btn-export button button-primary" href="<?= admin_url() ?>admin-post.php?action=process_export_list_customers&id_post=<?= $id_post ?>" target="_blank"><?php _e('Export all', DCMS_EVENT_DOMAIN) ?></a>
             <a id="open-add-customers" class="btn-add button button-primary"><?php _e('Add Customers', DCMS_EVENT_DOMAIN) ?></a>
         </section>
     </div>

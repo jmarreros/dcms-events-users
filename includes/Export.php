@@ -20,6 +20,9 @@ class Export{
         $writer = new Xlsx($spreadsheet);
         $sheet = $spreadsheet->getActiveSheet();
 
+        // Get Id post
+        $id_post  = intval($_GET['id_post']);
+
         // Get fields
         $fields = Helper::get_fields_export();
 
@@ -34,7 +37,7 @@ class Export{
 
         // Data
         $db = new Database();
-        $items = $db->select_user_event_export();
+        $items = $db->select_users_event_export($id_post);
 
         $rows = Helper::transform_columns_arr($items);
 
