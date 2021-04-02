@@ -4,6 +4,7 @@
         border-radius:4px;
         Padding:10px 20px;
         color:white;
+        margin-bottom:12px;
     }
 </style>
 
@@ -14,7 +15,18 @@
 <hr>
 
 <section class="dcms-shortcode">
-    <small><?php _e('You can use this shortcode to show user account details: ') ?></small>
+    <span><?php _e('You can use this shortcode to show user account details: ') ?></span>
     <strong>[<?php echo DCMS_EVENT_ACCOUNT ?>]</strong>
 </section>
+
+<section class="dcms-shortcode">
+    <span><?php _e('You can use this shortcode to show user sidebar: ') ?></span>
+    <strong>[<?php echo DCMS_EVENT_SIDEBAR ?>]</strong>
+</section>
+
+<section class="dcms-shortcode">
+    <span><?php _e('You can use this shortcode to show list events for a user: ') ?></span>
+    <strong>[<?php echo DCMS_EVENT_LIST ?>]</strong>
+</section>
+
 </div>

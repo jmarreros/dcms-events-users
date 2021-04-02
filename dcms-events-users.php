@@ -49,6 +49,9 @@ final class Loader{
 
 		// Shortcodes
 		define( 'DCMS_EVENT_ACCOUNT', 'sporting-user-account');
+		define( 'DCMS_EVENT_SIDEBAR', 'sporting-sidebar-user');
+		define( 'DCMS_EVENT_LIST', 'sporting-event-list');
+
 	}
 
 	// Load tex domain

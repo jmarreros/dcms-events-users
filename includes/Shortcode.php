@@ -15,9 +15,11 @@ class Shortcode{
     // Function to add shortcodes
     public function create_shortcodes(){
         add_shortcode(DCMS_EVENT_ACCOUNT, [ $this, 'show_user_account' ]);
+        add_shortcode(DCMS_EVENT_SIDEBAR, [ $this, 'show_user_sidebar' ]);
+        add_shortcode(DCMS_EVENT_LIST, [ $this, 'show_list_events' ]);
     }
 
-    // Function show user account
+    // Function show user account in the front-end
     public function show_user_account(){
         $db = new Database();
 
@@ -35,5 +37,36 @@ class Shortcode{
         $editable_fields = Helper::get_editable_fields();
 
         include_once DCMS_EVENT_PATH.'views/details-users-account.php';
+    }
+
+    // Function to show user sidebar
+    public function show_user_sidebar(){
+        $db = new Database();
+
+        wp_enqueue_style('event-style');
+        wp_enqueue_script('event-script');
+
+        $id_user = get_current_user_id();
+        $user = $db->show_user_details($id_user);
+
+        include_once DCMS_EVENT_PATH.'views/user-sidebar.php';
+    }
+
+    // Function to show liste events in the front-end
+    public function show_list_events(){
+        $db = new Database();
+
+        wp_enqueue_style('event-style');
+        wp_enqueue_script('event-script');
+
+        wp_localize_script('event-script',
+                            'dcms_vars',
+                            [ 'ajaxurl'=>admin_url('admin-ajax.php'),
+                            'nevent' => wp_create_nonce('ajax-nonce-event')]);
+
+        $id_user = get_current_user_id();
+        $events = $db->get_events_for_user($id_user);
+
+        include_once DCMS_EVENT_PATH.'views/list-events-user.php';
     }
 }

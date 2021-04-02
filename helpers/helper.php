@@ -110,6 +110,15 @@ class Helper{
         ];
     }
 
+    // Fields to show in sidebar
+    public static function get_user_sidebar_fields(){
+        return [
+            'number'    => 'Número',
+            'name'      => 'Nombre',
+            'lastname'    => 'Apellidos',
+        ];
+    }
+
     // Transform results cols to rows in arrays from $items object
     public static function transform_columns_arr($items){
          $id = 0;

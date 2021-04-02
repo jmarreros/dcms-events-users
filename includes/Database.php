@@ -8,6 +8,8 @@ class Database{
     private $wpdb;
     private $table_name;
     private $user_meta;
+    private $post_event;
+
 
     public function __construct(){
         global $wpdb;
@@ -15,6 +17,8 @@ class Database{
         $this->wpdb = $wpdb;
         $this->table_name = $this->wpdb->prefix . 'dcms_event_users';
         $this->user_meta = $this->wpdb->prefix.'usermeta';
+        $this->post_event = $this->wpdb->prefix.'posts';
+
     }
 
     // User Filters
@@ -85,6 +89,8 @@ class Database{
                     `id_user` bigint(20) unsigned DEFAULT NULL,
                     `id_post` bigint(20) unsigned DEFAULT NULL,
                     `date` datetime DEFAULT CURRENT_TIMESTAMP,
+                    `joined` tinyint(1) DEFAULT 0,
+                    `joined_date` datetime DEFAULT NULL,
                     PRIMARY KEY (`id`)
             )";
 
@@ -137,6 +143,18 @@ class Database{
         }
 
         return false;
+    }
+
+
+    // Get all events avaliable for a specific user
+    public function get_events_for_user($id_user){
+
+        $sql = "SELECT eu.id_post, eu.joined, eu.joined_date, p.post_title, p.post_content
+                FROM {$this->table_name} eu
+                INNER JOIN {$this->post_event} p ON p.ID =  eu.id_post
+                WHERE eu.id_user = {$id_user} AND  p.post_status = 'publish'";
+
+        return $this->wpdb->get_results( $sql );
     }
 
 

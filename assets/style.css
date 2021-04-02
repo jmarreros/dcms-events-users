@@ -21,6 +21,7 @@
   border: 1px solid #ccc;
 }
 
+.item-event .button,
 .frm-account-details .button {
   cursor: pointer;
   margin-top: 20px;
@@ -32,6 +33,7 @@
   border-radius: 4px;
 }
 
+.item-event .button:hover,
 .frm-account-details .button:hover {
   background-color: #034767;
 }
