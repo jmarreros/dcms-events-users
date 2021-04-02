@@ -21,7 +21,7 @@
 
 <section class="dcms-shortcode">
     <span><?php _e('You can use this shortcode to show user sidebar: ') ?></span>
-    <strong>[<?php echo DCMS_EVENT_SIDEBAR ?>]</strong>
+    <strong>[<?php echo DCMS_EVENT_SIDEBAR ?>]---[/<?php echo DCMS_EVENT_SIDEBAR ?>]</strong>
 </section>
 
 <section class="dcms-shortcode">

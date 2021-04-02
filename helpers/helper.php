@@ -110,14 +110,12 @@ class Helper{
         ];
     }
 
-    // Fields to show in sidebar
-    public static function get_user_sidebar_fields(){
-        return [
-            'number'    => 'Número',
-            'name'      => 'Nombre',
-            'lastname'    => 'Apellidos',
-        ];
+    // Search in array of objects given the meta_key value
+    public static function search_field_in_meta($arr, $search){
+        $index = array_search($search, array_column($arr, 'meta_key'));
+        return $arr[$index]->meta_value;
     }
+
 
     // Transform results cols to rows in arrays from $items object
     public static function transform_columns_arr($items){

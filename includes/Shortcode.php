@@ -40,7 +40,7 @@ class Shortcode{
     }
 
     // Function to show user sidebar
-    public function show_user_sidebar(){
+    public function show_user_sidebar($atts, $content){
         $db = new Database();
 
         wp_enqueue_style('event-style');
@@ -48,6 +48,11 @@ class Shortcode{
 
         $id_user = get_current_user_id();
         $user = $db->show_user_details($id_user);
+
+        $email  = Helper::search_field_in_meta($user, 'email');
+        $name   = Helper::search_field_in_meta($user, 'name') . ' ' . Helper::search_field_in_meta($user, 'lastname');
+        $number = Helper::search_field_in_meta($user, 'number');
+        $content = $content??'';
 
         include_once DCMS_EVENT_PATH.'views/user-sidebar.php';
     }

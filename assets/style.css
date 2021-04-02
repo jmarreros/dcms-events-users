@@ -55,6 +55,25 @@
   border-color: #831c2c;
 }
 
+/*Sidebar user*/
+.container-user-sidebar {
+  text-align: center;
+}
+
+.container-user-sidebar .usidebar-name {
+  text-transform: uppercase;
+  font-weight: bold;
+  border-top: 1px solid grey;
+  border-bottom: 1px solid grey;
+  padding: 10px;
+  margin-top: 20px;
+}
+
+.container-user-sidebar .usidebar-number {
+  padding: 10px;
+  border-bottom: 1px solid grey;
+}
+
 /*Spinner*/
 .lds-ring {
   display: inline-block;
