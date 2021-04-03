@@ -38,6 +38,7 @@
   background-color: #034767;
 }
 
+section.message,
 .frm-account-details .message {
   background-color: #ceeed8;
   color: #005a1e;
@@ -49,10 +50,17 @@
   margin-bottom: 10px;
 }
 
+section.message.error,
 .frm-account-details .message.error {
   background-color: #fed5da;
   color: #831c2c;
   border-color: #831c2c;
+}
+
+a.button.disabled {
+  opacity: 0.5;
+  pointer-events: none;
+  cursor: default;
 }
 
 /*Sidebar user*/

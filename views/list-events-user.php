@@ -17,7 +17,7 @@
             <?php if ($events) :?>
                 <ul class="list-events">
                 <?php foreach ($events as $event):?>
-                    <?php $joined = $event->joined ? 'not-join': 'join'; ?>
+                    <?php $joined = $event->joined ? 'notjoin': 'join'; ?>
                     <li class="item-event">
 
                         <h3><?= $event->post_title ?></h3>

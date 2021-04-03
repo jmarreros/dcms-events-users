@@ -166,6 +166,17 @@ class Database{
         return $this->wpdb->query($sql);
     }
 
+    // Increment/decrement events per user in usermeta
+    public function update_count_user_meta($id_user){
+        // Count elements in event_user table
+        $sql = "SELECT COUNT(id)
+                FROM wp_dcms_event_users
+                WHERE id_user = {$id_user} AND joined = 1";
+
+        $count = $this->wpdb->get_var($sql);
+
+        update_user_meta($id_user, DCMS_EVENT_COUNT_META, $count);
+    }
 
     // user Account
     // =============
@@ -207,22 +218,3 @@ class Database{
     }
 
 }
-
-
-
-
-// $abonado_types = Helper::array_to_str_quotes($abonado_types);
-// $socio_types = Helper::array_to_str_quotes($socio_types);
-
-        // $numbers = [1,100];
-        // $abonado_types = ['ADULTO', 'JUBILADO'];
-        // $socio_types = ['OPCION A','OPCION C'];
-        // $count_events = 1;
-
-                // count events
-        // if ( $count_events > 0 ){
-        //     $sql = $select_in . "({$sql})
-        //                             AND meta_key = '".DCMS_EVENT_COUNT_META."'
-        //                             AND CAST(meta_value AS UNSIGNED) >= {$count_events}";
-        // }
-

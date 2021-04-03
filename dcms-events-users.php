@@ -45,7 +45,7 @@ final class Loader{
 		define ('DCMS_EVENT_CPT', 'events_sporting');
 		define ('DCMS_EVENT_DOMAIN', 'dcms-events-users');
 		define ('DCMS_EVENT_MENU', 'edit.php?post_type='.DCMS_EVENT_CPT);
-		define ('DCMS_EVENT_COUNT_META', 'dcms_count_event'); //count assign event to user
+		define ('DCMS_EVENT_COUNT_META', 'dcms_count_event'); //count assign event to user, user meta data
 
 		// Shortcodes
 		define( 'DCMS_EVENT_ACCOUNT', 'sporting-user-account');

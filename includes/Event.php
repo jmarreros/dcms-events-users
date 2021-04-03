@@ -22,13 +22,13 @@ class Event{
         $joined ^= 1; // toggle
 
         $db = new Database();
+        // Save in database table
         $result = $db->save_join_user_to_event($joined, $id_post, $id_user);
-
-        // TODO
-        // Save quantity events in user meta
-
-        // Validate if updated rows > 0
+        // // Validate if updated rows > 0
         $this->validate_updated($result);
+
+        // Update user meta
+        $db->update_count_user_meta($id_user);
 
         // If all is ok
         $res = [
