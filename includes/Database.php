@@ -157,6 +157,15 @@ class Database{
         return $this->wpdb->get_results( $sql );
     }
 
+    // Save Join/unjoin user to an event
+    public function save_join_user_to_event($joined, $id_post, $id_user){
+        $sql = "UPDATE {$this->table_name}
+                SET joined = {$joined}, joined_date = NOW()
+                WHERE id_post = {$id_post} AND id_user = {$id_user}";
+
+        return $this->wpdb->query($sql);
+    }
+
 
     // user Account
     // =============

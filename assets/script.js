@@ -35,6 +35,49 @@
 
 	});
 
+
+    $('.container-list-events .btn-join').click(function(e){
+        e.preventDefault();
+
+        const id_post = $(this).data('id');
+        let joined = $(this).data('joined');
+
+        let data = {
+            action : 'dcms_ajax_update_join',
+            nonce : dcms_vars.nevent,
+            id_post,
+            joined
+        }
+
+        $.ajax({
+			url : dcms_vars.ajaxurl,
+			type: 'post',
+            data,
+        beforeSend: function(){
+                $('.lds-ring').show();
+                $('section.message').hide();
+            }
+        })
+        .done( function(res) {
+            res = JSON.parse(res);
+
+            if ( res.status ){
+                joined = res.joined??joined; //0 or 1
+
+                const text = joined ? dcms_vars.nojoin : dcms_vars.join;
+                $(e.target).data('joined', joined);
+                $(e.target).text(text);
+                $(e.target).toggleClass('join').toggleClass('nojoin');
+            }
+
+            show_message(res);
+        })
+        .always( function() {
+            $('.lds-ring').hide();
+        });
+
+    });
+
     // Aux function to show message
     function show_message(res){
         if (res.status == 0 ) {

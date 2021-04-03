@@ -22,6 +22,7 @@ use dcms\event\includes\Submenu;
 use dcms\event\includes\Enqueue;
 use dcms\event\includes\Shortcode;
 use dcms\event\includes\Account;
+use dcms\event\includes\Event;
 use dcms\event\backend\Single;
 use dcms\event\backend\Filter;
 use dcms\event\includes\Export;
@@ -45,7 +46,6 @@ final class Loader{
 		define ('DCMS_EVENT_DOMAIN', 'dcms-events-users');
 		define ('DCMS_EVENT_MENU', 'edit.php?post_type='.DCMS_EVENT_CPT);
 		define ('DCMS_EVENT_COUNT_META', 'dcms_count_event'); //count assign event to user
-
 
 		// Shortcodes
 		define( 'DCMS_EVENT_ACCOUNT', 'sporting-user-account');
@@ -82,6 +82,7 @@ final class Loader{
 		new Enqueue();
 		new Shortcode();
 		new Account();
+		new Event();
 		new Single();
 		new Filter();
 		new Export();

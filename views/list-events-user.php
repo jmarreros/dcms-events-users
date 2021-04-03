@@ -28,7 +28,7 @@
                             data-joined="<?= $event->joined ?>"
                         >
                             <?php if ( $event->joined ) : ?>
-                                <?= __('No join', DCMS_EVENT_DOMAIN) ?>
+                                <?= __('Not join', DCMS_EVENT_DOMAIN) ?>
                             <?php else: ?>
                                 <?= __('Join', DCMS_EVENT_DOMAIN) ?>
                             <?php endif; ?>
