@@ -62,6 +62,13 @@
   width: 100%;
 }
 
+.tbl-users-event tr th:first-child,
+.tbl-users-event tr td:first-child,
+.modal-content .tbl-results tr th:first-child,
+.modal-content .tbl-results tr td:first-child {
+  display: none;
+}
+
 .tbl-users-event th,
 .modal-content .tbl-results th {
   background-color: #eee;

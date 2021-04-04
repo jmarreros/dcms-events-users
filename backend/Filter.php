@@ -24,16 +24,10 @@ class Filter{
 
         // Transform cols to row
         $result = Helper::transform_columns_arr($items);
+        Helper::order_array_column($result); // Order by number
 
         // Send data
         echo json_encode($result);
         wp_die();
     }
 }
-
-
-
-// Build header
-// $header = Helper::get_filter_fields();
-// $header = array_merge ( ['user_id' => 'ID'], $header );
-// array_unshift($result, $header);

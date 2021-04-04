@@ -1,11 +1,10 @@
 <?php
-use dcms\event\helpers\Helper;
 
 // $items
 // $id_post
-
-$data = Helper::transform_columns_arr($items);
-$count = count($data);
+// $data
+// $count
+// $fields
 ?>
 <section class="container-user-event">
 
@@ -25,7 +24,6 @@ $count = count($data);
                 <tr>
                     <?php
                         echo "<th>ID</th>";
-                        $fields = Helper::get_filter_fields();
                         foreach ($fields as $field) {
                             echo "<th> $field </th>";
                         }

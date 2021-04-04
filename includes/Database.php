@@ -121,7 +121,8 @@ class Database{
 
     // Delete users from a post event
     public function remove_users_event($post_id){
-        $sql = "DELETE FROM {$this->table_name} WHERE id_post = {$post_id}";
+        // Delete all but not users joined
+        $sql = "DELETE FROM {$this->table_name} WHERE id_post = {$post_id} AND joined != 1";
         return $this->wpdb->query($sql);
     }
 

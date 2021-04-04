@@ -3,6 +3,7 @@
 namespace dcms\event\backend;
 
 use dcms\event\includes\Database;
+use dcms\event\helpers\Helper;
 
 // Custom post type class
 class Single{
@@ -29,6 +30,11 @@ class Single{
                 $db = new Database();
                 $items = $db->select_users_event($id_post);
             }
+
+            $fields = Helper::get_filter_fields();
+            $data = Helper::transform_columns_arr($items);
+            Helper::order_array_column($data); // Order by number
+            $count = count($data);
 
             include_once ('views/single-list-filter.php');
         }

@@ -40,6 +40,7 @@ class Export{
         $items = $db->select_users_event_export($id_post);
 
         $rows = Helper::transform_columns_arr($items);
+        Helper::order_array_column($rows); // Order by number
 
         // Fill excel body
         $irow = 2;

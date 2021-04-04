@@ -139,6 +139,13 @@ class Helper{
          return $result;
     }
 
+    // Order array by column
+    public static function order_array_column(&$arr){
+        usort($arr, function($a, $b){
+                    return intval($a['number']) > intval($b['number']);
+                });
+    }
+
     // Aux function for the sql query
     public static function get_account_fields_keys(){
         return '"' . implode('","', array_keys(self::get_account_fields())) . '"';
