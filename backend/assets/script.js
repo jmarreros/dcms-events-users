@@ -98,7 +98,7 @@
             $('.tbl-results tr').not(':first').clone().insertAfter($('.tbl-users-event tr').first());
             $('#id_user_event').val(str_ids.slice(0, -1)); // hidden field
             $('.modal-filter').hide();
-            $('.user-event-info .total-info').text(count);
+            $('.top-user-event .total-info').text(count);
         } else{
             alert('No hay registros para agregar');
         }

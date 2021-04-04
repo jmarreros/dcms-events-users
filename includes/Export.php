@@ -20,6 +20,9 @@ class Export{
         $writer = new Xlsx($spreadsheet);
         $sheet = $spreadsheet->getActiveSheet();
 
+        // Only Joined?
+        $only_joined = $_GET['only_joined']??0;
+
         // Get Id post
         $id_post  = intval($_GET['id_post']);
 
@@ -37,7 +40,7 @@ class Export{
 
         // Data
         $db = new Database();
-        $items = $db->select_users_event_export($id_post);
+        $items = $db->select_users_event_export($id_post, $only_joined);
 
         $rows = Helper::transform_columns_arr($items);
         Helper::order_array_column($rows); // Order by number
@@ -62,5 +65,8 @@ class Export{
         header('Cache-Control: max-age=0');
         $writer->save('php://output');
     }
+
+
+    // process_export_list_data_joined
 
 }

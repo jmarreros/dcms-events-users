@@ -99,22 +99,25 @@ class Database{
     }
 
     // Select saved users event to export
-    public function select_users_event_export($id_post){
+    public function select_users_event_export($id_post, $only_joined){
         $fields_to_show = Helper::array_to_str_quotes(array_keys(Helper::get_fields_export()));
-        return $this->select_users_event($id_post, $fields_to_show);
+        return $this->select_users_event($id_post, $fields_to_show, $only_joined);
     }
 
     // Select saved users in a post event
-    public function select_users_event($id_post, $fields_to_show = false){
+    public function select_users_event($id_post, $fields_to_show = false, $only_joined = 0){
 
         if ( ! $fields_to_show ) {
             $fields_to_show = Helper::array_to_str_quotes(array_keys(Helper::get_filter_fields()));
         }
 
-        $sql = "SELECT user_id, meta_key, meta_value FROM {$this->table_name} eu
+        $sql = "SELECT user_id, meta_key, meta_value, joined FROM {$this->table_name} eu
                 INNER JOIN {$this->user_meta} um ON eu.id_user = um.user_id
-                WHERE id_post = {$id_post} AND meta_key in ( {$fields_to_show} )
-                ORDER BY user_id";
+                WHERE id_post = {$id_post} AND meta_key in ( {$fields_to_show} )";
+
+        if ( $only_joined ) $sql .= " AND joined = 1";
+
+        $sql .= " ORDER BY user_id";
 
         return $this->wpdb->get_results( $sql );
     }
@@ -128,12 +131,25 @@ class Database{
 
     // Insert users event
     public function save_users_event($ids_user, $post_id){
+
+        // All users joined for that $post_id
+        $sql = "SELECT id_user FROM {$this->table_name}
+                    WHERE id_post = {$post_id} AND joined = 1";
+
+        $joined =  $this->wpdb->get_results($sql, OBJECT_K); // keys have the id_user
+
+
+        // Buil SQL insert
         $sql_insert = "INSERT INTO {$this->table_name} (id_user, id_post) VALUES ";
         $sql_values = "";
 
         foreach ($ids_user as $id_user) {
-            if ( intval($id_user) > 0 ){
-                $sql_values .= "( {$id_user} , {$post_id} ),";
+            $id_user = intval($id_user);
+            if ( $id_user > 0 ){
+                // Validate, insert only users not joined
+                if ( ! array_key_exists( $id_user, $joined ) ){
+                    $sql_values .= "( {$id_user} , {$post_id} ),";
+                }
             }
         }
 

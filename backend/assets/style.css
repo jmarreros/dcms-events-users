@@ -74,6 +74,10 @@
   background-color: #eee;
 }
 
+.tbl-users-event tr.join {
+  background-color: #b9defe;
+}
+
 .modal-content .fotter-ebuttons {
   text-align: right;
   padding: 0 10px 10px;
@@ -121,7 +125,7 @@
 
 .container-table-event {
   background-color: white;
-  margin: 0 12px 10px 12px;
+  margin: 0 12px 0 12px;
   height: 300px;
   overflow: auto;
 }
@@ -135,10 +139,12 @@
   margin-right: 6px;
 }
 
+.bottom-user-event,
 .top-user-event {
   display: flex;
 }
 
+.bottom-user-event > section,
 .top-user-event > section {
   width: 50%;
 }

@@ -129,7 +129,11 @@ class Helper{
                  $arr = [];
              }
 
-             if ( ! $arr ) $arr['user_id']=$item->user_id;
+             if ( ! $arr ) {
+                 $arr['user_id']= $item->user_id;
+                 $arr['joined'] = $item->joined??0;
+             }
+
              $arr[$item->meta_key] = $item->meta_value;
 
              $id = $item->user_id;

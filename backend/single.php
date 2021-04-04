@@ -51,7 +51,7 @@ class Single{
         if ( is_array($ids_user) && count($ids_user) > 0 ){
             $db = new Database();
 
-            $db->remove_users_event($post_id);
+            $db->remove_users_event($post_id); // Remove only not joined users
             $res = $db->save_users_event($ids_user, $post_id);
 
             if ( ! $res ) error_log( 'Error to insert users in event' );

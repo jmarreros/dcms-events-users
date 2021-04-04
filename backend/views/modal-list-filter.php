@@ -91,6 +91,3 @@ $socio_type = Helper::get_socio_type();
 </div>
 
 </div>
-
-
-<!-- <span class="close" onclick="closeModal()">&times;</span> -->
