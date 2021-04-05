@@ -42,6 +42,7 @@ $count_joins = 0;
                                 $mark = 'class="join"';
                                 $count_joins++;
                             }
+                            $count_events = $item['dcms_count_event']??0;
                             echo "<tr {$mark}>";
                             echo "<td>{$item['user_id']}</td>";
                             echo "<td>{$item['number']}</td>";
@@ -49,7 +50,7 @@ $count_joins = 0;
                             echo "<td>{$item['lastname']}</td>";
                             echo "<td>{$item['sub_type']}</td>";
                             echo "<td>{$item['soc_type']}</td>";
-                            echo "<td></td>";
+                            echo "<td>{$count_events}</td>";
                             echo "</tr>";
                         }
                     endif;

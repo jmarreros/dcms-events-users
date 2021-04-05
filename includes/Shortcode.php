@@ -27,7 +27,7 @@ class Shortcode{
         wp_enqueue_script('event-script');
 
         wp_localize_script('event-script',
-                            'dcms_vars',
+                            'dcms_uaccount',
                             [ 'ajaxurl'=>admin_url('admin-ajax.php'),
                             'naccount' => wp_create_nonce('ajax-nonce-account')]);
 
@@ -65,7 +65,7 @@ class Shortcode{
         wp_enqueue_script('event-script');
 
         wp_localize_script('event-script',
-                            'dcms_vars',
+                            'dcms_uevents',
                             [ 'ajaxurl'=>admin_url('admin-ajax.php'),
                             'join' => __('Join', DCMS_EVENT_DOMAIN),
                             'nojoin' => __('Not join', DCMS_EVENT_DOMAIN),

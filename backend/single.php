@@ -27,8 +27,10 @@ class Single{
             wp_localize_script('admin-event-script','dcms_vars',['ajaxurl'=>admin_url('admin-ajax.php')]);
 
             if ( $status_post != 'auto-draft' ){
+
                 $db = new Database();
-                $items = $db->select_users_event($id_post);
+                $fields_to_show = Helper::array_to_str_quotes(array_keys(Helper::get_filter_fields()));
+                $items = $db->select_users_event($id_post, $fields_to_show);
             }
 
             $fields = Helper::get_filter_fields();

@@ -3,10 +3,14 @@
     // Account Details
     $("#frm-account-details").submit(function(e){
         e.preventDefault();
+        const sbutton = '.container-account-details #send.button';
+        const smessage = '.container-account-details section.message';
+        const sspinner = '.container-account-details .lds-ring';
+        const scontainer = '.container-account-details';
 
         const data = {
             action : 'dcms_ajax_save_account',
-            nonce : dcms_vars.naccount
+            nonce : dcms_uaccount.naccount
         }
 
         // Dynamic data editable fields
@@ -15,22 +19,22 @@
         });
 
 		$.ajax({
-			url : dcms_vars.ajaxurl,
+			url : dcms_uaccount.ajaxurl,
 			type: 'post',
             data,
             beforeSend: function(){
-                $('.lds-ring').show();
-                $('#send.button').val('Enviando ...').prop('disabled', true);
-                $('section.message').hide();
+                $(sspinner).show();
+                $(sbutton).val('Enviando ...').prop('disabled', true);
+                $(smessage).hide();
             }
         })
         .done( function(res) {
             res = JSON.parse(res);
-            show_message(res);
+            show_message(res, scontainer);
         })
         .always( function() {
-            $('.lds-ring').hide();
-            $('#send.button').val('Enviar').prop('disabled', false);
+            $(sspinner).hide();
+            $(sbutton).val('Enviar').prop('disabled', false);
         });
 
 	});
@@ -40,24 +44,28 @@
     $('.container-list-events .btn-join').click(function(e){
         e.preventDefault();
 
+        const smessage = '.container-list-events section.message';
+        const sspinner = '.container-list-events .top-list .lds-ring';
+        const scontainer = '.container-list-events';
+
         const id_post = $(this).data('id');
         let joined = $(this).data('joined');
 
         const data = {
             action : 'dcms_ajax_update_join',
-            nonce : dcms_vars.nevent,
+            nonce : dcms_uevents.nevent,
             id_post,
             joined
         }
 
         $.ajax({
-			url : dcms_vars.ajaxurl,
+			url : dcms_uevents.ajaxurl,
 			type: 'post',
             data,
         beforeSend: function(){
-                ($('.top-list .lds-ring').clone().show()).insertAfter($(e.target));
+                ($(sspinner).clone().show()).insertAfter($(e.target));
 
-                $('section.message').hide();
+                $(smessage).hide();
                 $(e.target).addClass('disabled');
 
             }
@@ -68,31 +76,33 @@
             if ( res.status ){
                 joined = res.joined??joined; //0 or 1
 
-                const text = joined ? dcms_vars.nojoin : dcms_vars.join;
+                const text = joined ? dcms_uevents.nojoin : dcms_uevents.join;
                 $(e.target).data('joined', joined);
                 $(e.target).text(text);
                 $(e.target).toggleClass('join').toggleClass('nojoin');
             }
 
-            show_message(res);
+            show_message(res, scontainer);
         })
         .always( function() {
             $(e.target).parent().find('.lds-ring').remove();
             $(e.target).removeClass('disabled');
-            $('.lds-ring').hide();
+            $(sspinner).hide();
         });
 
     });
 
     // Aux function to show message
-    function show_message(res){
+    function show_message(res, container){
+        container = container + ' section.message';
+
         if (res.status == 0 ) {
-            $('section.message').addClass('error');
+            $(container).addClass('error');
         } else {
-            $('section.message').removeClass('error');
+            $(container).removeClass('error');
         }
 
-        $('section.message').show().html(res.message);
+        $(container).show().html(res.message);
     }
 
 })(jQuery);

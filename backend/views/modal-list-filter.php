@@ -45,7 +45,7 @@ $socio_type = Helper::get_socio_type();
             <span><?= __('Number events before', DCMS_EVENT_DOMAIN)?></span>
 
             <label><?= __('Less than or equal to:', DCMS_EVENT_DOMAIN) ?>
-                <input type="number" id="events-before" value="" />
+                <input type="number" id="events-before" value="" min="0" max="100000" />
             </label>
         </div>
 

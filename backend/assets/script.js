@@ -65,12 +65,22 @@
     function fill_table_filter(res){
 
         $('.tbl-results tr').not(':first').remove();
+        const condition_count_event = parseInt( $('.efilter #events-before').val() );
 
         str = '';
         count = 0;
         str_ids = '';
+        let events_user;
         for(let i = 0; i < res.length; i++){
             if ( res[i].number ){
+
+                events_user = parseInt(res[i].dcms_count_event??0);
+                // TODO
+                if ( condition_count_event ){
+                    if ( condition_count_event < events_user );
+                    continue;
+                }
+
                 count++;
                 str_ids += res[i].user_id + ',';
                 str += `
@@ -81,9 +91,11 @@
                         <td>${res[i].lastname}</td>
                         <td>${res[i].sub_type}</td>
                         <td>${res[i].soc_type}</td>
-                        <td></td>
+                        <td>${events_user}</td>
                     </tr>
                     `;
+
+
             }
         }
         $('.tbl-results tr').first().after(str);

@@ -105,11 +105,7 @@ class Database{
     }
 
     // Select saved users in a post event
-    public function select_users_event($id_post, $fields_to_show = false, $only_joined = 0){
-
-        if ( ! $fields_to_show ) {
-            $fields_to_show = Helper::array_to_str_quotes(array_keys(Helper::get_filter_fields()));
-        }
+    public function select_users_event($id_post, $fields_to_show, $only_joined = 0){
 
         $sql = "SELECT user_id, meta_key, meta_value, joined FROM {$this->table_name} eu
                 INNER JOIN {$this->user_meta} um ON eu.id_user = um.user_id
