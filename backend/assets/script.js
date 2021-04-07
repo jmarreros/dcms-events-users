@@ -75,10 +75,11 @@
             if ( res[i].number ){
 
                 events_user = parseInt(res[i].dcms_count_event??0);
-                // TODO
-                if ( condition_count_event ){
-                    if ( condition_count_event < events_user );
-                    continue;
+
+                if ( condition_count_event >= 0 ){
+                    if ( condition_count_event < events_user ){
+                        continue;
+                    }
                 }
 
                 count++;
@@ -94,8 +95,6 @@
                         <td>${events_user}</td>
                     </tr>
                     `;
-
-
             }
         }
         $('.tbl-results tr').first().after(str);
