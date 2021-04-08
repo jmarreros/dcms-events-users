@@ -33,6 +33,19 @@
 
 .modal-content .efilter span {
   margin-bottom: 6px;
+  width: 100%;
+  font-weight: bold;
+  display: block;
+}
+
+.modal-content .efilter.abonado-type label {
+  width: 200px;
+  display: inline-block;
+}
+
+.modal-content .efilter.socio-type label {
+  width: 40px;
+  display: inline-block;
 }
 
 .modal-content .top-ebuttons {
@@ -100,12 +113,6 @@
 .modal-content .close:hover {
   background-color: #2f2f2f;
 } */
-
-.efilter span {
-  width: 100%;
-  font-weight: bold;
-  display: block;
-}
 
 #events-before {
   max-width: 56px;

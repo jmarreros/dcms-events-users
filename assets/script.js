@@ -34,11 +34,21 @@
         })
         .always( function() {
             $(sspinner).hide();
-            $(sbutton).val('Enviar').prop('disabled', false);
+            $(sbutton).val('Actualizar datos').prop('disabled', false);
         });
 
 	});
 
+
+    // Accept terms and conditions
+    $('.container-list-events #event-conditions').click(function(){
+        const button = $(this).closest('.item-event').find('.btn-join');
+        if ( $(this).prop('checked') ){
+            button.prop("disabled", false);
+        } else {
+            button.prop("disabled", true);
+        }
+    });
 
     // Update Events User
     $('.container-list-events .btn-join').click(function(e){
@@ -66,12 +76,13 @@
                 ($(sspinner).clone().show()).insertAfter($(e.target));
 
                 $(smessage).hide();
-                $(e.target).addClass('disabled');
-
+                $(e.target).prop("disabled", true);
             }
         })
         .done( function(res) {
             res = JSON.parse(res);
+
+            $(e.target).prop("disabled", false);
 
             if ( res.status ){
                 joined = res.joined??joined; //0 or 1
@@ -80,13 +91,15 @@
                 $(e.target).data('joined', joined);
                 $(e.target).text(text);
                 $(e.target).toggleClass('join').toggleClass('nojoin');
+                $(e.target).prop("disabled", true);
+
+                $(e.target).closest('.item-event').find('.terms-conditions').remove();
             }
 
             show_message(res, scontainer);
         })
         .always( function() {
             $(e.target).parent().find('.lds-ring').remove();
-            $(e.target).removeClass('disabled');
             $(sspinner).hide();
         });
 

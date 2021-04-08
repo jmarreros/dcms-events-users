@@ -28,9 +28,15 @@ $socio_type = Helper::get_socio_type();
         <div class="efilter abonado-type">
             <span><?= __('Abonado type', DCMS_EVENT_DOMAIN)?></span>
 
-            <?php foreach ($abonado_type as $key => $value) { ?>
+            <?php
+                $i = 0;
+                foreach ($abonado_type as $key => $value): ?>
                 <label><input type="checkbox" id="<?= $key ?>" value="<?= $key ?>"><?= $value ?></label>
-            <?php }?>
+            <?php
+                $i++;
+                if ( $i%2 == 0 ) echo "<br/>";
+                endforeach;
+            ?>
         </div>
         <!-- Abonado type -->
         <div class="efilter socio-type">

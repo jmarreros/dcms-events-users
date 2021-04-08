@@ -85,8 +85,8 @@ class Shortcode{
             wp_localize_script('event-script',
                                 'dcms_uevents',
                                 [ 'ajaxurl'=>admin_url('admin-ajax.php'),
-                                'join' => __('Join', DCMS_EVENT_DOMAIN),
-                                'nojoin' => __('Not join', DCMS_EVENT_DOMAIN),
+                                'join' => __('Unirse al Evento', DCMS_EVENT_DOMAIN),
+                                'nojoin' => __('Inscrito al Evento', DCMS_EVENT_DOMAIN),
                                 'nevent' => wp_create_nonce('ajax-nonce-event')]);
 
             $events = $db->get_events_for_user($id_user);

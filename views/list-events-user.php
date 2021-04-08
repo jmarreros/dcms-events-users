@@ -17,24 +17,40 @@
             <?php if ($events) :?>
                 <ul class="list-events">
                 <?php foreach ($events as $event):?>
-                    <?php $joined = $event->joined ? 'notjoin': 'join'; ?>
+                    <?php $joined = $event->joined ? 'nojoin': 'join'; ?>
                     <li class="item-event">
 
                         <h3><?= $event->post_title ?></h3>
 
-                        <a href="#"
+                        <?php if ( ! $event->joined ) : ?>
+                            <section class="terms-conditions">
+                                <label><input type="checkbox" id="event-conditions">
+                                Aceptar los <a href="#" target="_blank" checked=''>Términos y condiciones</a> para habilitar el evento.
+                                </label>
+                            </section>
+                        <?php endif; ?>
+
+
+                        <?php
+                            $text_button = '';
+                            if ( $event->joined ):
+                                 $text_button = __('Inscrito al evento', DCMS_EVENT_DOMAIN);
+                             else:
+                                 $text_button = __('Unirse al evento', DCMS_EVENT_DOMAIN);
+                            endif;
+                        ?>
+
+                        <button
+                            type="button"
                             class="button btn-join <?= $joined ?>"
                             data-id="<?= $event->id_post ?>"
                             data-joined="<?= $event->joined ?>"
+                            disabled
                         >
-                            <?php if ( $event->joined ) : ?>
-                                <?= __('Not join', DCMS_EVENT_DOMAIN) ?>
-                            <?php else: ?>
-                                <?= __('Join', DCMS_EVENT_DOMAIN) ?>
-                            <?php endif; ?>
-                        </a>
+                            <?= $text_button ?>
+                        </button>
 
-                        <div><?= $event->post_content ?></div>
+                        <div class="description"><?= $event->post_content ?></div>
 
                     </li>
                 <?php endforeach; ?>

@@ -7,9 +7,18 @@ class Helper{
 
     public static function get_abonado_type(){
         $abonado_type = [
-            'ADULTO' => 'Adulto',
-            'JUBILADO' => 'Jubilado',
-            'DISCAPACITADO' => 'Discapacitado'
+            'ADULTO'        => 'ADULTO',
+            'ADULTO.'       => 'ADULTO.',
+            'DISCAPACITADO' => 'DISCAPACITADO',
+            'DISCAPACITADO.'=> 'DISCAPACITADO.',
+            'JUNIOR'        => 'JUNIOR',
+            'JUNIOR.'       => 'JUNIOR.',
+            'JUVENIL'       => 'JUVENIL',
+            'JUVENIL.'      => 'JUVENIL.',
+            'SUB-26'        => 'SUB-26',
+            'SUB-26.'       => 'SUB-26.',
+            'JUBILADO'      => 'JUBILADO',
+            'YOGURÍN'       => 'YOGURÍN',
         ];
         return $abonado_type;
     }
@@ -89,12 +98,13 @@ class Helper{
             'lastname'    => 'Apellidos',
             'birth'     => 'Fecha Nacimiento',
             'sub_type'  => 'Tipo de Abono',
+            'soc_type'  => 'Tipo de socio',
             'address'   => 'Domicilio completo',
             'postal_code'   => 'Código Postal',
             'local'     => 'Localidad',
             'email'     => 'E-Mail',
             'phone'     => 'Teléfono',
-            'mobile'    => 'Móvil'
+            'mobile'    => 'Móvil',
         ];
     }
 

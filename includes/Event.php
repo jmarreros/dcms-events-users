@@ -34,7 +34,7 @@ class Event{
         $res = [
             'status' => 1,
             'joined' => $joined,
-            'message' => "✅ Los datos se guardaron correctamente",
+            'message' => "✅ Te has inscrito correctamente al Evento",
         ];
 
         echo json_encode($res);
