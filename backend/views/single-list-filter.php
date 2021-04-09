@@ -16,6 +16,7 @@ $count_joins = 0;
         </section>
 
         <section class="butons-user-event">
+            <a id="remove-customers" class="btn-add button button-secondarys"><?php _e('Delete selected', DCMS_EVENT_DOMAIN) ?></a>
             <a id="open-add-customers" class="btn-add button button-primary"><?php _e('Add Customers', DCMS_EVENT_DOMAIN) ?></a>
         </section>
     </div>
@@ -24,7 +25,7 @@ $count_joins = 0;
         <table class="tbl-users-event">
                 <tr>
                     <?php
-                        echo "<th>ID</th>";
+                        echo "<th></th>";
                         foreach ($fields as $field) {
                             echo "<th> $field </th>";
                         }
@@ -44,19 +45,20 @@ $count_joins = 0;
                             }
                             $count_events = $item['dcms_count_event']??0;
                             echo "<tr {$mark}>";
-                            echo "<td>{$item['user_id']}</td>";
-                            echo "<td>{$item['number']}</td>";
-                            echo "<td>{$item['name']}</td>";
-                            echo "<td>{$item['lastname']}</td>";
-                            echo "<td>{$item['sub_type']}</td>";
-                            echo "<td>{$item['soc_type']}</td>";
-                            echo "<td>{$count_events}</td>";
+                                echo "<td><input type='checkbox' value='{$item['user_id']}' /></td>";
+                                echo "<td>{$item['number']}</td>";
+                                echo "<td>{$item['name']}</td>";
+                                echo "<td>{$item['lastname']}</td>";
+                                echo "<td>{$item['sub_type']}</td>";
+                                echo "<td>{$item['soc_type']}</td>";
+                                echo "<td>{$count_events}</td>";
                             echo "</tr>";
                         }
                     endif;
                 ?>
         </table>
         <input type="hidden" name="id_user_event" id="id_user_event" value="" />
+        <input type="hidden" name="id_user_event_remove" id="id_user_event_remove" value="" />
     </section>
 
     <div class="bottom-user-event">

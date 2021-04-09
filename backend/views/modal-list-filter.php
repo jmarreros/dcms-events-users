@@ -72,7 +72,7 @@ $socio_type = Helper::get_socio_type();
         <table class="tbl-results">
             <tr>
                 <?php
-                    echo "<th>ID</th>";
+                    echo "<th></th>";
                     $fields = Helper::get_filter_fields();
                     foreach ($fields as $field) {
                         echo "<th> $field </th>";

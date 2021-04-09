@@ -44,19 +44,27 @@ class Single{
 
     // Save filter list
     public function save_list_filter( $post_id, $post, $update ){
-        $ids_user = [];
+        $ids_insert = [];
+        $ids_remove = [];
+        $db = new Database();
 
+        // Insert users
         if ( isset($_POST['id_user_event']) && $_POST['id_user_event'] != ''  ){
-            $ids_user = explode( ',', $_POST['id_user_event'] );
+            $ids_insert = explode( ',', $_POST['id_user_event'] );
+        }
+        if ( $ids_insert ){
+            $db->remove_before_insert($post_id); // Remove only not joined users
+            $res = $db->save_users_event($ids_insert, $post_id);
+            if ( ! $res ) error_log( 'Error to insert users in event' );
         }
 
-        if ( is_array($ids_user) && count($ids_user) > 0 ){
-            $db = new Database();
-
-            $db->remove_users_event($post_id); // Remove only not joined users
-            $res = $db->save_users_event($ids_user, $post_id);
-
-            if ( ! $res ) error_log( 'Error to insert users in event' );
+        // Remove specific users
+        if ( isset($_POST['id_user_event_remove']) && $_POST['id_user_event_remove'] != ''  ){
+            $ids_remove = explode( ',', $_POST['id_user_event_remove'] );
+        }
+        if ( $ids_remove ){
+            $res = $db->remove_users_event($post_id, $ids_remove);
+            if ( ! $res ) error_log( 'Error removing specific users' );
         }
 
     }

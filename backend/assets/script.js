@@ -86,7 +86,7 @@
                 str_ids += res[i].user_id + ',';
                 str += `
                     <tr>
-                        <td>${res[i].user_id}</td>
+                        <td><input type='checkbox' value='${res[i].user_id}' /></td>
                         <td>${res[i].number}</td>
                         <td>${res[i].name}</td>
                         <td>${res[i].lastname}</td>
@@ -124,6 +124,33 @@
         $('.modal-filter').hide();
     })
 
+
+    // Checkbox to remove row
+    $('#remove-customers').click(function(){
+        let str_ids = '';
+        $('.tbl-users-event tr').each(function(){
+            const check = $(this).find('td:first-child input');
+
+            if ( $(check).prop('checked') ){
+                $(this).addClass('row-remove');
+                str_ids = str_ids + check.val() + ',';
+            } else {
+                $(this).removeClass('row-remove');
+            }
+        });
+
+        if ( str_ids.length > 1 ) str_ids = str_ids.slice(0, -1);
+        $('#id_user_event_remove').val(str_ids);
+
+    });
+
+    // Checked
+    $('.tbl-users-event tr td:first-child input').change(function(){
+        if ( ! $(this).prop('checked') ){
+            $(this).closest('tr').removeClass('row-remove');
+            $('#remove-customers').trigger('click');
+        }
+    });
 
 })(jQuery);
 

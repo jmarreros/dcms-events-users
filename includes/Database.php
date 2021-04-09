@@ -118,10 +118,23 @@ class Database{
         return $this->wpdb->get_results( $sql );
     }
 
-    // Delete users from a post event
-    public function remove_users_event($post_id){
+    // Delete users from a post event before insert
+    public function remove_before_insert($post_id){
         // Delete all but not users joined
-        $sql = "DELETE FROM {$this->table_name} WHERE id_post = {$post_id} AND joined != 1";
+        $sql = "DELETE FROM {$this->table_name}
+                WHERE id_post = {$post_id} AND joined != 1";
+
+        return $this->wpdb->query($sql);
+    }
+
+    // Delete specific users for an event
+    public function remove_users_event($post_id, $ids_user){
+        $ids_user = '"' . implode('","',  $ids_user ) . '"';
+
+        // Delete specific users
+        $sql = "DELETE FROM {$this->table_name}
+                WHERE id_post = {$post_id} AND id_user IN ($ids_user)";
+
         return $this->wpdb->query($sql);
     }
 

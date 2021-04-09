@@ -75,8 +75,8 @@
   width: 100%;
 }
 
-.tbl-users-event tr th:first-child,
-.tbl-users-event tr td:first-child,
+/* .tbl-users-event tr th:first-child,
+.tbl-users-event tr td:first-child, */
 .modal-content .tbl-results tr th:first-child,
 .modal-content .tbl-results tr td:first-child {
   display: none;
@@ -94,6 +94,11 @@
 .modal-content .fotter-ebuttons {
   text-align: right;
   padding: 0 10px 10px;
+}
+
+.row-remove {
+  background-color: coral !important;
+  color: white;
 }
 
 /* .modal-content .close {
