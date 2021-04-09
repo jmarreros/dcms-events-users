@@ -57,7 +57,8 @@ class Shortcode{
             wp_enqueue_style('event-style');
             wp_enqueue_script('event-script');
 
-            $user = $db->show_user_details($id_user);
+            $user = $db->show_user_sidebar($id_user);
+
             $email  = Helper::search_field_in_meta($user, 'email');
             $name   = Helper::search_field_in_meta($user, 'name') . ' ' . Helper::search_field_in_meta($user, 'lastname');
             $number = Helper::search_field_in_meta($user, 'number');

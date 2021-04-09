@@ -230,4 +230,16 @@ class Database{
         return true;
     }
 
+
+    // User sidebar
+    // =============
+
+    // To show user details in the sidebar
+    public function show_user_sidebar( $user_id){
+        $fields = Helper::get_sidebar_fields_keys();
+
+        $sql = "SELECT * FROM wp_usermeta where user_id = {$user_id} AND meta_key IN ( {$fields} )";
+        return $this->wpdb->get_results( $sql );
+    }
+
 }

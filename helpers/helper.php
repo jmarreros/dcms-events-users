@@ -91,11 +91,8 @@ class Helper{
         return [
             'identify'  => 'Identificativo',
             'pin'       => 'PIN',
-            'number'    => 'Número',
             'reference' => 'Referencia',
             'nif'       => 'NIF',
-            'name'      => 'Nombre',
-            'lastname'    => 'Apellidos',
             'birth'     => 'Fecha Nacimiento',
             'sub_type'  => 'Tipo de Abono',
             'soc_type'  => 'Tipo de socio',
@@ -119,6 +116,20 @@ class Helper{
             'mobile'    => 'number'
         ];
     }
+
+
+    // Get fields for sidebar
+    public static function get_sidebar_fields_keys(){
+        $arr = [
+                'email'     => 'email',
+                'number'    => 'Número',
+                'name'      => 'Nombre',
+                'lastname'    => 'Apellidos'
+            ];
+
+        return '"' . implode('","', array_keys( $arr )) . '"';
+    }
+
 
     // Search in array of objects given the meta_key value
     public static function search_field_in_meta($arr, $search){
