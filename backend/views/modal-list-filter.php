@@ -14,19 +14,19 @@ $socio_type = Helper::get_socio_type();
     <section class="efilters">
         <!-- Number -->
         <div class="efilter">
-            <span><?= __('Number', DCMS_EVENT_DOMAIN)?></span>
+            <span><?= __('Number', 'dcms-events-users')?></span>
 
-            <label><?= __('From', DCMS_EVENT_DOMAIN) ?>
+            <label><?= __('From', 'dcms-events-users') ?>
                 <input id="from-number" type ="number" />
             </label>
 
-            <label><?= __('To', DCMS_EVENT_DOMAIN) ?>
+            <label><?= __('To', 'dcms-events-users') ?>
                 <input id="to-number" type ="number" />
             </label>
         </div>
         <!-- Abonado type -->
         <div class="efilter abonado-type">
-            <span><?= __('Abonado type', DCMS_EVENT_DOMAIN)?></span>
+            <span><?= __('Abonado type', 'dcms-events-users')?></span>
 
             <?php
                 $i = 0;
@@ -40,7 +40,7 @@ $socio_type = Helper::get_socio_type();
         </div>
         <!-- Abonado type -->
         <div class="efilter socio-type">
-            <span><?= __('Socio type', DCMS_EVENT_DOMAIN)?></span>
+            <span><?= __('Socio type', 'dcms-events-users')?></span>
 
             <?php foreach ($socio_type as $key => $value) { ?>
                 <label><input type="checkbox" id="<?= $key ?>" value="<?= $key ?>"><?= $value ?></label>
@@ -48,17 +48,17 @@ $socio_type = Helper::get_socio_type();
         </div>
         <!-- Events before -->
         <div class="efilter">
-            <span><?= __('Number events before', DCMS_EVENT_DOMAIN)?></span>
+            <span><?= __('Number events before', 'dcms-events-users')?></span>
 
-            <label><?= __('Less than or equal to:', DCMS_EVENT_DOMAIN) ?>
+            <label><?= __('Less than or equal to:', 'dcms-events-users') ?>
                 <input type="number" id="events-before" value="" min="0" max="100000" />
             </label>
         </div>
 
         <!-- Buttons -->
         <section class="top-ebuttons">
-            <a class="btn-clear" href="#"><?php _e('Clear', DCMS_EVENT_DOMAIN) ?></a>
-            <a class="btn-filter button button-primary" href="#"><?php _e('Filter', DCMS_EVENT_DOMAIN) ?>
+            <a class="btn-clear" href="#"><?php _e('Clear', 'dcms-events-users') ?></a>
+            <a class="btn-filter button button-primary" href="#"><?php _e('Filter', 'dcms-events-users') ?>
                 <div class="lds-ring" style="display:none"><div></div><div></div><div></div><div></div></div>
             </a>
 
@@ -89,8 +89,8 @@ $socio_type = Helper::get_socio_type();
 
     <!-- Buttom buttons -->
     <section class="fotter-ebuttons">
-        <a id="cancel-add-customers" class="btn-cancel button button-secondary" href="#"><?php _e('Cancel', DCMS_EVENT_DOMAIN) ?></a>
-        <a class="btn-select-all button button-primary" href="#"><?php _e('Select all', DCMS_EVENT_DOMAIN) ?>
+        <a id="cancel-add-customers" class="btn-cancel button button-secondary" href="#"><?php _e('Cancel', 'dcms-events-users') ?></a>
+        <a class="btn-select-all button button-primary" href="#"><?php _e('Select all', 'dcms-events-users') ?>
             <div class="lds-ring" style="display:none"><div></div><div></div><div></div><div></div></div>
         </a>
     </section>

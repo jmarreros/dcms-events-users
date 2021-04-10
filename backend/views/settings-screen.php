@@ -9,7 +9,7 @@
 </style>
 
 <div class="wrap">
-<h1><?php _e('Events Settings', DCMS_EVENT_DOMAIN) ?></h1>
+<h1><?php _e('Events Settings', 'dcms-events-users') ?></h1>
 
 <h2>Shortcodes</h2>
 <hr>

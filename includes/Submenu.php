@@ -15,8 +15,8 @@ class Submenu{
     public function register_submenu(){
         add_submenu_page(
             DCMS_EVENT_MENU,
-            __('Event Settings',DCMS_EVENT_DOMAIN),
-            __('Event Settings',DCMS_EVENT_DOMAIN),
+            __('Event Settings','dcms-events-users'),
+            __('Event Settings','dcms-events-users'),
             'manage_options',
             'event-settings',
             [$this, 'submenu_page_settings_callback']

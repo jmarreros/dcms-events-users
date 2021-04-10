@@ -27,7 +27,7 @@ use dcms\event\helpers\Helper;
         <?php endforeach; ?>
         </table>
         <input type="hidden" name="action" value="save_account_details">
-        <input class="button" type="submit" id="send" name="send" value="<?php _e('Actualizar datos', DCMS_EVENT_DOMAIN) ?>">
+        <input class="button" type="submit" id="send" name="send" value="<?php _e('Actualizar datos', 'dcms-events-users') ?>">
 
         <section class="message" style="display:none;">
         </section>

@@ -17,7 +17,7 @@
         <?php echo $name; ?>
     </div>
     <div class="usidebar-number">
-        <?= __('Número de Socio:', DCMS_EVENT_DOMAIN); ?>
+        <?= __('Número de Socio:', 'dcms-events-users'); ?>
         <span><?= $number ?></span>
     </div>
 
@@ -26,6 +26,6 @@
     ?>
 
     <!-- <a class="btn btn-logout" href="<?= wp_logout_url( home_url() ); ?>">
-        <?= __('Salir', DCMS_EVENT_DOMAIN) ?>
+        <?= __('Salir', 'dcms-events-users') ?>
     </a> -->
 </section>

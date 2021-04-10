@@ -25,7 +25,7 @@
                         <?php if ( ! $event->joined ) : ?>
                             <section class="terms-conditions">
                                 <label><input type="checkbox" id="event-conditions">
-                                Aceptar los <a href="#" target="_blank" checked=''>Términos y condiciones</a> para habilitar el evento.
+                                Aceptar los <a href="/politica-de-privacidad-del-club/" target="_blank" checked=''>Términos y condiciones</a> para habilitar el evento.
                                 </label>
                             </section>
                         <?php endif; ?>
@@ -34,9 +34,9 @@
                         <?php
                             $text_button = '';
                             if ( $event->joined ):
-                                 $text_button = __('Inscrito al evento', DCMS_EVENT_DOMAIN);
+                                 $text_button = __('Inscrito al evento', 'dcms-events-users');
                              else:
-                                 $text_button = __('Unirse al evento', DCMS_EVENT_DOMAIN);
+                                 $text_button = __('Unirse al evento', 'dcms-events-users');
                             endif;
                         ?>
 

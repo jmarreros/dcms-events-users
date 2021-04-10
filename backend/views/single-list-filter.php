@@ -16,8 +16,8 @@ $count_joins = 0;
         </section>
 
         <section class="butons-user-event">
-            <a id="remove-customers" class="btn-add button button-secondarys"><?php _e('Delete selected', DCMS_EVENT_DOMAIN) ?></a>
-            <a id="open-add-customers" class="btn-add button button-primary"><?php _e('Add Customers', DCMS_EVENT_DOMAIN) ?></a>
+            <a id="remove-customers" class="btn-add button button-secondarys"><?php _e('Delete selected', 'dcms-events-users') ?></a>
+            <a id="open-add-customers" class="btn-add button button-primary"><?php _e('Add Customers', 'dcms-events-users') ?></a>
         </section>
     </div>
 
@@ -63,12 +63,12 @@ $count_joins = 0;
 
     <div class="bottom-user-event">
         <section class="user-event-info">
-            <?= __('Total Joined: ', DCMS_EVENT_DOMAIN) ?><strong> <span class="total-info"><?= $count_joins ?></span> </strong>
+            <?= __('Total Joined: ', 'dcms-events-users') ?><strong> <span class="total-info"><?= $count_joins ?></span> </strong>
         </section>
 
         <section class="butons-user-event">
-            <a class="btn-export button button-primary" href="<?= admin_url() ?>admin-post.php?action=process_export_list_customers&id_post=<?= $id_post ?>" target="_blank"><?php _e('Export all', DCMS_EVENT_DOMAIN) ?></a>
-            <a class="btn-export button button-primary" href="<?= admin_url() ?>admin-post.php?action=process_export_list_customers&id_post=<?= $id_post ?>&only_joined=1" target="_blank"><?php _e('Export Joined', DCMS_EVENT_DOMAIN) ?></a>
+            <a class="btn-export button button-primary" href="<?= admin_url() ?>admin-post.php?action=process_export_list_customers&id_post=<?= $id_post ?>" target="_blank"><?php _e('Export all', 'dcms-events-users') ?></a>
+            <a class="btn-export button button-primary" href="<?= admin_url() ?>admin-post.php?action=process_export_list_customers&id_post=<?= $id_post ?>&only_joined=1" target="_blank"><?php _e('Export Joined', 'dcms-events-users') ?></a>
         </section>
     </div>
 

@@ -1,10 +1,10 @@
 <?php
 /*
 Plugin Name: Sporting Event users
-Plugin URI: https://decodecms.com
+Plugin URI: https://webservi.es
 Description: Integrates events users
 Version: 1.0
-Author: Jhon Marreros Guzmán
+Author: Webservi.es
 Author URI: https://decodecms.com
 Text Domain: dcms-events-users
 Domain Path: languages
@@ -43,7 +43,6 @@ final class Loader{
 		define ('DCMS_EVENT_URL', plugin_dir_url( __FILE__ ));
 		define ('DCMS_EVENT_BASE_NAME', plugin_basename( __FILE__ ));
 		define ('DCMS_EVENT_CPT', 'events_sporting');
-		define ('DCMS_EVENT_DOMAIN', 'dcms-events-users');
 		define ('DCMS_EVENT_MENU', 'edit.php?post_type='.DCMS_EVENT_CPT);
 		define ('DCMS_EVENT_COUNT_META', 'dcms_count_event'); //count assign event to user, user meta data
 
@@ -58,7 +57,7 @@ final class Loader{
 	public function load_domain(){
 		add_action('plugins_loaded', function(){
 			$path_languages = dirname(DCMS_EVENT_BASE_NAME).'/languages/';
-			load_plugin_textdomain(DCMS_EVENT_DOMAIN, false, $path_languages );
+			load_plugin_textdomain('dcms-events-users', false, $path_languages );
 		});
 	}
 
@@ -66,7 +65,7 @@ final class Loader{
 	public function add_link_plugin(){
 		add_action( 'plugin_action_links_' . plugin_basename( __FILE__ ), function( $links ){
 			return array_merge( array(
-				'<a href="' . esc_url( admin_url( DCMS_EVENT_MENU ) ) . '">' . __( 'Settings', DCMS_EVENT_DOMAIN ) . '</a>'
+				'<a href="' . esc_url( admin_url( DCMS_EVENT_MENU ) ) . '">' . __( 'Settings', 'dcms-events-users' ) . '</a>'
 			), $links );
 		} );
 	}
