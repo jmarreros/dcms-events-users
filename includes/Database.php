@@ -129,13 +129,21 @@ class Database{
 
     // Delete specific users for an event
     public function remove_users_event($post_id, $ids_user){
-        $ids_user = '"' . implode('","',  $ids_user ) . '"';
 
-        // Delete specific users
+        // Remove user event, delete specific users
+        $str_ids_user = '"' . implode('","',  $ids_user ) . '"';
         $sql = "DELETE FROM {$this->table_name}
-                WHERE id_post = {$post_id} AND id_user IN ($ids_user)";
+                WHERE id_post = {$post_id} AND id_user IN ($str_ids_user)";
+        $res =  $this->wpdb->query($sql);
 
-        return $this->wpdb->query($sql);
+        // Reset count meta
+        if ( $res ){
+            foreach ($ids_user as $id_user) {
+                $this->update_count_user_meta($id_user);
+            }
+        }
+
+        return $res;
     }
 
     // Insert users event
@@ -196,7 +204,7 @@ class Database{
     public function update_count_user_meta($id_user){
         // Count elements in event_user table
         $sql = "SELECT COUNT(id)
-                FROM wp_dcms_event_users
+                FROM {$this->table_name}
                 WHERE id_user = {$id_user} AND joined = 1";
 
         $count = $this->wpdb->get_var($sql);
