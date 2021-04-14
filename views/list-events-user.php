@@ -25,7 +25,7 @@
                         <?php if ( ! $event->joined ) : ?>
                             <section class="terms-conditions">
                                 <label><input type="checkbox" id="event-conditions">
-                                Aceptar los <a href="/politica-de-privacidad-del-club/" target="_blank" checked=''>Términos y condiciones</a> para habilitar el evento.
+                                Aceptar la <a href="/declaracion-responsable/" target="_blank" checked=''>Declaración de Responsabilidad</a> para habilitar el evento.
                                 </label>
                             </section>
                         <?php endif; ?>
