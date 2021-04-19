@@ -39,20 +39,20 @@ class Helper{
         return [
             'identify'  => 'Identificativo', // Login column
             'pin'       => 'PIN', // Password Column
-            'number'    => 'Número',
+            'number'    => 'Numero',
             'reference' => 'Referencia',
-            'nif'       => 'NIF',
+            'nif'       => 'N.I.F.',
             'name'      => 'Nombre',
             'lastname'    => 'Apellidos',
             'birth'     => 'Fecha Nacimiento',
             'sub_type'  => 'Tipo de Abono',
-            'address'   => 'Domicilio completo',
+            'address'   => 'Domicilio Completo',
             'postal_code'   => 'Código Postal',
             'local'     => 'Localidad',
-            'email'     => 'E-Mail',
+            'email'     => 'E-MAIL',
             'phone'     => 'Teléfono',
-            'mobile'    => 'Móvil',
-            'soc_type'  => 'Tipo de socio',
+            'mobile'    => 'Teléfono Móvil',
+            'soc_type'  => 'Tipo de Socio',
             'observation7'   => 'Observa 7',
             'observation5'   => 'Observa 5',
             'sub_permit'=> 'Permiso Abono'
@@ -82,7 +82,8 @@ class Helper{
             'lastname'  => 'Apellidos',
             'sub_type'  => 'Tipo de Abono',
             'soc_type'  => 'Tipo de Socio',
-            DCMS_EVENT_COUNT_META => 'Eventos'
+            'observation7' => 'Observacion7',
+            // DCMS_EVENT_COUNT_META => 'Eventos',
         ];
     }
 

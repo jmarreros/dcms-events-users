@@ -139,7 +139,7 @@ class Database{
         // Reset count meta
         if ( $res ){
             foreach ($ids_user as $id_user) {
-                $this->update_count_user_meta($id_user);
+                $this->update_count_user_meta($id_user, true);
             }
         }
 
@@ -201,7 +201,7 @@ class Database{
     }
 
     // Increment/decrement events per user in usermeta
-    public function update_count_user_meta($id_user){
+    public function update_count_user_meta($id_user, $is_remove = false){
         // Count elements in event_user table
         $sql = "SELECT COUNT(id)
                 FROM {$this->table_name}
@@ -210,6 +210,12 @@ class Database{
         $count = $this->wpdb->get_var($sql);
 
         update_user_meta($id_user, DCMS_EVENT_COUNT_META, $count);
+        // set observation7 meta_user to 1
+        if ( ! $is_remove ){
+            update_user_meta($id_user, 'observation7', 1);
+        } else {
+            update_user_meta($id_user, 'observation7', 0);
+        }
     }
 
     // user Account

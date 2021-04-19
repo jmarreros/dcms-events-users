@@ -43,7 +43,12 @@ $count_joins = 0;
                                 $mark = 'class="join"';
                                 $count_joins++;
                             }
-                            $count_events = $item['dcms_count_event']??0;
+
+                            $observation7 = 0;
+                            if (isset($item['observation7'])){
+                                $observation7 = intval($item['observation7']);
+                            }
+
                             echo "<tr {$mark}>";
                                 echo "<td><input type='checkbox' value='{$item['user_id']}' /></td>";
                                 echo "<td>{$item['number']}</td>";
@@ -51,7 +56,7 @@ $count_joins = 0;
                                 echo "<td>{$item['lastname']}</td>";
                                 echo "<td>{$item['sub_type']}</td>";
                                 echo "<td>{$item['soc_type']}</td>";
-                                echo "<td>{$count_events}</td>";
+                                echo "<td>{$observation7}</td>";
                             echo "</tr>";
                         }
                     endif;

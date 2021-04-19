@@ -30,7 +30,6 @@
                             </section>
                         <?php endif; ?>
 
-
                         <?php
                             $text_button = '';
                             if ( $event->joined ):

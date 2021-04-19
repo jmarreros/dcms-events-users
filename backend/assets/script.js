@@ -74,7 +74,7 @@
         for(let i = 0; i < res.length; i++){
             if ( res[i].number ){
 
-                events_user = parseInt(res[i].dcms_count_event??0);
+                events_user = parseInt(res[i].observation7??0);
 
                 if ( condition_count_event >= 0 ){
                     if ( condition_count_event < events_user ){
