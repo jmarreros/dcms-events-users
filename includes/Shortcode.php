@@ -59,10 +59,16 @@ class Shortcode{
 
             $user = $db->show_user_sidebar($id_user);
 
-            $email  = Helper::search_field_in_meta($user, 'email');
-            $name   = Helper::search_field_in_meta($user, 'name') . ' ' . Helper::search_field_in_meta($user, 'lastname');
-            $number = Helper::search_field_in_meta($user, 'number');
+            if ( $user ):
+                $email  = Helper::search_field_in_meta($user, 'email');
+                $name   = Helper::search_field_in_meta($user, 'name') . ' ' . Helper::search_field_in_meta($user, 'lastname');
+                $number = Helper::search_field_in_meta($user, 'number');
+            endif;
+
             $content = $content??'';
+            $email   = $email??'';
+            $name    = $name??'';
+            $number  = $number??'';
 
             ob_start();
                 include_once DCMS_EVENT_PATH.'views/user-sidebar.php';
