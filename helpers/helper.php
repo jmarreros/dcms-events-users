@@ -135,7 +135,8 @@ class Helper{
     // Search in array of objects given the meta_key value
     public static function search_field_in_meta($arr, $search){
         $index = array_search($search, array_column($arr, 'meta_key'));
-        return $arr[$index]->meta_value;
+        if ( $index ) return $arr[$index]->meta_value;
+        return '';
     }
 
 
