@@ -18,7 +18,7 @@
         <?php echo $name; ?>
     </div>
     <div class="usidebar-number">
-        <?= __('Número de Socio:', 'dcms-events-users'); ?>
+        <?= __('Número de Abonado:', 'dcms-events-users'); ?>
         <span><?= $number ?></span>
     </div>
 
