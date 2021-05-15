@@ -24,6 +24,7 @@ use dcms\event\includes\Shortcode;
 use dcms\event\includes\Account;
 use dcms\event\includes\Event;
 use dcms\event\backend\Single;
+use dcms\event\backend\Metabox;
 use dcms\event\backend\Filter;
 use dcms\event\includes\Export;
 
@@ -50,6 +51,11 @@ final class Loader{
 		define( 'DCMS_EVENT_ACCOUNT', 'sporting-user-account');
 		define( 'DCMS_EVENT_SIDEBAR', 'sporting-sidebar-user');
 		define( 'DCMS_EVENT_LIST', 'sporting-event-list');
+
+		// Fases
+		define( 'DCMS_ENABLE_FASES', 'event-enable-fases');
+		define( 'DCMS_FASE_1', 'event-fase-1');
+		define( 'DCMS_FASE_2', 'event-fase-2');
 
 	}
 
@@ -83,6 +89,7 @@ final class Loader{
 		new Account();
 		new Event();
 		new Single();
+		new Metabox();
 		new Filter();
 		new Export();
 	}

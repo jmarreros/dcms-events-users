@@ -152,5 +152,17 @@
         }
     });
 
+    // Fases evento
+    $('#enable-fases').change(function(){
+        if ( $(this).is(':checked') ) {
+            $('.dcms-limit-dates').show();
+        } else {
+            $('.dcms-limit-dates').hide();
+        }
+    });
+
+
+    $('#enable-fases').trigger('change');
+
 })(jQuery);
 

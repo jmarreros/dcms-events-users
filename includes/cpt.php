@@ -14,7 +14,6 @@ class Cpt{
 		add_filter('use_block_editor_for_post_type', '__return_false', 5);
     }
 
-
     // Create cpt: events_sporting
     public function create_cpt_events(){
         $labels = array(
