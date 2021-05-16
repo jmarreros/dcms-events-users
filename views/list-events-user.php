@@ -33,9 +33,16 @@
 
                         if ( (new DateTime())->format('Y-m-d') <= (new DateTime($fase1))->format('Y-m-d') ) $show_fase1 = true;
                         if ( (new DateTime())->format('Y-m-d') <= (new DateTime($fase2))->format('Y-m-d') ) $show_fase2 = true;
+
+                        // error_log(print_r($enable_fases,true));
+                        // error_log(print_r($show_fase1,true));
+                        // error_log(print_r($show_fase2,true));
+                        // error_log(print_r($event,true));
                     ?>
 
-                    <?php if ( ! $enable_fases || ( $enable_fases && $show_fase2 ) ) : ?>
+                    <?php if (  ! $enable_fases ||
+                                ( $enable_fases && $show_fase1 && ! $event->joined ) ||
+                                ( $enable_fases && $show_fase2 && $event->joined ) ) : ?>
                     <li class="item-event">
 
                         <h3><?= $event->post_title ?></h3>
@@ -82,6 +89,12 @@
                             >
                                 <?= $text_button ?>
                             </button>
+
+                            <?php if ( $enable_fases && ! $show_fase1): ?>
+                                <br>
+                                <br>
+                                <label>Pronto podrá agregar sus convivientes</label>
+                            <?php endif; ?>
 
                             <div class="description"><?= $event->post_content ?></div>
 
