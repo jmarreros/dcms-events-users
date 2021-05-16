@@ -43,12 +43,20 @@
     // Accept terms and conditions
     $('.container-list-events #event-conditions').click(function(){
         const button = $(this).closest('.item-event').find('.btn-join');
+        const select = $(this).closest('.item-event').find('.select-children');
+        const container = $(this).closest('.item-event').find('.inscription-container');
+
         if ( $(this).prop('checked') ){
             button.prop("disabled", false);
+            select.prop("disabled", false);
+            container.addClass('accept');
         } else {
             button.prop("disabled", true);
+            select.prop("disabled", true);
+            container.removeClass('accept');
         }
     });
+    $('.container-list-events #event-conditions').trigger('click');
 
     // Update Events User
     $('.container-list-events .btn-join').click(function(e){
@@ -60,12 +68,14 @@
 
         const id_post = $(this).data('id');
         let joined = $(this).data('joined');
+        let select = $(this).closest('.item-event').find('.select-children').val() ?? '0';
 
         const data = {
             action : 'dcms_ajax_update_join',
             nonce : dcms_uevents.nevent,
             id_post,
-            joined
+            joined,
+            children: parseInt(select),
         }
 
         $.ajax({

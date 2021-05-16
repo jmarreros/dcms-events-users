@@ -91,6 +91,8 @@ class Database{
                     `date` datetime DEFAULT CURRENT_TIMESTAMP,
                     `joined` tinyint(1) DEFAULT 0,
                     `joined_date` datetime DEFAULT NULL,
+                    `children` tinyint unsigned DEFAULT 0,
+                    `parent` bigint(20) unsigned DEFAULT NULL,
                     PRIMARY KEY (`id`)
             )";
 
@@ -183,7 +185,7 @@ class Database{
     // Get all events avaliable for a specific user
     public function get_events_for_user($id_user){
 
-        $sql = "SELECT eu.id_post, eu.joined, eu.joined_date, p.post_title, p.post_content
+        $sql = "SELECT eu.id_post, eu.joined, eu.joined_date, eu.children, eu.parent, p.post_title, p.post_content
                 FROM {$this->table_name} eu
                 INNER JOIN {$this->post_event} p ON p.ID =  eu.id_post
                 WHERE eu.id_user = {$id_user} AND  p.post_status = 'publish'";
@@ -192,9 +194,9 @@ class Database{
     }
 
     // Save Join/unjoin user to an event
-    public function save_join_user_to_event($joined, $id_post, $id_user){
+    public function save_join_user_to_event($joined, $children, $id_post, $id_user){
         $sql = "UPDATE {$this->table_name}
-                SET joined = {$joined}, joined_date = NOW()
+                SET joined = {$joined}, joined_date = NOW(), children = {$children}
                 WHERE id_post = {$id_post} AND id_user = {$id_user}";
 
         return $this->wpdb->query($sql);

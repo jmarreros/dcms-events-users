@@ -56,6 +56,7 @@ final class Loader{
 		define( 'DCMS_ENABLE_FASES', 'event-enable-fases');
 		define( 'DCMS_FASE_1', 'event-fase-1');
 		define( 'DCMS_FASE_2', 'event-fase-2');
+		define( 'DCMS_MAX_CHILDREN', 3);
 
 	}
 

@@ -23,6 +23,11 @@
   border: 1px solid #ccc;
 }
 
+.list-events {
+  padding: 0;
+  list-style-type: none;
+}
+
 .item-event .button,
 .frm-account-details .button {
   cursor: pointer;
@@ -156,4 +161,23 @@ a.button.disabled {
   100% {
     transform: rotate(360deg);
   }
+}
+
+.inscription-container {
+  border: 1px solid #ccc;
+  background-color: #eeeeee;
+  margin-top: 16px;
+  padding: 10px 20px;
+}
+
+.inscription-container.accept {
+  background-color: white;
+}
+
+.inscription-container .select-children {
+  color: #4c4c4c;
+}
+
+.inscription-container .select-children.nojoin {
+  background-color: #faf8f8;
 }
