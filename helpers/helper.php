@@ -55,7 +55,9 @@ class Helper{
             'soc_type'  => 'Tipo de Socio',
             'observation7'   => 'Observa 7',
             'observation5'   => 'Observa 5',
-            'sub_permit'=> 'Permiso Abono'
+            'sub_permit'=> 'Permiso Abono',
+            'children'  => 'Cant Convivientes',
+            'parent'    => 'Inscrito por'
         ];
     }
 
@@ -156,6 +158,8 @@ class Helper{
              if ( ! $arr ) {
                  $arr['user_id']= $item->user_id;
                  $arr['joined'] = $item->joined??0;
+                 $arr['children'] = $item->children;
+                 $arr['parent'] = $item->parent??0;
              }
 
              $arr[$item->meta_key] = $item->meta_value;

@@ -18,17 +18,17 @@ class Event{
         $id_post = intval($_POST['id_post']);
         $id_user = get_current_user_id();
 
-        $joined = intval($_POST['joined']); // 0 or 1
-        // $joined ^= 1; // toggle
-        $joined = 1; // New condition
+        //$joined = intval($_POST['joined']);
+        $joined = 1; // New condition, only allow joined
+
 
         $children = intval($_POST['children']);
         if ( $children > DCMS_MAX_CHILDREN ) $children = 0;
 
         $db = new Database();
-        // Save in database table
-        $result = $db->save_join_user_to_event($joined, $children, $id_post, $id_user);
-        // // Validate if updated rows > 0
+        $result = $db->save_join_user_to_event($children, $id_post, $id_user);
+
+        // Validate if updated rows > 0
         $this->validate_updated($result);
 
         // Update user meta
@@ -70,3 +70,6 @@ class Event{
         }
     }
 }
+
+
+// $joined ^= 1; // toggle

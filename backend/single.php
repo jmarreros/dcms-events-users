@@ -35,6 +35,7 @@ class Single{
 
             $fields = Helper::get_filter_fields();
             $data = Helper::transform_columns_arr($items);
+
             Helper::order_array_column($data); // Order by number
             $count = count($data);
 

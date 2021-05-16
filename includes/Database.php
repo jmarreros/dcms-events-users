@@ -109,7 +109,7 @@ class Database{
     // Select saved users in a post event
     public function select_users_event($id_post, $fields_to_show, $only_joined = 0){
 
-        $sql = "SELECT user_id, meta_key, meta_value, joined FROM {$this->table_name} eu
+        $sql = "SELECT user_id, meta_key, meta_value, eu.joined, eu.children, eu.parent FROM {$this->table_name} eu
                 INNER JOIN {$this->user_meta} um ON eu.id_user = um.user_id
                 WHERE id_post = {$id_post} AND meta_key in ( {$fields_to_show} )";
 
@@ -193,14 +193,16 @@ class Database{
         return $this->wpdb->get_results( $sql );
     }
 
-    // Save Join/unjoin user to an event
-    public function save_join_user_to_event($joined, $children, $id_post, $id_user){
+    // Save Join user to an event, only allow joined
+    public function save_join_user_to_event($children, $id_post, $id_user){
         $sql = "UPDATE {$this->table_name}
-                SET joined = {$joined}, joined_date = NOW(), children = {$children}
-                WHERE id_post = {$id_post} AND id_user = {$id_user}";
+                SET joined = 1, joined_date = NOW(), children = {$children}
+                WHERE id_post = {$id_post} AND id_user = {$id_user} AND joined = 0";
 
         return $this->wpdb->query($sql);
     }
+
+
 
     // Increment/decrement events per user in usermeta
     public function update_count_user_meta($id_user, $is_remove = false){
@@ -272,3 +274,14 @@ class Database{
     }
 
 }
+
+
+
+// // Save Join/unjoin user to an event
+// public function save_join_user_to_event($joined, $children, $id_post, $id_user){
+//     $sql = "UPDATE {$this->table_name}
+//             SET joined = {$joined}, joined_date = NOW(), children = {$children}
+//             WHERE id_post = {$id_post} AND id_user = {$id_user}";
+
+//     return $this->wpdb->query($sql);
+// }
