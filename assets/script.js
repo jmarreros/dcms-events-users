@@ -39,24 +39,22 @@
 
 	});
 
-
     // Accept terms and conditions
     $('.container-list-events #event-conditions').click(function(){
         const button = $(this).closest('.item-event').find('.btn-join');
-        const select = $(this).closest('.item-event').find('.select-children');
+        const count = $(this).closest('.item-event').find('.select-children input');
         const container = $(this).closest('.item-event').find('.inscription-container');
 
         if ( $(this).prop('checked') ){
             button.prop("disabled", false);
-            select.prop("disabled", false);
+            count.prop("disabled", false);
             container.addClass('accept');
         } else {
             button.prop("disabled", true);
-            select.prop("disabled", true);
+            count.prop("disabled", true);
             container.removeClass('accept');
         }
     });
-    $('.container-list-events #event-conditions').trigger('click');
 
     // Update Events User
     $('.container-list-events .btn-join').click(function(e){
@@ -67,15 +65,15 @@
         const scontainer = '.container-list-events';
 
         const id_post = $(this).data('id');
+        const count = $(this).closest('.item-event').find('.select-children input:checked').val() ?? '0';
         let joined = $(this).data('joined');
-        let select = $(this).closest('.item-event').find('.select-children').val() ?? '0';
 
         const data = {
             action : 'dcms_ajax_update_join',
             nonce : dcms_uevents.nevent,
             id_post,
             joined,
-            children: parseInt(select),
+            children: parseInt(count),
         }
 
         $.ajax({
@@ -98,11 +96,12 @@
                 joined = res.joined??joined; //0 or 1
 
                 const text = joined ? dcms_uevents.nojoin : dcms_uevents.join;
+
                 $(e.target).data('joined', joined);
                 $(e.target).text(text);
                 $(e.target).toggleClass('join').toggleClass('nojoin');
                 $(e.target).prop("disabled", true);
-
+                $(e.target).closest('.item-event').find('.select-children input').prop("disabled", true);
                 $(e.target).closest('.item-event').find('.terms-conditions').remove();
             }
 
@@ -115,9 +114,33 @@
 
     });
 
+
+    // Validate children (acompañante)
+    $('.list-children li .cvalidate').click(function(e){
+        e.preventDefault();
+
+        let smessage = $(this).closest('li').find('.message');
+
+        let res = {
+            status:0,
+            message: 'Error 🚀'
+        }
+        show_message(res, smessage);
+    });
+
+    // Clear children
+    $('.list-children li .cclear').click(function(e){
+        e.preventDefault();
+
+    })
+
+
     // Aux function to show message
     function show_message(res, container){
-        container = container + ' section.message';
+
+        if (typeof container == 'string' ){
+            container = container + ' section.message';
+        }
 
         if (res.status == 0 ) {
             $(container).addClass('error');

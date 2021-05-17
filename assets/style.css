@@ -175,9 +175,63 @@ a.button.disabled {
 }
 
 .inscription-container .select-children {
-  color: #4c4c4c;
+  margin: 10px auto;
 }
 
-.inscription-container .select-children.nojoin {
-  background-color: #faf8f8;
+.list-children {
+  list-style: none;
+  padding: 0;
+}
+
+.list-children .cclear {
+  color: #bc2427;
+  font-size: 14px;
+}
+
+.list-children .cvalidate {
+  font-size: 14px;
+  text-transform: none;
+  padding: 3px 8px;
+}
+
+.list-children .cinputs {
+  display: flex;
+}
+
+.list-children .cinputs input {
+  padding: 6px 8px;
+  width: 50%;
+}
+
+.list-children .cinputs input:first-child {
+  margin-right: 10px;
+}
+
+.list-children .cactions {
+  text-align: right;
+  margin-top: 8px;
+}
+
+.list-children li {
+  padding: 10px;
+  padding-top: 14px;
+  border: 2px dashed grey;
+  margin-bottom: 20px;
+  background-color: #fbfbfb;
+}
+
+.container-children .message-top {
+  margin-top: 14px;
+  margin-bottom: 14px;
+  line-height: 20px;
+}
+
+.container-children section.message {
+  line-height: 22px;
+  margin-top: 0;
+  display: none;
+}
+
+.list-children .cdata {
+  margin-top: 10px;
 }

@@ -45,7 +45,6 @@ class Event{
         wp_die();
     }
 
-
     // Security, verify nonce
     private function validate_nonce(){
         if ( ! wp_verify_nonce( $_POST['nonce'], 'ajax-nonce-event' ) ) {

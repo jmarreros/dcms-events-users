@@ -67,17 +67,19 @@
                         <section class="inscription-container">
 
                             <?php if ( $enable_fases && $show_fase1 ): ?>
+
                                 <section class="add-children">
-                                    <label>Número de acompañantes: </label>
-                                    <select class="select-children <?= $joined ?>" name="select-children"
-                                        <?php if ( $event->joined ) echo "disabled" ?>
-                                    >
-                                        <option value="0" <?php selected( $event->children, 0) ?>>Ninguno</option>
-                                        <option value="1" <?php selected( $event->children, 1) ?>>1</option>
-                                        <option value="2" <?php selected( $event->children, 2) ?>>2</option>
-                                        <option value="3" <?php selected( $event->children, 3) ?>>3</option>
-                                    </select>
+                                    <label>Número de convivientes: </label>
+
+                                    <div class="select-children" >
+                                        <label><input type="radio" name="count<?= $post_id ?>"  value="0" <?php checked( $event->children, 0); ?> disabled> Ninguno </label>
+                                        <label><input type="radio" name="count<?= $post_id ?>"  value="1" <?php checked( $event->children, 1); ?> disabled> 1 </label>
+                                        <label><input type="radio" name="count<?= $post_id ?>"  value="2" <?php checked( $event->children, 2); ?> disabled> 2 </label>
+                                        <label><input type="radio" name="count<?= $post_id ?>"  value="3" <?php checked( $event->children, 3); ?> disabled> 3 </label>
+                                    </div>
+
                                 </section>
+
                             <?php endif; // fase1 ?>
 
                             <button
@@ -90,11 +92,13 @@
                                 <?= $text_button ?>
                             </button>
 
-                            <?php if ( $enable_fases && ! $show_fase1): ?>
-                                <br>
-                                <br>
-                                <label>Pronto podrá agregar sus convivientes</label>
-                            <?php endif; ?>
+                            <?php
+                            // Show children for the event
+                            if ( $enable_fases && ! $show_fase1) {
+                                // Call view
+                                include_once 'list-event-user-children.php';
+                            }
+                            ?>
 
                             <div class="description"><?= $event->post_content ?></div>
 

@@ -158,7 +158,7 @@ class Helper{
              if ( ! $arr ) {
                  $arr['user_id']= $item->user_id;
                  $arr['joined'] = $item->joined??0;
-                 $arr['children'] = $item->children;
+                 $arr['children'] = $item->children??0;
                  $arr['parent'] = $item->parent??0;
              }
 
