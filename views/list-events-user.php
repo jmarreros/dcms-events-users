@@ -28,6 +28,7 @@
                         $fase1 = get_post_meta($post_id, DCMS_FASE_1, true );
                         $fase2 = get_post_meta($post_id, DCMS_FASE_2, true );
 
+                        // Default values
                         $show_fase1 = false;
                         $show_fase2 = false;
 
@@ -96,7 +97,7 @@
                             // Show children for the event
                             if ( $enable_fases && ! $show_fase1) {
                                 // Call view
-                                include_once 'list-event-user-children.php';
+                                include 'list-event-user-children.php';
                             }
                             ?>
 

@@ -89,12 +89,20 @@ class Shortcode{
             wp_enqueue_style('event-style');
             wp_enqueue_script('event-script');
 
+            // Ajax event
             wp_localize_script('event-script',
                                 'dcms_uevents',
                                 [ 'ajaxurl'=>admin_url('admin-ajax.php'),
                                 'join' => __('Unirse al Evento', 'dcms-events-users'),
                                 'nojoin' => __('Inscrito al Evento', 'dcms-events-users'),
                                 'nevent' => wp_create_nonce('ajax-nonce-event')]);
+
+            // Ajax children
+            wp_localize_script('event-script',
+                                'dcms_echildren',
+                                [ 'ajaxurl'=>admin_url('admin-ajax.php'),
+                                'nchildren' => wp_create_nonce('ajax-nonce-event-children')]);
+
 
             $events = $db->get_events_for_user($id_user);
 

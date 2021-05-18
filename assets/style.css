@@ -186,12 +186,13 @@ a.button.disabled {
 .list-children .cclear {
   color: #bc2427;
   font-size: 14px;
+  display: none;
 }
 
 .list-children .cvalidate {
   font-size: 14px;
   text-transform: none;
-  padding: 3px 8px;
+  padding: 4px 8px !important;
 }
 
 .list-children .cinputs {

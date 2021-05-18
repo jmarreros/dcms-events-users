@@ -194,15 +194,13 @@ class Database{
     }
 
     // Save Join user to an event, only allow joined
-    public function save_join_user_to_event($children, $id_post, $id_user){
+    public function save_join_user_to_event($id_post, $id_user, $children, $parent = null){
         $sql = "UPDATE {$this->table_name}
-                SET joined = 1, joined_date = NOW(), children = {$children}
+                SET joined = 1, joined_date = NOW(), children = {$children}, parent = {$parent}
                 WHERE id_post = {$id_post} AND id_user = {$id_user} AND joined = 0";
 
         return $this->wpdb->query($sql);
     }
-
-
 
     // Increment/decrement events per user in usermeta
     public function update_count_user_meta($id_user, $is_remove = false){
@@ -229,7 +227,7 @@ class Database{
     public function show_user_details( $user_id){
         $fields = Helper::get_account_fields_keys();
 
-        $sql = "SELECT * FROM wp_usermeta where user_id = {$user_id} AND meta_key IN ( {$fields} )";
+        $sql = "SELECT * FROM {$this->user_meta} where user_id = {$user_id} AND meta_key IN ( {$fields} )";
         return $this->wpdb->get_results( $sql );
     }
 
@@ -247,7 +245,7 @@ class Database{
 
     // Get duplicate email validation
     public function get_duplicate_email( $email, $not_id ){
-        $sql = "SELECT user_id FROM $this->user_meta
+        $sql = "SELECT user_id FROM {$this->user_meta}
                 WHERE meta_key = 'email' AND meta_value = '$email' AND user_id <> $not_id";
 
         return $this->wpdb->get_var($sql);
@@ -269,11 +267,39 @@ class Database{
     public function show_user_sidebar( $user_id){
         $fields = Helper::get_sidebar_fields_keys();
 
-        $sql = "SELECT * FROM wp_usermeta where user_id = {$user_id} AND meta_key IN ( {$fields} )";
+        $sql = "SELECT * FROM {$this->user_meta} where user_id = {$user_id} AND meta_key IN ( {$fields} )";
         return $this->wpdb->get_results( $sql );
     }
 
+
+    // Children events
+    // ================
+
+    // To validate identify and pin, not valid = 0, 2 , valid only 1 row
+    public function find_user_identify_pin($identify, $pin){
+        $sql = "SELECT user_id, COUNT(user_id) AS count FROM {$this->user_meta}
+                WHERE ( meta_key = 'identify' AND meta_value = '{$identify}' )
+                        || (meta_key = 'pin' AND meta_value = '{$pin}' )
+                GROUP BY user_id";
+
+        return $this->wpdb->get_results( $sql , ARRAY_A);
+    }
+
+    // To show user data
+    public function get_user_meta($user_id){
+        $sql = "SELECT * FROM {$this->user_meta} WHERE user_id = {$user_id} AND meta_key IN ( 'name', 'lastname', 'identify', 'number' )";
+        return $this->wpdb->get_results( $sql);
+    }
+
+    // Search user in event, return joined =  1
+    public function search_user_in_event($id_user, $id_post){
+        $sql ="SELECT joined FROM {$this->table_name} WHERE id_user = {$id_user} AND id_post = {$id_post} AND joined = 1";
+        return $this->wpdb->get_var( $sql);
+    }
+
 }
+
+
 
 
 

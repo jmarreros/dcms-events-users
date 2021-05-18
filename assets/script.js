@@ -115,24 +115,96 @@
     });
 
 
-    // Validate children (acompañante)
+    // 🚀 Validate children (acompañante)
     $('.list-children li .cvalidate').click(function(e){
         e.preventDefault();
 
-        let smessage = $(this).closest('li').find('.message');
+        const cspinner = $('.container-list-events .top-list .lds-ring');
+        const id_post = $(this).closest('.inscription-container').find('.btn-join').data('id');
+        let cmessage = $(this).closest('li').find('.message');
+        let identify = $(this).closest('li').find('.cidentify').val();
+        let pin = $(this).closest('li').find('.cpin').val();
 
-        let res = {
-            status:0,
-            message: 'Error 🚀'
+        // Validate inputs
+        if ( ! validate_empty_inputs(identify, pin, cmessage) ) return;
+
+        const data = {
+            action : 'dcms_ajax_validate_children',
+            nonce : dcms_echildren.nchildren,
+            id_post,
+            identify,
+            pin
         }
-        show_message(res, smessage);
+
+        $.ajax({
+			url : dcms_uevents.ajaxurl,
+			type: 'post',
+            data,
+        beforeSend: function(){
+                (cspinner.clone().show()).insertAfter($(e.target));
+                $(cmessage).hide();
+                $(e.target).prop("disabled", true);
+            }
+        })
+        .done( function(res) {
+            res = JSON.parse(res);
+
+            if ( res.status ){
+                $(e.target).closest('li').data('identify', res.identify);
+                $(e.target).hide();
+                $(e.target).closest('li').find('.cclear').show();
+                $(e.target).closest('li').find('.cinputs').hide();
+                $(e.target).closest('li').find('.cdata').html('➜' + res.name).show();
+            }
+
+            show_message(res, cmessage);
+        })
+        .always( function() {
+            $(e.target).prop("disabled", false);
+            $(e.target).parent().find('.lds-ring').remove();
+        });
+
     });
 
     // Clear children
     $('.list-children li .cclear').click(function(e){
         e.preventDefault();
+        $(e.target).hide();
+        $(e.target).closest('li').data('identify', '');
+        $(e.target).closest('li').find('.cvalidate').show();
+        $(e.target).closest('li').find('.cinputs').show();
+        $(e.target).closest('li').find('.cinputs input').val('');
+        $(e.target).closest('li').find('.cdata').html('').hide();
+        $(e.target).closest('li').find('.message').html('').hide();
+    });
 
-    })
+    // Add children
+    $('.container-children .btn-add-children').click(function(e){
+        e.preventDefault();
+        const items = $(e.target).closest('.container-children').find('.list-children li');
+
+        let children_data = [];
+        $.each(items, function(index ,item){
+            console.log(item);
+            children_data.push($(item).data('identify'));
+        });
+
+        console.log(children_data);
+    });
+
+
+    // Aux validate empty strings in inputs
+    function validate_empty_inputs(identify, pin, container){
+        if ( identify.length == 0 || pin.length == 0) {
+            let res = {
+                status:0,
+                message: 'Ingresa algún identificador y PIN'
+            }
+            show_message(res, container);
+            return false;
+        }
+        return true;
+    }
 
 
     // Aux function to show message
