@@ -151,6 +151,7 @@
 
             if ( res.status ){
                 $(e.target).closest('li').data('identify', res.identify);
+                $(e.target).closest('li').data('id', res.id_user);
                 $(e.target).hide();
                 $(e.target).closest('li').find('.cclear').show();
                 $(e.target).closest('li').find('.cinputs').hide();
@@ -171,6 +172,7 @@
         e.preventDefault();
         $(e.target).hide();
         $(e.target).closest('li').data('identify', '');
+        $(e.target).closest('li').data('id', '');
         $(e.target).closest('li').find('.cvalidate').show();
         $(e.target).closest('li').find('.cinputs').show();
         $(e.target).closest('li').find('.cinputs input').val('');
@@ -182,14 +184,58 @@
     $('.container-children .btn-add-children').click(function(e){
         e.preventDefault();
         const items = $(e.target).closest('.container-children').find('.list-children li');
+        const cmessage = $(e.target).closest('.container-children').find('.add-children.message');
+        const cspinner = $('.container-list-events .top-list .lds-ring');
+        const id_post = $(this).closest('.inscription-container').find('.btn-join').data('id');
 
         let children_data = [];
+
         $.each(items, function(index ,item){
-            console.log(item);
-            children_data.push($(item).data('identify'));
+            const id = $(item).data('id');
+            if (id) children_data.push(id);
         });
 
-        console.log(children_data);
+        // Validate empty values
+        if ( children_data.length == 0 ){
+            const res = {
+                    status: 0,
+                    message: 'No hay convivientes a agregar'
+                }
+            show_message(res, cmessage);
+            return;
+        }
+
+        const data = {
+            action : 'dcms_ajax_add_children',
+            nonce : dcms_echildren.nchildren,
+            id_post,
+            children_data,
+        }
+
+        $.ajax({
+			url : dcms_uevents.ajaxurl,
+			type: 'post',
+            data,
+        beforeSend: function(){
+                (cspinner.clone().show()).insertAfter($(e.target));
+                $(cmessage).hide();
+                $(e.target).prop("disabled", true);
+            }
+        })
+        .done( function(res) {
+            res = JSON.parse(res);
+
+            if ( res.status ){
+
+            }
+
+            show_message(res, cmessage);
+        })
+        .always( function() {
+            $(e.target).prop("disabled", false);
+            $(e.target).parent().find('.lds-ring').remove();
+        });
+
     });
 
 

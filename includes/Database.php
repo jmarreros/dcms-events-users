@@ -93,6 +93,7 @@ class Database{
                     `joined_date` datetime DEFAULT NULL,
                     `children` tinyint unsigned DEFAULT 0,
                     `parent` bigint(20) unsigned DEFAULT NULL,
+                    `id_parent` bigint(20) unsigned DEFAULT NULL,
                     PRIMARY KEY (`id`)
             )";
 
@@ -295,6 +296,32 @@ class Database{
     public function search_user_in_event($id_user, $id_post){
         $sql ="SELECT joined FROM {$this->table_name} WHERE id_user = {$id_user} AND id_post = {$id_post} AND joined = 1";
         return $this->wpdb->get_var( $sql);
+    }
+
+    // Save children
+    public function save_children($id_children, $id_post, $id_user, $parent ){
+        // try update
+        $sql = "UPDATE {$this->table_name} SET
+                    joined = 1,
+                    id_parent = {$id_user},
+                    parent = {$parent},
+                    joined_date = NOW()
+                WHERE id_user = {$id_children} AND id_post = {$id_post}";
+
+        $result = $this->wpdb->query( $sql);
+
+        // Not exits, try insert
+
+        // TODO
+        if ( $result == 0 ){
+            $sql = "INSERT INTO {$this->table_name}
+                            (id_user, id_post, joined, joined_date, parent, id_parent)
+                    VALUES ({$id_children}, {$id_post}, 1, NOW(), {$parent}, {$id_user})";
+
+            $result = $this->wpdb->query( $sql);
+        }
+
+        error_log(print_r($result,true));
     }
 
 }

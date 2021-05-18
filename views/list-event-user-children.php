@@ -33,7 +33,7 @@ $count_children = $event->children;
             Agregar convivientes
         </button>
 
-        <section class="message">
+        <section class="add-children message">
         </section>
     </section>
 <?php endif; ?>

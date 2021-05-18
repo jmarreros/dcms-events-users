@@ -8,10 +8,12 @@ use dcms\event\helpers\Helper;
 // Event class
 class Event{
     public function __construct(){
+        // Add user event
         add_action('wp_ajax_dcms_ajax_update_join',[ $this, 'join_user_event' ]);
 
         //Children
         add_action('wp_ajax_dcms_ajax_validate_children',[ $this, 'validate_identify_children' ]);
+        add_action('wp_ajax_dcms_ajax_add_children',[ $this, 'add_children_event' ]);
     }
 
     // Update the participation of the user in an event
@@ -109,6 +111,34 @@ class Event{
 
         echo json_encode($res);
         wp_die();
+    }
+
+    // Add children
+    public function add_children_event(){
+        // Validate nonce
+        $this->validate_nonce('ajax-nonce-event-children');
+
+        $id_post    = intval($_POST['id_post']);
+        $id_user    = get_current_user_id();
+        $identify_user = get_user_meta($id_user, 'identify', true);
+        $ids_children = $_POST['children_data'];
+
+        $db = new Database();
+        if ( $ids_children && count($ids_children) <= DCMS_MAX_CHILDREN ){
+            foreach($ids_children as $id_children ){
+                $result = $db->save_children($id_children, $id_post, $id_user, $identify_user);
+            }
+        }
+
+        // If all is ok
+        $res = [
+            'status' => 1,
+            'message' => "🚀🚀🚀🚀🚀"
+        ];
+
+        echo json_encode($res);
+        wp_die();
+
     }
 
     // Aux - Security, verify nonce

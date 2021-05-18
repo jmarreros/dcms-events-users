@@ -233,6 +233,10 @@ a.button.disabled {
   display: none;
 }
 
+.container-children section.add-children.message {
+  margin-top: 16px;
+}
+
 .list-children .cdata {
   margin-top: 10px;
 }
