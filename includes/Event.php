@@ -23,16 +23,16 @@ class Event{
 
         $id_post = intval($_POST['id_post']);
         $id_user = get_current_user_id();
+        $identify_user = get_user_meta($id_user, 'identify', true);
 
         //$joined = intval($_POST['joined']);
         $joined = 1; // New condition, only allow joined
-
 
         $children = intval($_POST['children']);
         if ( $children > DCMS_MAX_CHILDREN ) $children = 0;
 
         $db = new Database();
-        $result = $db->save_join_user_to_event($id_post, $id_user, $children);
+        $result = $db->save_join_user_to_event($id_post, $id_user, $children, $identify_user);
 
         // Validate if updated rows > 0
         $this->validate_updated($result);
@@ -123,6 +123,7 @@ class Event{
         $identify_user = get_user_meta($id_user, 'identify', true);
         $ids_children = $_POST['children_data'];
 
+        $result = 0;
         $db = new Database();
         if ( $ids_children && count($ids_children) <= DCMS_MAX_CHILDREN ){
             foreach($ids_children as $id_children ){
@@ -130,10 +131,12 @@ class Event{
             }
         }
 
+        $this->validate_add_children($result);
+
         // If all is ok
         $res = [
             'status' => 1,
-            'message' => "🚀🚀🚀🚀🚀"
+            'message' => "➜ Los convivientes se agregaron correctamente"
         ];
 
         echo json_encode($res);
@@ -159,6 +162,18 @@ class Event{
             $res = [
                 'status' => 0,
                 'message' => '✋ No se puede actualizar su participación en el evento!'
+            ];
+            echo json_encode($res);
+            wp_die();
+        }
+    }
+
+    // Aux - Validate if the rows affected are > 0 for adding children
+    private function validate_add_children($result){
+        if ( ! $result ) {
+            $res = [
+                'status' => 0,
+                'message' => '✋ No fue posible agregar convivientes!'
             ];
             echo json_encode($res);
             wp_die();

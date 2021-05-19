@@ -9,7 +9,7 @@ class Database{
     private $table_name;
     private $user_meta;
     private $post_event;
-
+    private $table_users;
 
     public function __construct(){
         global $wpdb;
@@ -18,6 +18,7 @@ class Database{
         $this->table_name = $this->wpdb->prefix . 'dcms_event_users';
         $this->user_meta = $this->wpdb->prefix.'usermeta';
         $this->post_event = $this->wpdb->prefix.'posts';
+        $this->table_users =  $this->wpdb->prefix.'users';
 
     }
 
@@ -186,7 +187,7 @@ class Database{
     // Get all events avaliable for a specific user
     public function get_events_for_user($id_user){
 
-        $sql = "SELECT eu.id_post, eu.joined, eu.joined_date, eu.children, eu.parent, p.post_title, p.post_content
+        $sql = "SELECT eu.id_user, eu.id_post, eu.joined, eu.joined_date, eu.children, eu.parent, p.post_title, p.post_content
                 FROM {$this->table_name} eu
                 INNER JOIN {$this->post_event} p ON p.ID =  eu.id_post
                 WHERE eu.id_user = {$id_user} AND  p.post_status = 'publish'";
@@ -311,17 +312,27 @@ class Database{
         $result = $this->wpdb->query( $sql);
 
         // Not exits, try insert
-
-        // TODO
         if ( $result == 0 ){
             $sql = "INSERT INTO {$this->table_name}
                             (id_user, id_post, joined, joined_date, parent, id_parent)
                     VALUES ({$id_children}, {$id_post}, 1, NOW(), {$parent}, {$id_user})";
-
             $result = $this->wpdb->query( $sql);
         }
+        return $result;
+    }
+
+    // Get children user for the event
+    public function get_children_user($id_user, $id_post){
+        $sql = "SELECT eu.id_user, u.user_login as identify, display_name as name
+                FROM {$this->table_name} eu
+                INNER JOIN {$this->table_users} u ON u.ID = eu.id_user
+                WHERE eu.id_post = {$id_post} AND eu.id_parent = {$id_user} AND eu.joined = 1";
+
+        $result = $this->wpdb->get_results( $sql, ARRAY_A);
 
         error_log(print_r($result,true));
+
+        return $result;
     }
 
 }

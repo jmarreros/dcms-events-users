@@ -97,6 +97,7 @@
                             // Show children for the event
                             if ( $enable_fases && ! $show_fase1) {
                                 // Call view
+                                $children =  $db->get_children_user($event->id_user, $event->id_post);
                                 include 'list-event-user-children.php';
                             }
                             ?>

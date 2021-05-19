@@ -1,11 +1,12 @@
 <?php
 // call from list-events-user.php
+// Pass:
+// $children
 
-// $event
-$count_children = $event->children;
+$count_children = DCMS_MAX_CHILDREN;
 ?>
 
-<?php if ($count_children > 0 ) : ?>
+<?php if ( count($children) ==0 ) : ?>
     <section class="container-children">
         <div class="message-top">
             Ingresa los convivientes que quieres registrar:
@@ -35,5 +36,19 @@ $count_children = $event->children;
 
         <section class="add-children message">
         </section>
+    </section>
+<?php else: ?>
+    <section class="container-children">
+        <div class="message-top">
+            <strong>Convivientes agregados:</strong>
+        </div>
+        <?php
+            echo "<div class=></div>";
+            foreach( $children as $child){
+                echo "<div class='added-children'>";
+                echo "➜ " . $child['identify'] . " - ". $child['name'];
+                echo "</div>";
+            }
+        ?>
     </section>
 <?php endif; ?>
