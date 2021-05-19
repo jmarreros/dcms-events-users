@@ -202,17 +202,3 @@
     transform: rotate(360deg);
   }
 }
-
-/* Metabox */
-.dcms-fases {
-  padding: 6px;
-}
-
-.dcms-fases label {
-  width: 100%;
-  display: block;
-}
-
-.dcms-fases .dcms-limit-dates label:first-child {
-  margin-bottom: 8px;
-}

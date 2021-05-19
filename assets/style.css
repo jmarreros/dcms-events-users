@@ -70,9 +70,16 @@
   text-decoration: underline;
 }
 
-.terms-conditions #event-conditions {
+.container-question .question-children,
+.terms-conditions .event-conditions {
   width: 20px;
   height: 20px;
+  cursor: pointer;
+}
+
+.terms-conditions label,
+.container-question label {
+  cursor: pointer;
 }
 
 section.message,
@@ -237,6 +244,14 @@ a.button.disabled {
   margin-top: 16px;
 }
 
+.container-children {
+  display: none;
+}
+
 .list-children .cdata {
   margin-top: 10px;
+}
+
+.container-question {
+  margin: 10px auto;
 }

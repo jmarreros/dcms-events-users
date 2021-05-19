@@ -52,10 +52,8 @@ final class Loader{
 		define( 'DCMS_EVENT_SIDEBAR', 'sporting-sidebar-user');
 		define( 'DCMS_EVENT_LIST', 'sporting-event-list');
 
-		// Fases
-		define( 'DCMS_ENABLE_FASES', 'event-enable-fases');
-		define( 'DCMS_FASE_1', 'event-fase-1');
-		define( 'DCMS_FASE_2', 'event-fase-2');
+		// Convivientes
+		define( 'DCMS_ENABLE_CONVIVIENTES', 'event-enable-convivientes');
 		define( 'DCMS_MAX_CHILDREN', 3);
 
 	}

@@ -40,40 +40,52 @@
 	});
 
     // Accept terms and conditions
-    $('.container-list-events #event-conditions').click(function(){
+    $('.container-list-events .event-conditions').click(function(){
         const button = $(this).closest('.item-event').find('.btn-join');
-        const count = $(this).closest('.item-event').find('.select-children input');
-        const container = $(this).closest('.item-event').find('.inscription-container');
+        const container_event = $(this).closest('.item-event').find('.inscription-container');
+        const container_children = $(this).closest('.item-event').find('.container-children');
+        const allow_children = $(this).closest('.item-event').find('.container-question input');
 
         if ( $(this).prop('checked') ){
             button.prop("disabled", false);
-            count.prop("disabled", false);
-            container.addClass('accept');
+            allow_children.prop("disabled", false);
+            container_event.addClass('accept');
         } else {
             button.prop("disabled", true);
-            count.prop("disabled", true);
-            container.removeClass('accept');
+            container_children.hide();
+            allow_children.prop("disabled", true);
+            allow_children.prop( "checked", false );
+            container_event.removeClass('accept');
         }
     });
 
-    // Update Events User
+    // Allow children
+    $('.container-question .question-children').click(function(e){
+        const container_children = $(this).closest('.item-event').find('.container-children');
+
+        if ( $(this).prop('checked') ){
+            container_children.show();
+        } else {
+            container_children.hide();
+        }
+    });
+
+
+    // Join individual user event
     $('.container-list-events .btn-join').click(function(e){
         e.preventDefault();
 
-        const smessage = '.container-list-events section.message';
+        const smessage = $('.container-list-events section.message-join-event');
         const sspinner = '.container-list-events .top-list .lds-ring';
-        const scontainer = '.container-list-events';
 
         const id_post = $(this).data('id');
-        const count = $(this).closest('.item-event').find('.select-children input:checked').val() ?? '0';
         let joined = $(this).data('joined');
 
         const data = {
             action : 'dcms_ajax_update_join',
             nonce : dcms_uevents.nevent,
             id_post,
-            joined,
-            children: parseInt(count),
+            joined
         }
 
         $.ajax({
@@ -105,7 +117,7 @@
                 $(e.target).closest('.item-event').find('.terms-conditions').remove();
             }
 
-            show_message(res, scontainer);
+            show_message(res, smessage);
         })
         .always( function() {
             $(e.target).parent().find('.lds-ring').remove();
@@ -114,8 +126,7 @@
 
     });
 
-
-    // 🚀 Validate children (acompañante)
+    // Validate children (acompañante)
     $('.list-children li .cvalidate').click(function(e){
         e.preventDefault();
 
@@ -183,6 +194,8 @@
     // Add children
     $('.container-children .btn-add-children').click(function(e){
         e.preventDefault();
+
+        const button_join = $(e.target).closest('.item-event').find('.btn-join');
         const items = $(e.target).closest('.container-children').find('.list-children li');
         const cmessage = $(e.target).closest('.container-children').find('.add-children.message');
         const cspinner = $('.container-list-events .top-list .lds-ring');
@@ -223,10 +236,18 @@
             }
         })
         .done( function(res) {
+
+            // user inscription
+            button_join.trigger('click');
+
             res = JSON.parse(res);
 
             if ( res.status ){
-
+                $(e.target).closest('.item-event').find('.container-question').remove();
+                $(e.target).closest('.item-event').find('.list-children .message').remove();
+                $(e.target).closest('.item-event').find('.list-children .cactions').remove();
+                $(e.target).closest('.item-event').find('.list-children .cinputs').remove();
+                $(e.target).closest('.item-event').find('.container-children .btn-add-children').remove();
             }
 
             show_message(res, cmessage);

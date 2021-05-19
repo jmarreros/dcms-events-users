@@ -4,12 +4,20 @@
 // $children
 
 $count_children = DCMS_MAX_CHILDREN;
+$id_event = $event->id_post;
 ?>
 
-<?php if ( count($children) ==0 ) : ?>
+<?php if ( count($children) == 0 && ! $event->joined ) : ?>
+
+    <section class="container-question">
+        <label>
+            <input type="checkbox" class="question-children"name="question-<?= $id_event ?>"> Quiero agregar convivientes
+        </label>
+    </section>
+
     <section class="container-children">
         <div class="message-top">
-            Ingresa los convivientes que quieres registrar:
+            Ingresa los convivientes que quieres registrar (3 máximo):
         </div>
         <ul class="list-children">
         <?php for($i=0; $i < $count_children; $i++ ): ?>
@@ -37,8 +45,10 @@ $count_children = DCMS_MAX_CHILDREN;
         <section class="add-children message">
         </section>
     </section>
-<?php else: ?>
-    <section class="container-children">
+
+<?php elseif ( count($children) > 0 ) : ?>
+
+    <section class="container-children-data">
         <div class="message-top">
             <strong>Convivientes agregados:</strong>
         </div>
@@ -51,4 +61,5 @@ $count_children = DCMS_MAX_CHILDREN;
             }
         ?>
     </section>
+
 <?php endif; ?>
