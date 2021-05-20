@@ -253,6 +253,14 @@ a.button.disabled {
   display: none;
 }
 
+.container-children-data {
+  margin: 10px auto;
+}
+
+.container-children-data .message-top {
+  margin: 10px auto;
+}
+
 .list-children .cdata {
   margin-top: 10px;
 }

@@ -11,7 +11,7 @@ $id_event = $event->id_post;
 
     <section class="container-question">
         <label>
-            <input type="checkbox" class="question-children"name="question-<?= $id_event ?>"> Quiero agregar convivientes
+            <input type="checkbox" class="question-children"name="question-<?= $id_event ?>" disabled> Quiero agregar convivientes
         </label>
     </section>
 

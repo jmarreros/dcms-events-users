@@ -24,13 +24,8 @@ class Event{
         $id_post = intval($_POST['id_post']);
         $id_user = get_current_user_id();
         $identify_user = 0; // no necesary identify parent for individual inscription
-        //$identify_user  = get_user_meta($id_user, 'identify', true);
 
-        //$joined = intval($_POST['joined']);
         $joined = 1; // New condition, only allow joined
-
-        // $children = intval($_POST['children']);
-        // if ( $children > DCMS_MAX_CHILDREN ) $children = 0;
         $children = 0;
 
         $db = new Database();
@@ -190,3 +185,10 @@ class Event{
 
 
 // $joined ^= 1; // toggle
+
+//$joined = intval($_POST['joined']);
+
+// $children = intval($_POST['children']);
+// if ( $children > DCMS_MAX_CHILDREN ) $children = 0;
+
+//$identify_user  = get_user_meta($id_user, 'identify', true);
