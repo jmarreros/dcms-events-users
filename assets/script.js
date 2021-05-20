@@ -111,7 +111,7 @@
 
                 $(e.target).data('joined', joined);
                 $(e.target).text(text);
-                $(e.target).toggleClass('join').toggleClass('nojoin');
+                $(e.target).removeClass('join').addClass('nojoin');
                 $(e.target).prop("disabled", true);
                 $(e.target).closest('.item-event').find('.select-children input').prop("disabled", true);
                 $(e.target).closest('.item-event').find('.terms-conditions').remove();
@@ -194,8 +194,7 @@
     // Add children
     $('.container-children .btn-add-children').click(function(e){
         e.preventDefault();
-
-        const button_join = $(e.target).closest('.item-event').find('.btn-join');
+;
         const items = $(e.target).closest('.container-children').find('.list-children li');
         const cmessage = $(e.target).closest('.container-children').find('.add-children.message');
         const cspinner = $('.container-list-events .top-list .lds-ring');
@@ -238,15 +237,20 @@
         .done( function(res) {
 
             // user inscription
-            button_join.trigger('click');
+            // button_join.trigger('click');
 
             res = JSON.parse(res);
 
             if ( res.status ){
+                // Revisar clases
+                $(e.target).closest('.item-event').find('.terms-conditions').remove();
+                $(e.target).closest('.item-event').find('.btn-join').removeClass('join').addClass('nojoin').prop('disabled',true).text(dcms_uevents.join);
                 $(e.target).closest('.item-event').find('.container-question').remove();
                 $(e.target).closest('.item-event').find('.list-children .message').remove();
                 $(e.target).closest('.item-event').find('.list-children .cactions').remove();
                 $(e.target).closest('.item-event').find('.list-children .cinputs').remove();
+                $(e.target).closest('.item-event').find('.list-children').addClass('blocked');
+                $(e.target).closest('.item-event').find('.container-children .lds-ring').remove();
                 $(e.target).closest('.item-event').find('.container-children .btn-add-children').remove();
             }
 

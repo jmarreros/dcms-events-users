@@ -23,13 +23,15 @@ class Event{
 
         $id_post = intval($_POST['id_post']);
         $id_user = get_current_user_id();
-        $identify_user = get_user_meta($id_user, 'identify', true);
+        $identify_user = 0; // no necesary identify parent for individual inscription
+        //$identify_user  = get_user_meta($id_user, 'identify', true);
 
         //$joined = intval($_POST['joined']);
         $joined = 1; // New condition, only allow joined
 
-        $children = intval($_POST['children']);
-        if ( $children > DCMS_MAX_CHILDREN ) $children = 0;
+        // $children = intval($_POST['children']);
+        // if ( $children > DCMS_MAX_CHILDREN ) $children = 0;
+        $children = 0;
 
         $db = new Database();
         $result = $db->save_join_user_to_event($id_post, $id_user, $children, $identify_user);
@@ -122,13 +124,18 @@ class Event{
         $id_user    = get_current_user_id();
         $identify_user = get_user_meta($id_user, 'identify', true);
         $ids_children = $_POST['children_data'];
+        $count_children = count($ids_children);
 
         $result = 0;
         $db = new Database();
-        if ( $ids_children && count($ids_children) <= DCMS_MAX_CHILDREN ){
+        if ( $ids_children && $count_children <= DCMS_MAX_CHILDREN ){
+
             foreach($ids_children as $id_children ){
                 $result = $db->save_children($id_children, $id_post, $id_user, $identify_user);
             }
+
+            // Update user inscription
+            $db->save_join_user_to_event($id_post, $id_user, $count_children, $identify_user);
         }
 
         $this->validate_add_children($result);

@@ -199,7 +199,7 @@ class Database{
     public function save_join_user_to_event($id_post, $id_user, $children, $parent = null){
         $sql = "UPDATE {$this->table_name}
                 SET joined = 1, joined_date = NOW(), children = {$children}, parent = {$parent}
-                WHERE id_post = {$id_post} AND id_user = {$id_user} AND joined = 0";
+                WHERE id_post = {$id_post} AND id_user = {$id_user}";
 
         return $this->wpdb->query($sql);
     }
@@ -318,6 +318,7 @@ class Database{
                     VALUES ({$id_children}, {$id_post}, 1, NOW(), {$parent}, {$id_user})";
             $result = $this->wpdb->query( $sql);
         }
+
         return $result;
     }
 

@@ -228,6 +228,11 @@ a.button.disabled {
   background-color: #fbfbfb;
 }
 
+.list-children.blocked li {
+  border: none;
+  padding: 0;
+}
+
 .container-children .message-top {
   margin-top: 14px;
   margin-bottom: 14px;
