@@ -77,13 +77,16 @@ class Event{
         // Id user children
         $children_id = $result[0]['user_id']??0;
 
-        // Validate if $identify user is yet in the event
+        // Validate if $identify user is yet in the event or if has been assigned
+        $message = '';
         $joined = $db->search_user_in_event($children_id, $id_post);
+        if ( $joined == 1 ) $message = "El conviviente ya participa en el evento, seleccione otro";
+        if ( is_null($joined) ) $message = "El conviviente no ha sido asignado a este evento, seleccione otro";
 
-        if ( $joined ){
+        if ( $message != '' ){
             $res = [
                 'status' => 0,
-                'message' => "El usuario ya participa en el evento, seleccione otro",
+                'message' => $message ,
             ];
 
             echo json_encode($res);
@@ -103,7 +106,7 @@ class Event{
             'name' => $children_name . ' ' . $children_lastname,
             'id_user' => $children_id,
             'identify' => $children_identify,
-            'message' => "Usuario encontrado"
+            'message' => "Conviviente encontrado"
         ];
 
         echo json_encode($res);

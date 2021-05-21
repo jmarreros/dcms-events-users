@@ -134,8 +134,13 @@ class Database{
     // Delete specific users for an event
     public function remove_users_event($post_id, $ids_user){
 
-        // Remove user event, delete specific users
         $str_ids_user = '"' . implode('","',  $ids_user ) . '"';
+
+        // First get the id parent to recount children after delete users event
+        $ids_parent = [];
+        $ids_parent = $this->get_parents_children($post_id, $str_ids_user);
+
+        // Remove user event, delete specific users
         $sql = "DELETE FROM {$this->table_name}
                 WHERE id_post = {$post_id} AND id_user IN ($str_ids_user)";
         $res =  $this->wpdb->query($sql);
@@ -147,7 +152,50 @@ class Database{
             }
         }
 
+        // Recount children
+        foreach ($ids_parent as $id) {
+            if ( $id['id_parent'] ){
+                $id_parent = intval($id['id_parent']);
+                if ( $id_parent > 0 ){
+                    $this->recount_children($id_parent, $post_id);
+                }
+            }
+        }
+
         return $res;
+    }
+
+    // Return sisters quantity for and specific user_id and event
+    private function recount_children($id_parent, $post_id){
+        // get id_parent
+        $sql = "UPDATE {$this->table_name} eu, (
+                    SELECT COUNT(id_parent) children
+                    FROM {$this->table_name}
+                    WHERE id_parent = $id_parent AND id_post = $post_id GROUP BY id_parent
+                    ) teu
+                SET eu.children = teu.children
+                WHERE eu.id_user = $id_parent AND eu.id_post = $post_id";
+
+        $result =  $this->wpdb->query($sql);
+
+        // No hay hijos, por lo tanto actualizamos a 0
+        if ( $result == 0){
+            $sql ="UPDATE {$this->table_name} SET children = 0, parent = 0
+                    WHERE id_user = $id_parent AND id_post = $post_id";
+            $result =  $this->wpdb->query($sql);
+        }
+
+        return $result;
+    }
+
+
+    // Get all the parents from as string of ids_users
+    private function get_parents_children($post_id, $str_ids_user){
+
+        $sql = "SELECT DISTINCT id_parent FROM {$this->table_name}
+                WHERE id_post = {$post_id} AND id_user IN ($str_ids_user)";
+
+        return $this->wpdb->get_results($sql, ARRAY_A);
     }
 
     // Insert users event
@@ -282,7 +330,7 @@ class Database{
         $sql = "SELECT user_id, COUNT(user_id) AS count FROM {$this->user_meta}
                 WHERE ( meta_key = 'identify' AND meta_value = '{$identify}' )
                         || (meta_key = 'pin' AND meta_value = '{$pin}' )
-                GROUP BY user_id";
+                GROUP BY user_id having COUNT(user_id)=2";
 
         return $this->wpdb->get_results( $sql , ARRAY_A);
     }
@@ -293,9 +341,9 @@ class Database{
         return $this->wpdb->get_results( $sql);
     }
 
-    // Search user in event, return joined =  1
+    // Search user in event, return joined =  1 , 0 , null, null is not assignated to the event
     public function search_user_in_event($id_user, $id_post){
-        $sql ="SELECT joined FROM {$this->table_name} WHERE id_user = {$id_user} AND id_post = {$id_post} AND joined = 1";
+        $sql ="SELECT joined FROM {$this->table_name} WHERE id_user = {$id_user} AND id_post = {$id_post}";
         return $this->wpdb->get_var( $sql);
     }
 
@@ -331,22 +379,7 @@ class Database{
 
         $result = $this->wpdb->get_results( $sql, ARRAY_A);
 
-        error_log(print_r($result,true));
-
         return $result;
     }
 
 }
-
-
-
-
-
-// // Save Join/unjoin user to an event
-// public function save_join_user_to_event($joined, $children, $id_post, $id_user){
-//     $sql = "UPDATE {$this->table_name}
-//             SET joined = {$joined}, joined_date = NOW(), children = {$children}
-//             WHERE id_post = {$id_post} AND id_user = {$id_user}";
-
-//     return $this->wpdb->query($sql);
-// }
