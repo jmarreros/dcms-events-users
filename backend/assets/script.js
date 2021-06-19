@@ -1,7 +1,6 @@
 (function($){
 
     // to fill string data
-    let str = '';
     let str_ids = '';
     let count = 0;
 
@@ -71,40 +70,56 @@
         count = 0;
         str_ids = '';
         let events_user;
+        let r = Array();
+        let j = -1;
         for(let i = 0; i < res.length; i++){
-            if ( res[i].number ){
 
-                events_user = parseInt(res[i].observation7??0);
+                // events_user = parseInt(res[i].observation7??0);
 
-                if ( condition_count_event >= 0 ){
-                    if ( condition_count_event < events_user ){
-                        continue;
-                    }
-                }
+                // if ( condition_count_event >= 0 ){
+                //     if ( condition_count_event < events_user ){
+                //         continue;
+                //     }
+                // }
 
                 count++;
                 str_ids += res[i].user_id + ',';
-                str += `
-                    <tr>
-                        <td><input type='checkbox' value='${res[i].user_id}' /></td>
-                        <td>${res[i].number}</td>
-                        <td>${res[i].name}</td>
-                        <td>${res[i].lastname}</td>
-                        <td>${res[i].sub_type}</td>
-                        <td>${res[i].soc_type}</td>
-                        <td>${events_user}</td>
-                    </tr>
-                    `;
-            }
+
+                // Optimization
+                r[++j] = "<tr>";
+                r[++j] = "<td><input type='checkbox' value='";
+                r[++j] = res[i].user_id;
+                r[++j] = "' /></td>";
+                r[++j] = "<td>";
+                r[++j] = res[i].number;
+                r[++j] = "</td>";
+                r[++j] = "<td>";
+                r[++j] = res[i].name;
+                r[++j] = "</td>";
+                r[++j] = "<td>";
+                r[++j] = res[i].lastname;
+                r[++j] = "</td>";
+                r[++j] = "<td>";
+                r[++j] = res[i].sub_type;
+                r[++j] = "</td>";
+                r[++j] = "<td>";
+                r[++j] = res[i].soc_type;
+                r[++j] = "</td>";
+                r[++j] = "<td>";
+                r[++j] = events_user;
+                r[++j] = "</td></tr>";
         }
-        $('.tbl-results tr').first().after(str);
+
+
+        $('.tbl-results tr').first().after(r.join(''));
+
         $('.modal-filter .total-info').text(count);
     }
 
     // Fill tbl-users-event
     $('.btn-select-all').click(function(e){
         e.preventDefault();
-        if ( str.length > 0){
+        if ( count > 0){
             $('.tbl-users-event tr').not(':first').remove();
             $('.tbl-results tr').not(':first').clone().insertAfter($('.tbl-users-event tr').first());
             $('#id_user_event').val(str_ids.slice(0, -1)); // hidden field

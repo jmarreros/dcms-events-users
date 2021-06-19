@@ -33,4 +33,3 @@ class Filter{
 // $result = Helper::transform_columns_arr($items);
 // Helper::order_array_column($result); // Order by number
 
-// error_log(print_r($result,true));
