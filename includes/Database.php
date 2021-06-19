@@ -10,15 +10,17 @@ class Database{
     private $user_meta;
     private $post_event;
     private $table_users;
+    private $view_users;
 
     public function __construct(){
         global $wpdb;
 
         $this->wpdb = $wpdb;
-        $this->table_name = $this->wpdb->prefix . 'dcms_event_users';
-        $this->user_meta = $this->wpdb->prefix.'usermeta';
-        $this->post_event = $this->wpdb->prefix.'posts';
-        $this->table_users =  $this->wpdb->prefix.'users';
+        $this->table_name   = $this->wpdb->prefix.'dcms_event_users';
+        $this->view_users   = $this->wpdb->prefix.'dcms_view_users';
+        $this->user_meta    = $this->wpdb->prefix.'usermeta';
+        $this->post_event   = $this->wpdb->prefix.'posts';
+        $this->table_users  = $this->wpdb->prefix.'users';
 
     }
 
@@ -27,55 +29,31 @@ class Database{
 
     // Filter usermeta, filter for the poup
     public function filter_query_params( $numbers, $abonado_types, $socio_types ){
+        $sql = "SELECT `user_id`, `number`, `name`, `lastname`, `sub_type`, `soc_type`, `observation7`,
+                0 as `joined`, 0 as `children`, 0 as `parent`
+                FROM {$this->view_users} WHERE identify <> ''";
 
-        $sql = "";
-        $select     = "SELECT user_id FROM {$this->user_meta} WHERE ";
-        $select_in  = "SELECT user_id FROM {$this->user_meta} WHERE user_id IN ";
-
-        // number filter
+        // Number filter
         if ( isset($numbers) && array_sum($numbers) > 0 ){
-            $sql = "SELECT user_id FROM {$this->user_meta} WHERE meta_key = 'number' ";
-
             if ( isset($numbers[0])  && $numbers[0] > 0 ){
-                $sql = $sql." AND CAST(meta_value AS UNSIGNED) >= {$numbers[0]}";
+                $sql .= " AND CAST(`number` AS UNSIGNED) >= {$numbers[0]}";
             }
             if ( isset($numbers[1]) && $numbers[1] > 0){
-                $sql = $sql." AND CAST(meta_value AS UNSIGNED) <= {$numbers[1]}";
+                $sql .= " AND CAST(`number` AS UNSIGNED) <= {$numbers[1]}";
             }
         }
 
         // abonados type
         if ( ! empty($abonado_types) ){
-            if ( ! empty ($sql) ){
-                $sql = $select_in . "({$sql})
-                                    AND meta_key = 'sub_type'
-                                    AND meta_value IN ({$abonado_types})";
-            } else {
-                $sql = $select . "meta_key = 'sub_type'
-                                  AND meta_value IN ({$abonado_types})";
-            }
+            $sql .= " AND sub_type IN ({$abonado_types})";
         }
 
-        // Socios type
+        // socio type
         if ( ! empty($socio_types) ){
-            if ( ! empty ($sql) ){
-                $sql = $select_in . "({$sql})
-                                    AND meta_key = 'soc_type'
-                                    AND meta_value IN ({$socio_types})";
-            } else {
-                $sql = $select . "meta_key = 'soc_type'
-                                  AND meta_value IN ({$socio_types})";
-            }
+            $sql .= " AND soc_type IN ({$socio_types})";
         }
 
-        // Final query, only with some fields
-        $fields_filter = Helper::array_to_str_quotes(array_keys(Helper::get_filter_fields()));
-
-        if ( empty($sql) ) $sql = '""';
-        $sql = "SELECT user_id, meta_key, meta_value FROM {$this->user_meta} WHERE user_id IN ({$sql})
-                                AND meta_key IN ({$fields_filter}) AND meta_value<>'' ORDER BY user_id";
-
-        return $this->wpdb->get_results( $sql );
+        return $this->wpdb->get_results( $sql, OBJECT);
     }
 
 
@@ -383,3 +361,54 @@ class Database{
     }
 
 }
+
+
+
+// $sql = "";
+//         $select     = "SELECT user_id FROM {$this->user_meta} WHERE ";
+//         $select_in  = "SELECT user_id FROM {$this->user_meta} WHERE user_id IN ";
+
+//         // number filter
+//         if ( isset($numbers) && array_sum($numbers) > 0 ){
+//             $sql = "SELECT user_id FROM {$this->user_meta} WHERE meta_key = 'number' ";
+
+//             if ( isset($numbers[0])  && $numbers[0] > 0 ){
+//                 $sql = $sql." AND CAST(meta_value AS UNSIGNED) >= {$numbers[0]}";
+//             }
+//             if ( isset($numbers[1]) && $numbers[1] > 0){
+//                 $sql = $sql." AND CAST(meta_value AS UNSIGNED) <= {$numbers[1]}";
+//             }
+//         }
+
+//         // abonados type
+//         if ( ! empty($abonado_types) ){
+//             if ( ! empty ($sql) ){
+//                 $sql = $select_in . "({$sql})
+//                                     AND meta_key = 'sub_type'
+//                                     AND meta_value IN ({$abonado_types})";
+//             } else {
+//                 $sql = $select . "meta_key = 'sub_type'
+//                                   AND meta_value IN ({$abonado_types})";
+//             }
+//         }
+
+//         // Socios type
+//         if ( ! empty($socio_types) ){
+//             if ( ! empty ($sql) ){
+//                 $sql = $select_in . "({$sql})
+//                                     AND meta_key = 'soc_type'
+//                                     AND meta_value IN ({$socio_types})";
+//             } else {
+//                 $sql = $select . "meta_key = 'soc_type'
+//                                   AND meta_value IN ({$socio_types})";
+//             }
+//         }
+
+//         // Final query, only with some fields
+//         $fields_filter = Helper::array_to_str_quotes(array_keys(Helper::get_filter_fields()));
+
+//         if ( empty($sql) ) $sql = '""';
+//         $sql = "SELECT user_id, meta_key, meta_value FROM {$this->user_meta} WHERE user_id IN ({$sql})
+//                                 AND meta_key IN ({$fields_filter}) AND meta_value<>'' ORDER BY user_id";
+
+//         return $this->wpdb->get_results( $sql );

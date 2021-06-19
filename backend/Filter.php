@@ -22,12 +22,15 @@ class Filter{
         $db = new Database();
         $items = $db->filter_query_params($numbers, $abonado_types, $socio_types);
 
-        // Transform cols to row
-        $result = Helper::transform_columns_arr($items);
-        Helper::order_array_column($result); // Order by number
-
         // Send data
-        echo json_encode($result);
+        echo json_encode($items);
         wp_die();
     }
 }
+
+
+// // // Transform cols to row
+// $result = Helper::transform_columns_arr($items);
+// Helper::order_array_column($result); // Order by number
+
+// error_log(print_r($result,true));
