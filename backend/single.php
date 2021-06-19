@@ -18,7 +18,7 @@ class Single{
         $screen = get_current_screen();
         $id_post = $post->ID;
         $status_post = $post->post_status;
-        $items = [];
+        $data = [];
 
         if( $screen->post_type == DCMS_EVENT_CPT ) {
 
@@ -29,14 +29,10 @@ class Single{
             if ( $status_post != 'auto-draft' ){
 
                 $db = new Database();
-                $fields_to_show = Helper::array_to_str_quotes(array_keys(Helper::get_filter_fields()));
-                $items = $db->select_users_event($id_post, $fields_to_show);
+                $data = $db->select_users_event($id_post);
             }
 
             $fields = Helper::get_filter_fields();
-            $data = Helper::transform_columns_arr($items);
-
-            Helper::order_array_column($data); // Order by number
             $count = count($data);
 
             include_once ('views/single-list-filter.php');
@@ -70,4 +66,10 @@ class Single{
 
     }
 }
+
+
+
+// $data = Helper::transform_columns_arr($items);
+// Helper::order_array_column($data); // Order by number
+
 

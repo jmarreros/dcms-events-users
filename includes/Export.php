@@ -40,10 +40,7 @@ class Export{
 
         // Data
         $db = new Database();
-        $items = $db->select_users_event_export($id_post, $only_joined);
-
-        $rows = Helper::transform_columns_arr($items);
-        Helper::order_array_column($rows); // Order by number
+        $rows = $db->select_users_event_export($id_post, $only_joined);
 
         // Fill excel body
         $irow = 2;

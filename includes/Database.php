@@ -53,6 +53,8 @@ class Database{
             $sql .= " AND soc_type IN ({$socio_types})";
         }
 
+        $sql .= " ORDER BY CAST(`number` AS UNSIGNED)";
+
         return $this->wpdb->get_results( $sql, OBJECT);
     }
 
@@ -82,22 +84,34 @@ class Database{
 
     // Select saved users event to export
     public function select_users_event_export($id_post, $only_joined){
-        $fields_to_show = Helper::array_to_str_quotes(array_keys(Helper::get_fields_export()));
-        return $this->select_users_event($id_post, $fields_to_show, $only_joined);
-    }
 
-    // Select saved users in a post event
-    public function select_users_event($id_post, $fields_to_show, $only_joined = 0){
+        $fields_to_show = str_replace('"', '`', Helper::array_to_str_quotes(array_keys(Helper::get_fields_export())));
 
-        $sql = "SELECT user_id, meta_key, meta_value, eu.joined, eu.children, eu.parent FROM {$this->table_name} eu
-                INNER JOIN {$this->user_meta} um ON eu.id_user = um.user_id
-                WHERE id_post = {$id_post} AND meta_key in ( {$fields_to_show} )";
+        // return $this->select_users_event($id_post, $fields_to_show, $only_joined);
+
+        $sql = "SELECT `user_id`,{$fields_to_show},`joined`
+                FROM wp_dcms_event_users eu
+                INNER JOIN wp_dcms_view_users vu ON eu.id_user = vu.user_id
+                WHERE id_post = {$id_post}";
 
         if ( $only_joined ) $sql .= " AND joined = 1";
 
-        $sql .= " ORDER BY user_id";
+        $sql .= " ORDER BY CAST(`number` AS UNSIGNED)";
 
-        return $this->wpdb->get_results( $sql );
+        return $this->wpdb->get_results( $sql , ARRAY_A);
+    }
+
+    // Select saved users in a post event
+    public function select_users_event($id_post, $only_joined = 0){
+
+        $sql = "SELECT `user_id`, `number`, `name`, `lastname`, `sub_type`, `soc_type`, `observation7`,
+                `joined`, `children`, `parent`
+                FROM wp_dcms_event_users eu
+                INNER JOIN wp_dcms_view_users vu ON eu.id_user = vu.user_id
+                WHERE id_post = {$id_post}
+                ORDER BY CAST(`number` AS UNSIGNED)";
+
+        return $this->wpdb->get_results( $sql , ARRAY_A);
     }
 
     // Delete users from a post event before insert
@@ -412,3 +426,15 @@ class Database{
 //                                 AND meta_key IN ({$fields_filter}) AND meta_value<>'' ORDER BY user_id";
 
 //         return $this->wpdb->get_results( $sql );
+
+
+
+
+
+// $sql = "SELECT user_id, meta_key, meta_value, eu.joined, eu.children, eu.parent FROM {$this->table_name} eu
+// INNER JOIN {$this->user_meta} um ON eu.id_user = um.user_id
+// WHERE id_post = {$id_post} AND meta_key in ( {$fields_to_show} )";
+
+// if ( $only_joined ) $sql .= " AND joined = 1";
+
+// $sql .= " ORDER BY user_id";

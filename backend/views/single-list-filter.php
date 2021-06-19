@@ -1,6 +1,5 @@
 <?php
 // Vars to pass
-// $items
 // $id_post
 // $data
 // $count
@@ -37,7 +36,6 @@ $count_joins = 0;
                     if ( $data ):
                         $count_joins = 0;
                         foreach ($data as $item) {
-
                             $mark = '';
                             if ( $item['joined'] ){
                                 $mark = 'class="join"';
