@@ -48,6 +48,14 @@
                         ?>
 
                         <section class="inscription-container">
+                            <?php
+                            // Show children for the event
+                            if ( $enable_convivientes ) {
+                                // Call view
+                                $children =  $db->get_children_user($event->id_user, $event->id_post);
+                                include 'list-event-user-children.php';
+                            }
+                            ?>
 
                             <button
                                 type="button"
@@ -58,15 +66,6 @@
                             >
                                 <?= $text_button ?>
                             </button>
-
-                            <?php
-                            // Show children for the event
-                            if ( $enable_convivientes ) {
-                                // Call view
-                                $children =  $db->get_children_user($event->id_user, $event->id_post);
-                                include 'list-event-user-children.php';
-                            }
-                            ?>
 
                             <div class="description"><?= $event->post_content ?></div>
 

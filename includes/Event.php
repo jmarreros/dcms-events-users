@@ -16,23 +16,34 @@ class Event{
         add_action('wp_ajax_dcms_ajax_add_children',[ $this, 'add_children_event' ]);
     }
 
-    // Update the participation of the user in an event
+    // Update the participation of the individual user in an event
     public function join_user_event(){
         // Validate nonce
         $this->validate_nonce('ajax-nonce-event');
 
+        // Event data
         $id_post = intval($_POST['id_post']);
-        $id_user = get_current_user_id();
+        $event_title = get_the_title($id_post);
+
+        //User data
+        $obj_user = wp_get_current_user();
+        $id_user = $obj_user->ID;
+        $name = $obj_user->display_name;
+        $email = $obj_user->user_email;
+
         $identify_user = 0; // no necesary identify parent for individual inscription
 
         $joined = 1; // New condition, only allow joined
-        $children = 0;
+        $children = 0; // individual
 
         $db = new Database();
         $result = $db->save_join_user_to_event($id_post, $id_user, $children, $identify_user);
 
         // Validate if updated rows > 0
         $this->validate_updated($result);
+
+        //Send email user
+        $this->send_email_join_event($name, $email, $event_title);
 
         // Update user meta
         $db->update_count_user_meta($id_user);
@@ -118,9 +129,17 @@ class Event{
         // Validate nonce
         $this->validate_nonce('ajax-nonce-event-children');
 
-        $id_post    = intval($_POST['id_post']);
-        $id_user    = get_current_user_id();
+        // Event data
+        $id_post = intval($_POST['id_post']);
+        $event_title = get_the_title($id_post);
+
+        //User data
+        $obj_user = wp_get_current_user();
+        $id_user = $obj_user->ID;
+        $name = $obj_user->display_name;
+        $email = $obj_user->user_email;
         $identify_user = get_user_meta($id_user, 'identify', true);
+
         $ids_children = $_POST['children_data'];
         $count_children = count($ids_children);
 
@@ -134,6 +153,9 @@ class Event{
 
             // Update user inscription
             $db->save_join_user_to_event($id_post, $id_user, $count_children, $identify_user);
+
+            //Send email user
+            $this->send_email_join_event($name, $email, $event_title);
         }
 
         $this->validate_add_children($result);
@@ -147,6 +169,28 @@ class Event{
         echo json_encode($res);
         wp_die();
 
+    }
+
+    // Send mail join event
+    private function send_email_join_event( $name, $email, $event){
+        $options = get_option( 'dcms_events_options' );
+
+        add_filter( 'wp_mail_from', function(){
+            $options = get_option( 'dcms_events_options' );
+            return $options['dcms_sender_email'];
+        });
+        add_filter( 'wp_mail_from_name', function(){
+            $options = get_option( 'dcms_events_options' );
+            return $options['dcms_sender_name'];
+        });
+
+        $headers = ['Content-Type: text/html; charset=UTF-8'];
+        $subject = $options['dcms_subject_email'];
+        $body    = $options['dcms_text_email'];
+        $body = str_replace( '%name%', $name, $body );
+        $body = str_replace( '%event%', $event, $body );
+
+        return wp_mail( $email, $subject, $body, $headers );
     }
 
     // Aux - Security, verify nonce

@@ -74,13 +74,14 @@
         let j = -1;
         for(let i = 0; i < res.length; i++){
 
-                // events_user = parseInt(res[i].observation7??0);
+                // User events en base a la columna manual observation7
+                events_user = parseInt(res[i].observation7??0);
 
-                // if ( condition_count_event >= 0 ){
-                //     if ( condition_count_event < events_user ){
-                //         continue;
-                //     }
-                // }
+                if ( condition_count_event >= 0 ){
+                    if ( condition_count_event < events_user ){
+                        continue;
+                    }
+                }
 
                 count++;
                 str_ids += res[i].user_id + ',';

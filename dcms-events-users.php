@@ -23,6 +23,7 @@ use dcms\event\includes\Enqueue;
 use dcms\event\includes\Shortcode;
 use dcms\event\includes\Account;
 use dcms\event\includes\Event;
+use dcms\event\includes\Settings;
 use dcms\event\backend\Single;
 use dcms\event\backend\Metabox;
 use dcms\event\backend\Filter;
@@ -87,6 +88,7 @@ final class Loader{
 		new Shortcode();
 		new Account();
 		new Event();
+		new Settings();
 		new Single();
 		new Metabox();
 		new Filter();

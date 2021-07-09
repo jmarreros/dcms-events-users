@@ -30,3 +30,12 @@
 </section>
 
 </div>
+
+<form action="options.php" method="post">
+    <?php
+        settings_fields('dcms_events_options_bd');
+        do_settings_sections('dcms_events_sfields');
+        submit_button();
+    ?>
+</form>
+

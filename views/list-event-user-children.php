@@ -39,7 +39,7 @@ $id_event = $event->id_post;
         </ul>
 
         <button type="button" class="button btn-add-children" >
-            Agregar convivientes
+            Unirse con convivientes
         </button>
 
         <section class="add-children message">

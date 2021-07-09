@@ -254,12 +254,14 @@ class Database{
         $count = $this->wpdb->get_var($sql);
 
         update_user_meta($id_user, DCMS_EVENT_COUNT_META, $count);
+        update_user_meta($id_user, 'observation7', $count);
+
         // set observation7 meta_user to 1
-        if ( ! $is_remove ){
-            update_user_meta($id_user, 'observation7', 1);
-        } else {
-            update_user_meta($id_user, 'observation7', 0);
-        }
+        // if ( ! $is_remove ){
+        //     update_user_meta($id_user, 'observation7', 1);
+        // } else {
+        //     update_user_meta($id_user, 'observation7', 0);
+        // }
     }
 
     // user Account
