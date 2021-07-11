@@ -55,7 +55,7 @@ class Cpt{
             		'label'                 => __( 'Events Sporting', 'dcms-events-users' ),
             		'description'           => __( 'Manage events for Sporting subscritions', 'dcms-events-users' ),
             		'labels'                => $labels,
-            		'supports'              => array( 'title', 'author', 'editor' ),
+            		'supports'              => array( 'title', 'author', 'editor', 'excerpt' ),
             		'taxonomies'            => array(),
             		'hierarchical'          => false,
             		'public'                => true,

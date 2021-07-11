@@ -16,7 +16,7 @@ class Event{
         add_action('wp_ajax_dcms_ajax_add_children',[ $this, 'add_children_event' ]);
     }
 
-    // Update the participation of the individual user in an event
+    // Update the participation of the Individual user in an event
     public function join_user_event(){
         // Validate nonce
         $this->validate_nonce('ajax-nonce-event');
@@ -24,6 +24,7 @@ class Event{
         // Event data
         $id_post = intval($_POST['id_post']);
         $event_title = get_the_title($id_post);
+        $event_excerpt = get_the_excerpt($id_post);
 
         //User data
         $obj_user = wp_get_current_user();
@@ -43,7 +44,7 @@ class Event{
         $this->validate_updated($result);
 
         //Send email user
-        $this->send_email_join_event($name, $email, $event_title);
+        $this->send_email_join_event($name, $email, $event_title, $event_excerpt);
 
         // Update user meta
         $db->update_count_user_meta($id_user);
@@ -132,6 +133,7 @@ class Event{
         // Event data
         $id_post = intval($_POST['id_post']);
         $event_title = get_the_title($id_post);
+        $event_excerpt = get_the_excerpt($id_post);
 
         //User data
         $obj_user = wp_get_current_user();
@@ -140,22 +142,30 @@ class Event{
         $email = $obj_user->user_email;
         $identify_user = get_user_meta($id_user, 'identify', true);
 
+        // Children data
         $ids_children = $_POST['children_data'];
         $count_children = count($ids_children);
+        $children_data = [];
 
         $result = 0;
         $db = new Database();
         if ( $ids_children && $count_children <= DCMS_MAX_CHILDREN ){
 
-            foreach($ids_children as $id_children ){
-                $result = $db->save_children($id_children, $id_post, $id_user, $identify_user);
+            foreach($ids_children as $id_child ){
+                $result = $db->save_children($id_child, $id_post, $id_user, $identify_user);
+
+                //Children data
+                $user_data = get_user_meta($id_child);
+                $child_name = $user_data['name'][0]. ' ' . $user_data['lastname'][0];
+                $child_identify = $user_data['identify'][0];
+                $children_data[$child_identify] = $child_name;
             }
 
             // Update user inscription
             $db->save_join_user_to_event($id_post, $id_user, $count_children, $identify_user);
 
             //Send email user
-            $this->send_email_join_event($name, $email, $event_title);
+            $this->send_email_join_event($name, $email, $event_title, $event_excerpt, $children_data);
         }
 
         $this->validate_add_children($result);
@@ -172,7 +182,7 @@ class Event{
     }
 
     // Send mail join event
-    private function send_email_join_event( $name, $email, $event){
+    private function send_email_join_event( $name, $email, $event_title, $event_excerpt ='', $convivientes = []){
         $options = get_option( 'dcms_events_options' );
 
         add_filter( 'wp_mail_from', function(){
@@ -188,7 +198,20 @@ class Event{
         $subject = $options['dcms_subject_email'];
         $body    = $options['dcms_text_email'];
         $body = str_replace( '%name%', $name, $body );
-        $body = str_replace( '%event%', $event, $body );
+        $body = str_replace( '%event_title%', $event_title, $body );
+        $body = str_replace( '%event_extracto%', $event_excerpt, $body );
+
+        $str = '';
+        if ($convivientes){
+            $str = "Convivientes: <br>";
+            $str .= "<ul>";
+            foreach ($convivientes as $key => $value){
+                $str .= "<li> ID: " . $key . " - " . $value . "</li>";
+            }
+            $str .= "</ul>";
+        }
+        $body = str_replace( '%convivientes%', $str, $body );
+
 
         return wp_mail( $email, $subject, $body, $headers );
     }

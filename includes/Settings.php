@@ -70,7 +70,12 @@ class Settings{
                             [
                              'dcms_option' => 'dcms_events_options',
                              'label_for' => 'dcms_text_email',
-                             'description' => __('Puedes usar %name%, %event% para reemplazar el nombre del usuario y el nombre del evento', 'dcms-events-users')
+                             'description' => __('Puedes usar las siguientes variables que se pueden reemplazar:
+                             %name% (nombre de usuario),
+                             %event_title% (título del evento),
+                             %event_extracto% (extracto del evento),
+                             %convivientes% (lista de convivientes)
+                             ', 'dcms-events-users')
                             ]
         );
     }
