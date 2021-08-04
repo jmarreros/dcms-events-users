@@ -15,11 +15,11 @@ class Settings{
     public function init_configuration(){
         register_setting('dcms_events_options_bd', 'dcms_events_options' );
 
-        $this->fields_new_user();
+        $this->fields_email_config();
     }
 
-    // New user fields
-    private function fields_new_user(){
+    // Fields email configuration
+    private function fields_email_config(){
 
         add_settings_section('dcms_email_section',
                         __('Texto por defecto en correo', 'dcms-events-users'),
