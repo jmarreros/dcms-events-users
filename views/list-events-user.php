@@ -30,13 +30,11 @@
 
                         <h3><?= $event->post_title ?></h3>
 
-                        <?php if ( ! $event->joined ) : ?>
-                            <section class="terms-conditions">
-                                <label><input type="checkbox" class="event-conditions">
-                                Aceptar la <a href="/declaracion-responsable/" target="_blank" checked=''>Declaración de Responsabilidad</a> para habilitar el evento.
-                                </label>
-                            </section>
-                        <?php endif; ?>
+                        <section class="terms-conditions">
+                            <label><input type="checkbox" class="event-conditions">
+                            Aceptar la <a href="/declaracion-responsable/" target="_blank">Declaración de Responsabilidad</a> para habilitar el evento.
+                            </label>
+                        </section>
 
                         <?php
                             $text_button = '';

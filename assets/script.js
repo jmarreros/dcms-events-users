@@ -41,21 +41,24 @@
 
     // Accept terms and conditions
     $('.container-list-events .event-conditions').click(function(){
-        const button = $(this).closest('.item-event').find('.btn-join');
+        const button = $(this).closest('.item-event').find('.btn-join.join');
         const container_event = $(this).closest('.item-event').find('.inscription-container');
         const container_children = $(this).closest('.item-event').find('.container-children');
         const allow_children = $(this).closest('.item-event').find('.container-question input');
+        const container_question = $(this).closest('.item-event').find('.container-question');
 
         if ( $(this).prop('checked') ){
             button.prop("disabled", false);
             allow_children.prop("disabled", false);
             container_event.addClass('accept');
+            container_question.addClass('mark');
         } else {
             button.prop("disabled", true);
             container_children.hide();
             allow_children.prop("disabled", true);
             allow_children.prop( "checked", false );
             container_event.removeClass('accept');
+            container_question.removeClass('mark');
         }
     });
 
@@ -73,10 +76,17 @@
         }
     });
 
-
     // Join individual user event
     $('.container-list-events .btn-join').click(function(e){
         e.preventDefault();
+
+        // Confirmation menssage
+        // if ( $(this).siblings('.container-question').length ){
+        //     if ( ! $(this).siblings('.container-question').prop('checked') ) {
+        //         const confirmation = confirm('¿Estas seguro de continuar sin agregar convivientes?');
+        //         if ( !confirmation ) return;
+        //     }
+        // }
 
         const smessage = $('.container-list-events section.message-join-event');
         const sspinner = '.container-list-events .top-list .lds-ring';
@@ -184,6 +194,33 @@
     // Clear children
     $('.list-children li .cclear').click(function(e){
         e.preventDefault();
+
+        // Remove from database
+        if ( $(this).hasClass('child_db') ){
+
+            $(this).removeClass('child_db');
+            const id_user = $(e.target).data('uid');
+            const id_event = $(e.target).data('eid');
+
+            const data = {
+                action : 'dcms_ajax_remove_child',
+                nonce : dcms_echildren.nchildren,
+                id_user,
+                id_event
+            }
+
+            $.ajax({
+                url : dcms_uevents.ajaxurl,
+                type: 'post',
+                data
+                })
+            .done( function(res) {
+                res = JSON.parse(res);
+                console.log(res);
+            });
+        }
+
+        // Process other controls
         $(e.target).hide();
         $(e.target).closest('li').data('identify', '');
         $(e.target).closest('li').data('id', '');
@@ -192,9 +229,10 @@
         $(e.target).closest('li').find('.cinputs input').val('');
         $(e.target).closest('li').find('.cdata').html('').hide();
         $(e.target).closest('li').find('.message').html('').hide();
+
     });
 
-    // Add children
+    // Add and save children
     $('.container-children .btn-add-children').click(function(e){
         e.preventDefault();
 ;

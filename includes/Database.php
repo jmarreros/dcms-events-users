@@ -376,67 +376,28 @@ class Database{
         return $result;
     }
 
+    // Remove child from specific event
+    public function remove_child_event($id_user, $id_post){
+        $sql = "UPDATE {$this->table_name} SET
+            joined = 0,
+            children = 0,
+            parent = NULL,
+            id_parent = 0
+        WHERE id_user = {$id_user} AND id_post = {$id_post}";
+
+        $result = $this->wpdb->query( $sql);
+
+        if ( $result ){
+            $arr_parents = $this->get_parents_children($id_post, $id_user);
+            $id_parent = $arr_parents[0]['id_parent']??false;
+            if ( $id_parent ) $this->recount_children($id_parent, $id_post);
+        }
+
+        return $result;
+    }
 }
 
 
+//TODO
+// REVISAR EL RECOUNT DE LOS HIJOS
 
-// $sql = "";
-//         $select     = "SELECT user_id FROM {$this->user_meta} WHERE ";
-//         $select_in  = "SELECT user_id FROM {$this->user_meta} WHERE user_id IN ";
-
-//         // number filter
-//         if ( isset($numbers) && array_sum($numbers) > 0 ){
-//             $sql = "SELECT user_id FROM {$this->user_meta} WHERE meta_key = 'number' ";
-
-//             if ( isset($numbers[0])  && $numbers[0] > 0 ){
-//                 $sql = $sql." AND CAST(meta_value AS UNSIGNED) >= {$numbers[0]}";
-//             }
-//             if ( isset($numbers[1]) && $numbers[1] > 0){
-//                 $sql = $sql." AND CAST(meta_value AS UNSIGNED) <= {$numbers[1]}";
-//             }
-//         }
-
-//         // abonados type
-//         if ( ! empty($abonado_types) ){
-//             if ( ! empty ($sql) ){
-//                 $sql = $select_in . "({$sql})
-//                                     AND meta_key = 'sub_type'
-//                                     AND meta_value IN ({$abonado_types})";
-//             } else {
-//                 $sql = $select . "meta_key = 'sub_type'
-//                                   AND meta_value IN ({$abonado_types})";
-//             }
-//         }
-
-//         // Socios type
-//         if ( ! empty($socio_types) ){
-//             if ( ! empty ($sql) ){
-//                 $sql = $select_in . "({$sql})
-//                                     AND meta_key = 'soc_type'
-//                                     AND meta_value IN ({$socio_types})";
-//             } else {
-//                 $sql = $select . "meta_key = 'soc_type'
-//                                   AND meta_value IN ({$socio_types})";
-//             }
-//         }
-
-//         // Final query, only with some fields
-//         $fields_filter = Helper::array_to_str_quotes(array_keys(Helper::get_filter_fields()));
-
-//         if ( empty($sql) ) $sql = '""';
-//         $sql = "SELECT user_id, meta_key, meta_value FROM {$this->user_meta} WHERE user_id IN ({$sql})
-//                                 AND meta_key IN ({$fields_filter}) AND meta_value<>'' ORDER BY user_id";
-
-//         return $this->wpdb->get_results( $sql );
-
-
-
-
-
-// $sql = "SELECT user_id, meta_key, meta_value, eu.joined, eu.children, eu.parent FROM {$this->table_name} eu
-// INNER JOIN {$this->user_meta} um ON eu.id_user = um.user_id
-// WHERE id_post = {$id_post} AND meta_key in ( {$fields_to_show} )";
-
-// if ( $only_joined ) $sql .= " AND joined = 1";
-
-// $sql .= " ORDER BY user_id";

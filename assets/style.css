@@ -267,4 +267,14 @@ a.button.disabled {
 
 .container-question {
   margin: 10px auto;
+  padding: 10px;
+}
+
+.mark {
+  background-color: yellow;
+}
+
+.mark.no-mark {
+  background-color: transparent;
+  font-weight: bold;
 }

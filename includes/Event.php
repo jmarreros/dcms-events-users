@@ -14,6 +14,8 @@ class Event{
         //Children
         add_action('wp_ajax_dcms_ajax_validate_children',[ $this, 'validate_identify_children' ]);
         add_action('wp_ajax_dcms_ajax_add_children',[ $this, 'add_children_event' ]);
+        add_action('wp_ajax_dcms_ajax_remove_child',[ $this, 'remove_child_event' ]);
+
     }
 
     // Update the participation of the Individual user in an event
@@ -119,6 +121,29 @@ class Event{
             'id_user' => $children_id,
             'identify' => $children_identify,
             'message' => "Conviviente encontrado"
+        ];
+
+        echo json_encode($res);
+        wp_die();
+    }
+
+    // Remove specif child from event
+    public function remove_child_event(){
+        // Validate nonce
+        $this->validate_nonce('ajax-nonce-event-children');
+
+        $id_user    = intval($_POST['id_user']);
+        $id_post    = intval($_POST['id_event']);
+
+        // Validate identify and pin
+        $db = new Database();
+
+        $result = $db->remove_child_event($id_user, $id_post);
+
+         // If all is ok
+         $res = [
+            'status' => 1,
+            'message' => "Se eliminó correctamente"
         ];
 
         echo json_encode($res);
