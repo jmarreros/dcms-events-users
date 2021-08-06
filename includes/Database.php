@@ -236,9 +236,9 @@ class Database{
     }
 
     // Save Join user to an event, only allow joined
-    public function save_join_user_to_event($id_post, $id_user, $children, $parent = null){
+    public function save_join_user_to_event($id_post, $id_user, $parent = null){
         $sql = "UPDATE {$this->table_name}
-                SET joined = 1, joined_date = NOW(), children = {$children}, parent = {$parent}
+                SET joined = 1, joined_date = NOW(), parent = {$parent}
                 WHERE id_post = {$id_post} AND id_user = {$id_user}";
 
         return $this->wpdb->query($sql);
@@ -361,6 +361,8 @@ class Database{
             $result = $this->wpdb->query( $sql);
         }
 
+        $this->recount_children($id_user, $id_post);
+
         return $result;
     }
 
@@ -378,6 +380,8 @@ class Database{
 
     // Remove child from specific event
     public function remove_child_event($id_user, $id_post){
+        $id_parent = $this->get_id_parent_child_event($id_post, $id_user);
+
         $sql = "UPDATE {$this->table_name} SET
             joined = 0,
             children = 0,
@@ -387,17 +391,20 @@ class Database{
 
         $result = $this->wpdb->query( $sql);
 
-        if ( $result ){
-            $arr_parents = $this->get_parents_children($id_post, $id_user);
-            $id_parent = $arr_parents[0]['id_parent']??false;
-            if ( $id_parent ) $this->recount_children($id_parent, $id_post);
+        if ( $result && $id_parent ){
+            $this->recount_children($id_parent, $id_post);
         }
 
         return $result;
     }
+
+    // Get parent child
+    private function get_id_parent_child_event($id_post, $id_user){
+        $sql = "SELECT id_parent FROM {$this->table_name}
+        WHERE id_post = {$id_post} AND id_user = {$id_user}";
+
+        return $this->wpdb->get_var($sql);
+    }
+
 }
-
-
-//TODO
-// REVISAR EL RECOUNT DE LOS HIJOS
 

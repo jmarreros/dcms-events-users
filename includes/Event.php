@@ -37,10 +37,9 @@ class Event{
         $identify_user = 0; // no necesary identify parent for individual inscription
 
         $joined = 1; // New condition, only allow joined
-        $children = 0; // individual
 
         $db = new Database();
-        $result = $db->save_join_user_to_event($id_post, $id_user, $children, $identify_user);
+        $result = $db->save_join_user_to_event($id_post, $id_user, $identify_user);
 
         // Validate if updated rows > 0
         $this->validate_updated($result);
@@ -187,7 +186,7 @@ class Event{
             }
 
             // Update user inscription
-            $db->save_join_user_to_event($id_post, $id_user, $count_children, $identify_user);
+            $db->save_join_user_to_event($id_post, $id_user, $identify_user);
 
             //Send email user
             $this->send_email_join_event($name, $email, $event_title, $event_excerpt, $children_data);
