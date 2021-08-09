@@ -98,7 +98,7 @@ class Helper{
             'nif'       => 'NIF',
             'birth'     => 'Fecha Nacimiento',
             'sub_type'  => 'Tipo de Abono',
-            'soc_type'  => 'Tipo de socio',
+            // 'soc_type'  => 'Tipo de socio',
             'address'   => 'Domicilio completo',
             'postal_code'   => 'Código Postal',
             'local'     => 'Localidad',

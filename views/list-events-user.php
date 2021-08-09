@@ -4,6 +4,7 @@
 // $id_user
 // $events
 
+use dcms\event\helpers\Helper;
 ?>
 <section class="container-list-events">
 
@@ -18,27 +19,28 @@
                 <ul class="list-events">
                 <?php foreach ($events as $event):?>
                     <?php
-                        // joined
-                        $joined = $event->joined ? 'nojoin': 'join';
-
                         // metadata event, get enable convivientes
                         $post_id = $event->id_post;
                         $enable_convivientes = get_post_meta($post_id, DCMS_ENABLE_CONVIVIENTES, true );
+                        $has_parent = $event->id_parent > 0;
+                        $is_joined = $event->joined;
                     ?>
 
                     <li class="item-event">
 
                         <h3><?= $event->post_title ?></h3>
 
-                        <section class="terms-conditions">
-                            <label><input type="checkbox" class="event-conditions">
-                            Aceptar la <a href="/declaracion-responsable/" target="_blank">Declaración de Responsabilidad</a> para habilitar el evento.
-                            </label>
-                        </section>
+                        <?php if ( ! $has_parent ) : ?>
+                            <section class="terms-conditions">
+                                <label><input type="checkbox" class="event-conditions">
+                                Aceptar la <a href="/declaracion-responsable/" target="_blank">Declaración de Responsabilidad</a> para habilitar el evento.
+                                </label>
+                            </section>
+                        <?php endif; ?>
 
                         <?php
                             $text_button = '';
-                            if ( $event->joined ):
+                            if ( $is_joined ):
                                 $text_button = __('Inscrito al evento', 'dcms-events-users');
                             else:
                                 $text_button = __('Unirse al evento', 'dcms-events-users');
@@ -47,19 +49,30 @@
 
                         <section class="inscription-container">
                             <?php
-                            // Show children for the event
-                            if ( $enable_convivientes ) {
+
+                           // Show children for the event
+                            if ( $enable_convivientes && ! $has_parent ) {
                                 // Call view
                                 $children =  $db->get_children_user($event->id_user, $event->id_post);
                                 include 'list-event-user-children.php';
                             }
                             ?>
 
+                            <?php
+                            // Show Parent
+                            if ( $has_parent ){
+                                $parent_user = $db->get_user_meta($event->id_parent);
+                                $parent_name      = Helper::search_field_in_meta($parent_user, 'name');
+                                $parent_lastname  = Helper::search_field_in_meta($parent_user, 'lastname');
+
+                                echo "<p><strong>Inscrito por:</strong> " . $parent_name . " " . $parent_lastname . "</p>";
+                            } ?>
+
                             <button
                                 type="button"
-                                class="button btn-join <?= $joined ?>"
+                                class="button btn-join <?= $is_joined ? 'nojoin': 'join' ?>"
                                 data-id="<?= $event->id_post ?>"
-                                data-joined="<?= $event->joined ?>"
+                                data-joined="<?= $is_joined ?>"
                                 disabled
                             >
                                 <?= $text_button ?>

@@ -227,13 +227,14 @@ class Database{
     // Get all events avaliable for a specific user
     public function get_events_for_user($id_user){
 
-        $sql = "SELECT eu.id_user, eu.id_post, eu.joined, eu.joined_date, eu.children, eu.parent, p.post_title, p.post_content
+        $sql = "SELECT eu.id_user, eu.id_post, eu.joined, eu.joined_date, eu.children, eu.parent, eu.id_parent, p.post_title, p.post_content
                 FROM {$this->table_name} eu
                 INNER JOIN {$this->post_event} p ON p.ID =  eu.id_post
                 WHERE eu.id_user = {$id_user} AND  p.post_status = 'publish'";
 
         return $this->wpdb->get_results( $sql );
     }
+
 
     // Save Join user to an event, only allow joined
     public function save_join_user_to_event($id_post, $id_user, $parent = null){
@@ -408,3 +409,11 @@ class Database{
 
 }
 
+
+// // get id_parent if the user has one for a particular event, 0 not id_parent
+// public function get_id_parent_user($id_user, $id_post){
+//     $sql = "SELECT id_parent FROM {$this->table_name}
+//             WHERE id_post = {$id_post} AND id_user = {$id_user}";
+
+//     return $this->wpdb->get_var( $sql );
+// }
