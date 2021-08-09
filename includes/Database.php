@@ -172,7 +172,7 @@ class Database{
 
         // No hay hijos, por lo tanto actualizamos a 0
         if ( $result == 0){
-            $sql ="UPDATE {$this->table_name} SET children = 0, parent = 0
+            $sql ="UPDATE {$this->table_name} SET children = 0, parent = NULL
                     WHERE id_user = $id_parent AND id_post = $post_id";
             $result =  $this->wpdb->query($sql);
         }
@@ -343,12 +343,12 @@ class Database{
     }
 
     // Save children
-    public function save_children($id_children, $id_post, $id_user, $parent ){
+    public function save_children($id_children, $id_post, $parent, $id_user){
         // try update
         $sql = "UPDATE {$this->table_name} SET
                     joined = 1,
-                    id_parent = {$id_user},
                     parent = {$parent},
+                    id_parent = {$id_user},
                     joined_date = NOW()
                 WHERE id_user = {$id_children} AND id_post = {$id_post}";
 
@@ -387,7 +387,7 @@ class Database{
             joined = 0,
             children = 0,
             parent = NULL,
-            id_parent = 0
+            id_parent = NULL
         WHERE id_user = {$id_user} AND id_post = {$id_post}";
 
         $result = $this->wpdb->query( $sql);

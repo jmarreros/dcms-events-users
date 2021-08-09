@@ -34,12 +34,11 @@ class Event{
         $name = $obj_user->display_name;
         $email = $obj_user->user_email;
 
-        $identify_user = 0; // no necesary identify parent for individual inscription
 
         $joined = 1; // New condition, only allow joined
 
         $db = new Database();
-        $result = $db->save_join_user_to_event($id_post, $id_user, $identify_user);
+        $result = $db->save_join_user_to_event($id_post, $id_user);
 
         // Validate if updated rows > 0
         $this->validate_updated($result);
@@ -164,7 +163,7 @@ class Event{
         $id_user = $obj_user->ID;
         $name = $obj_user->display_name;
         $email = $obj_user->user_email;
-        $identify_user = get_user_meta($id_user, 'identify', true);
+        $parent = get_user_meta($id_user, 'identify', true);
 
         // Children data
         $ids_children = $_POST['children_data'];
@@ -176,7 +175,7 @@ class Event{
         if ( $ids_children && $count_children <= DCMS_MAX_CHILDREN ){
 
             foreach($ids_children as $id_child ){
-                $result = $db->save_children($id_child, $id_post, $id_user, $identify_user);
+                $result = $db->save_children($id_child, $id_post, $parent, $id_user);
 
                 //Children data
                 $user_data = get_user_meta($id_child);
@@ -186,7 +185,7 @@ class Event{
             }
 
             // Update user inscription
-            $db->save_join_user_to_event($id_post, $id_user, $identify_user);
+            $db->save_join_user_to_event($id_post, $id_user, $parent);
 
             //Send email user
             $this->send_email_join_event($name, $email, $event_title, $event_excerpt, $children_data);
