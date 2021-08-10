@@ -94,6 +94,7 @@ class Event{
         $joined = $db->search_user_in_event($children_id, $id_post);
         if ( $joined == 1 ) $message = "El conviviente ya participa en el evento, seleccione otro";
         if ( is_null($joined) ) $message = "El conviviente no ha sido asignado a este evento, seleccione otro";
+        if ( $children_id == $id_user ) $message = "Ingresa un conviviente que no seas tu mismo";
 
         if ( $message != '' ){
             $res = [
@@ -175,6 +176,7 @@ class Event{
         if ( $ids_children && $count_children <= DCMS_MAX_CHILDREN ){
 
             foreach($ids_children as $id_child ){
+
                 $result = $db->save_children($id_child, $id_post, $parent, $id_user);
 
                 //Children data
@@ -268,7 +270,7 @@ class Event{
         if ( ! $result ) {
             $res = [
                 'status' => 0,
-                'message' => '✋ No fue posible agregar convivientes!'
+                'message' => '✋ No fue posible agregar algunos convivientes! - Refresca tu navegador'
             ];
             echo json_encode($res);
             wp_die();

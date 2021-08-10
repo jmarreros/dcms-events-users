@@ -362,12 +362,12 @@ class Database{
         $result = $this->wpdb->query( $sql);
 
         // Not exits, try insert
-        if ( $result == 0 ){
-            $sql = "INSERT INTO {$this->table_name}
-                            (id_user, id_post, joined, joined_date, parent, id_parent)
-                    VALUES ({$id_children}, {$id_post}, 1, NOW(), {$parent}, {$id_user})";
-            $result = $this->wpdb->query( $sql);
-        }
+        // if ( $result == 0 ){
+        //     $sql = "INSERT INTO {$this->table_name}
+        //                     (id_user, id_post, joined, joined_date, parent, id_parent)
+        //             VALUES ({$id_children}, {$id_post}, 1, NOW(), {$parent}, {$id_user})";
+        //     $result = $this->wpdb->query( $sql);
+        // }
 
         $this->recount_children($id_user, $id_post);
 
