@@ -237,10 +237,17 @@ class Database{
 
 
     // Save Join user to an event, only allow joined
-    public function save_join_user_to_event($id_post, $id_user, $parent = null){
-        $sql = "UPDATE {$this->table_name}
-                SET joined = 1, joined_date = NOW(), parent = {$parent}
-                WHERE id_post = {$id_post} AND id_user = {$id_user}";
+    public function save_join_user_to_event($id_post, $id_user, $parent = 0){
+
+        if ( $parent == 0 ){
+            $sql = "UPDATE {$this->table_name}
+            SET joined = 1, joined_date = NOW(), parent = NULL
+            WHERE id_post = {$id_post} AND id_user = {$id_user}";
+        } else {
+            $sql = "UPDATE {$this->table_name}
+            SET joined = 1, joined_date = NOW(), parent = {$parent}
+            WHERE id_post = {$id_post} AND id_user = {$id_user}";
+        }
 
         return $this->wpdb->query($sql);
     }
