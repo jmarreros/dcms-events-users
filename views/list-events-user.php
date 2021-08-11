@@ -21,7 +21,10 @@ use dcms\event\helpers\Helper;
                     <?php
                         // metadata event, get enable convivientes
                         $post_id = $event->id_post;
+
                         $enable_convivientes = get_post_meta($post_id, DCMS_ENABLE_CONVIVIENTES, true );
+                        $lock_inscriptions = get_post_meta($post_id, DCMS_LOCK_INSCRIPTIONS, true );
+
                         $has_parent = $event->id_parent > 0;
                         $is_joined = $event->joined;
                     ?>
@@ -30,7 +33,7 @@ use dcms\event\helpers\Helper;
 
                         <h3><?= $event->post_title ?></h3>
 
-                        <?php if ( ! $has_parent ) : ?>
+                        <?php if ( ! $has_parent && ! $lock_inscriptions ) : ?>
                             <section class="terms-conditions">
                                 <label><input type="checkbox" class="event-conditions">
                                 Aceptar la <a href="/declaracion-responsable/" target="_blank">Declaración de Responsabilidad</a> para habilitar el evento.
@@ -43,7 +46,11 @@ use dcms\event\helpers\Helper;
                             if ( $is_joined ):
                                 $text_button = __('Inscrito al evento', 'dcms-events-users');
                             else:
-                                $text_button = __('Unirse al evento', 'dcms-events-users');
+                                if ( $lock_inscriptions ){
+                                    $text_button = __('Evento bloqueado', 'dcms-events-users');
+                                } else {
+                                    $text_button = __('Unirse al evento', 'dcms-events-users');
+                                }
                             endif;
                         ?>
 
