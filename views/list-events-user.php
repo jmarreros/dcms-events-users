@@ -75,6 +75,14 @@ use dcms\event\helpers\Helper;
                                 echo "<p><strong>Inscrito por:</strong> " . $parent_name . " " . $parent_lastname . "</p>";
                             } ?>
 
+
+                            <?php
+                                if ( $is_joined ) {
+                                    echo "<div class='message-joined'>";
+                                    echo "Te has inscrito correctamente al evento, en breve recibirás en tu email la confirmación por parte del Club. <br> Si no lo recibes, no olvides revisar la bandeja de no deseados, Spam, y Promociones";
+                                    echo "</div>";
+                                }
+                            ?>
                             <button
                                 type="button"
                                 class="button btn-join <?= $is_joined ? 'nojoin': 'join' ?>"
