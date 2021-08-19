@@ -361,14 +361,6 @@ class Database{
 
         $result = $this->wpdb->query( $sql);
 
-        // Not exits, try insert
-        // if ( $result == 0 ){
-        //     $sql = "INSERT INTO {$this->table_name}
-        //                     (id_user, id_post, joined, joined_date, parent, id_parent)
-        //             VALUES ({$id_children}, {$id_post}, 1, NOW(), {$parent}, {$id_user})";
-        //     $result = $this->wpdb->query( $sql);
-        // }
-
         $this->recount_children($id_user, $id_post);
 
         return $result;
@@ -414,13 +406,20 @@ class Database{
         return $this->wpdb->get_var($sql);
     }
 
+
+    // Report incribed Events
+    // =======================
+
+
+    // Get all aviable events
+    public function get_avaiable_events(){
+        $sql = "SELECT * FROM {$this->post_event}
+                WHERE post_type = 'events_sporting' AND post_status = 'publish'
+                ORDER BY post_date DESC";
+
+        return $this->wpdb->get_results($sql);
+    }
+
+
+
 }
-
-
-// // get id_parent if the user has one for a particular event, 0 not id_parent
-// public function get_id_parent_user($id_user, $id_post){
-//     $sql = "SELECT id_parent FROM {$this->table_name}
-//             WHERE id_post = {$id_post} AND id_user = {$id_user}";
-
-//     return $this->wpdb->get_var( $sql );
-// }
