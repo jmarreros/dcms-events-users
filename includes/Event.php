@@ -53,7 +53,7 @@ class Event{
         $res = [
             'status' => 1,
             'joined' => $joined,
-            'message' => "✅ Te has inscrito correctamente al Evento",
+            'message' => "✅ Te has inscrito correctamente al Evento, <br> En unas horas recibirás en tu email la confirmación por parte del Club. <br> Si no lo recibes, no olvides revisar la bandeja de no deseados, Spam, y Promociones",
         ];
 
         echo json_encode($res);
@@ -198,7 +198,7 @@ class Event{
         // If all is ok
         $res = [
             'status' => 1,
-            'message' => "➜ Los convivientes se agregaron correctamente"
+            'message' => "➜ Los convivientes se agregaron correctamente <br> En unas horas recibirás en tu email la confirmación por parte del Club. <br> Si no lo recibes, no olvides revisar la bandeja de no deseados, Spam, y Promociones"
         ];
 
         echo json_encode($res);
