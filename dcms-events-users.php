@@ -27,7 +27,6 @@ use dcms\event\includes\Settings;
 use dcms\event\backend\Single;
 use dcms\event\backend\Metabox;
 use dcms\event\backend\Filter;
-use dcms\event\backend\Report;
 use dcms\event\includes\Export;
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -95,7 +94,6 @@ final class Loader{
 		new Metabox();
 		new Filter();
 		new Export();
-		new Report();
 	}
 
 }

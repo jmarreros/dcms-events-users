@@ -410,7 +410,6 @@ class Database{
     // Report incribed Events
     // =======================
 
-
     // Get all aviable events
     public function get_avaiable_events(){
         $sql = "SELECT * FROM {$this->post_event}
@@ -420,6 +419,6 @@ class Database{
         return $this->wpdb->get_results($sql);
     }
 
-
+    // Get all incribed for an specific event
 
 }

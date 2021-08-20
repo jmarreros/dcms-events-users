@@ -120,6 +120,22 @@ class Helper{
         ];
     }
 
+    // Fields to show in incribed screen
+    public static function get_inscribed_user_fields(){
+        return [
+            'identify'  => 'Identificativo', // Login column
+            'pin'       => 'PIN', // Password Column
+            'number'    => 'Numero',
+            'reference' => 'Referencia',
+            'nif'       => 'N.I.F.',
+            'name'      => 'Nombre',
+            'lastname'  => 'Apellidos',
+            'email'     => 'E-MAIL',
+            'children'  => 'Cant Convivientes',
+            'parent'    => 'Inscrito por'
+        ];
+    }
+
 
     // Get fields for sidebar
     public static function get_sidebar_fields_keys(){

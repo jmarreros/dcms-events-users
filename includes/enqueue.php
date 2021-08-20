@@ -28,16 +28,17 @@ class Enqueue{
     public function register_scripts_backend(){
 
         wp_register_script('admin-event-script',
-                            DCMS_EVENT_URL.'/backend/assets/script.js',
+                            DCMS_EVENT_URL.'/backend/assets/event-script.js',
                             ['jquery'],
                             DCMS_EVENT_VERSION,
                             true);
 
-        wp_register_script('admin-event-modal',
-                            DCMS_EVENT_URL.'/backend/assets/modal.js',
+        wp_register_script('admin-report-script',
+                            DCMS_EVENT_URL.'/backend/assets/report-script.js',
                             ['jquery'],
                             DCMS_EVENT_VERSION,
                             true);
+
 
         wp_register_style('admin-event-style',
                             DCMS_EVENT_URL.'/backend/assets/style.css',
