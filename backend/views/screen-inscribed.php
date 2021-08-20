@@ -14,30 +14,43 @@
     <header>
         <form method="post" id="frm-filter" class="frm-filter" action="">
             <section class="container-filter">
-                <?php
-                    echo "<select name='select_event' class='aviable-events'>";
-                    foreach ($aviable_events as $event){
-                        echo "<option value='".$event->ID."' ";
-                        echo selected( $id_event, $event->ID ) . " >";
-                        echo $event->post_title;
-                        echo "</option>";
-                    }
-                    echo "</select>";
-                ?>
-                <button type="submit" id="btn-filter-event" class="btn-search button button-primary">Filtrar</button>
+
+                <?php if ( count($aviable_events) ) : ?>
+                    <?php
+                        echo "<select name='select_event' class='aviable-events'>";
+                        foreach ($aviable_events as $event){
+                            echo "<option value='".$event->ID."' ";
+                            echo selected( $id_event, $event->ID ) . " >";
+                            echo $event->post_title;
+                            echo "</option>";
+                        }
+                        echo "</select>";
+                    ?>
+                    <button type="submit" id="btn-filter-event" class="btn-search button button-primary">Filtrar</button>
+                <?php else : ?>
+                <strong>No hay eventos activos</strong>
+                <?php endif; ?>
             </section>
         </form>
-        <section class="buttons-export"></section>
+
+        <section class="buttons-export">
+            <section class="user-event-info">
+                <?= __('Total Joined: ', 'dcms-events-users') ?><strong> <span class="total-info"><?= count($suscribed_users) ?></span> </strong>
+            </section>
+            <section class="butons-user-event">
+                <a class="btn-export button button-primary" href="<?= admin_url() ?>admin-post.php?action=process_export_list_customers&id_post=<?= $id_event ?>&only_joined=1" target="_blank"><?php _e('Export Joined', 'dcms-events-users') ?></a>
+            </section>
+        </section>
     </header>
 
-    <table class="dcms-table">
+    <table class="dcms-table report-user-event">
         <tr>
             <?php
             foreach($fields_table as $field) {
                 echo "<th>" . $field . "</th>";
             }
             ?>
-            <th></th>
+            <th>Correo</th>
         </tr>
 
         <?php foreach ($suscribed_users as $row):  ?>
@@ -53,8 +66,10 @@
             <td><?= $row['children'] ?></td>
             <td><?= $row['parent'] ?></td>
             <td><a class="resend"
-                data-id="<?= $id_event ?>"
-                data-email="<?= $row->email ?>"
+                data-event-id="<?= $id_event ?>"
+                data-user-id="<?= $row['user_id'] ?>"
+                data-user-name="<?= $row['name'] ?>"
+                data-email="<?= $row['email'] ?>"
             href="#">Reenviar</a></td>
         </tr>
         <?php endforeach; ?>
@@ -65,6 +80,3 @@
 </div>
 
 <?php
-// TODO:
-// Datos del evento y datos del usuario, si tiene hijos
-// send_email_join_event()

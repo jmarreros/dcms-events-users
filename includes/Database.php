@@ -368,9 +368,9 @@ class Database{
 
     // Get children user for the event
     public function get_children_user($id_user, $id_post){
-        $sql = "SELECT eu.id_user, u.user_login as identify, display_name as name
+        $sql = "SELECT eu.id_user, v.identify as `identify`, CONCAT(v.`name`, ' ' , v.`lastname`) as `name`
                 FROM {$this->table_name} eu
-                INNER JOIN {$this->table_users} u ON u.ID = eu.id_user
+                INNER JOIN {$this->view_users} v ON v.user_id = eu.id_user
                 WHERE eu.id_post = {$id_post} AND eu.id_parent = {$id_user} AND eu.joined = 1";
 
         $result = $this->wpdb->get_results( $sql, ARRAY_A);
@@ -413,7 +413,7 @@ class Database{
     // Get all aviable events
     public function get_avaiable_events(){
         $sql = "SELECT * FROM {$this->post_event}
-                WHERE post_type = 'events_sporting' AND post_status = 'publish'
+                WHERE post_type = 'events_sporting' AND post_status in ('publish' , 'private' )
                 ORDER BY post_date DESC";
 
         return $this->wpdb->get_results($sql);

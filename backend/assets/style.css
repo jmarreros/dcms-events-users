@@ -198,6 +198,12 @@
   text-decoration: none;
 }
 
+.container-report header > .buttons-export {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
 /*
 .dcms-table .delete {
   color: #b32d2e;

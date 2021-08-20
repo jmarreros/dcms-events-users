@@ -15,6 +15,7 @@ class Event{
         add_action('wp_ajax_dcms_ajax_validate_children',[ $this, 'validate_identify_children' ]);
         add_action('wp_ajax_dcms_ajax_add_children',[ $this, 'add_children_event' ]);
         add_action('wp_ajax_dcms_ajax_remove_child',[ $this, 'remove_child_event' ]);
+        add_action('wp_ajax_dcms_ajax_resend_mail',[ $this, 'resend_email' ]);
 
     }
 
@@ -206,6 +207,7 @@ class Event{
 
     }
 
+
     // Send mail join event
     private function send_email_join_event( $name, $email, $event_title, $event_excerpt ='', $convivientes = []){
         $options = get_option( 'dcms_events_options' );
@@ -240,6 +242,61 @@ class Event{
 
         return wp_mail( $email, $subject, $body, $headers );
     }
+
+
+    // public function for resending emails
+    public function resend_email(){
+
+        $this->validate_nonce('ajax-report-event');
+
+        // Event data
+        $user_id    = intval($_POST['userID']);
+        $event_id   = intval($_POST['eventID']);
+        $user_name  = $_POST['userName'];
+        $email      = $_POST['email'];
+
+        $event_data = get_post($event_id);
+        $event_title = $event_data->post_title;
+        $event_excerpt = $event_data->post_excerpt;
+
+
+        $data_children = $this->get_arr_children_user($user_id, $event_id);
+
+        $result = $this->send_email_join_event( $user_name, $email, $event_title, $event_excerpt, $data_children );
+
+        if ( ! $result ){
+            $res = [
+                'status' => 0,
+                'message' => "Ocurrió un problema en el reenvío del correo " . $email
+            ];
+        } else {
+            $res = [
+                'status' => 1,
+                'message' => "ok"
+            ];
+        }
+
+        echo json_encode($res);
+        wp_die();
+    }
+
+
+    // Make an Arr children data, for specific user and event
+    public function get_arr_children_user($id_user, $id_post){
+        $children_data = [];
+        $db = new Database();
+        $children = $db->get_children_user($id_user, $id_post);
+
+        $children_data = [];
+        foreach( $children as $child){
+            $child_name = $child['name'];
+            $child_identify = $child['identify'];
+            $children_data[$child_identify] = $child_name;
+        }
+
+        return $children_data;
+    }
+
 
     // Aux - Security, verify nonce
     private function validate_nonce( $nonce_name ){
@@ -278,12 +335,3 @@ class Event{
     }
 }
 
-
-// $joined ^= 1; // toggle
-
-//$joined = intval($_POST['joined']);
-
-// $children = intval($_POST['children']);
-// if ( $children > DCMS_MAX_CHILDREN ) $children = 0;
-
-//$identify_user  = get_user_meta($id_user, 'identify', true);
