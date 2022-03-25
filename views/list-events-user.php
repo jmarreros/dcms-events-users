@@ -93,7 +93,7 @@ use dcms\event\helpers\Helper;
                                 <?= $text_button ?>
                             </button>
 
-                            <div class="description"><?= $event->post_content ?></div>
+                            <div class="description"><?= do_shortcode($event->post_content) ?></div>
 
                         </section>
                     </li>

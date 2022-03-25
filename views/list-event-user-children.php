@@ -13,7 +13,7 @@ $id_event = $event->id_post;
         <?php if ( ! $lock_inscriptions ): ?>
         <section class="container-question">
             <label>
-                <input type="checkbox" class="question-children"name="question-<?= $id_event ?>" disabled> Quiero agregar convivientes
+                <input type="checkbox" class="question-children"name="question-<?= $id_event ?>" disabled> Quiero agregar acompañantes
             </label>
         </section>
         <?php endif; ?>
@@ -22,7 +22,7 @@ $id_event = $event->id_post;
 
         <section class="container-children-data">
         <div class="message-top">
-            <strong>Convivientes agregados:</strong>
+            <strong>Acompañantes agregados:</strong>
         </div>
         <?php
             echo "<div class=></div>";
@@ -38,7 +38,7 @@ $id_event = $event->id_post;
         <?php if ( ! $lock_inscriptions ) : ?>
         <section class="container-question no-mark">
             <label>
-                <input type="checkbox" class="question-children"name="question-<?= $id_event ?>" disabled> Editar convivientes
+                <input type="checkbox" class="question-children"name="question-<?= $id_event ?>" disabled> Editar acompañantes
             </label>
         </section>
         <?php endif; ?>
@@ -51,7 +51,7 @@ $id_event = $event->id_post;
 
         <section class="container-children">
             <div class="message-top">
-                Ingresa los convivientes que quieres registrar (3 máximo):
+                Ingresa el acompañante:
             </div>
             <ul class="list-children">
 
@@ -107,7 +107,7 @@ $id_event = $event->id_post;
             </ul>
 
             <button type="button" class="button btn-add-children" >
-                Unirse con convivientes
+                Unirse con acompañante
             </button>
 
             <section class="add-children message">

@@ -83,7 +83,7 @@
         // Confirmation menssage
         // if ( $(this).siblings('.container-question').length ){
         //     if ( ! $(this).siblings('.container-question').prop('checked') ) {
-        //         const confirmation = confirm('¿Estas seguro de continuar sin agregar convivientes?');
+        //         const confirmation = confirm('¿Estas seguro de continuar sin agregar acompañante?');
         //         if ( !confirmation ) return;
         //     }
         // }
@@ -252,7 +252,7 @@
         if ( children_data.length == 0 ){
             const res = {
                     status: 0,
-                    message: 'No hay convivientes a agregar'
+                    message: 'No hay acompañantes a agregar'
                 }
             show_message(res, cmessage);
             return;

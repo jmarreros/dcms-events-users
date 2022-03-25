@@ -93,9 +93,9 @@ class Event{
         // Validate if $identify user is yet in the event or if has been assigned
         $message = '';
         $joined = $db->search_user_in_event($children_id, $id_post);
-        if ( $joined == 1 ) $message = "El conviviente ya participa en el evento, seleccione otro";
-        if ( is_null($joined) ) $message = "El conviviente no ha sido asignado a este evento, seleccione otro";
-        if ( $children_id == $id_user ) $message = "Ingresa un conviviente que no seas tu mismo";
+        if ( $joined == 1 ) $message = "El acompañante ya participa en el evento, seleccione otro";
+        if ( is_null($joined) ) $message = "El acompañante no ha sido asignado a este evento, seleccione otro";
+        if ( $children_id == $id_user ) $message = "Ingresa un acompañante que no seas tu mismo";
 
         if ( $message != '' ){
             $res = [
@@ -120,7 +120,7 @@ class Event{
             'name' => $children_name . ' ' . $children_lastname,
             'id_user' => $children_id,
             'identify' => $children_identify,
-            'message' => "Conviviente encontrado"
+            'message' => "Acompañante encontrado"
         ];
 
         echo json_encode($res);
@@ -199,7 +199,7 @@ class Event{
         // If all is ok
         $res = [
             'status' => 1,
-            'message' => "➜ Los convivientes se agregaron correctamente <br> En unas horas recibirás en tu email la confirmación por parte del Club. <br> Si no lo recibes, no olvides revisar la bandeja de no deseados, Spam, y Promociones"
+            'message' => "➜ Los acompañantes se agregaron correctamente <br> En unas horas recibirás en tu email la confirmación por parte del Club. <br> Si no lo recibes, no olvides revisar la bandeja de no deseados, Spam, y Promociones"
         ];
 
         echo json_encode($res);
