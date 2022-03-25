@@ -22,7 +22,8 @@ class Submenu{
             __('Event Settings','dcms-events-users'),
             'manage_options',
             'event-settings',
-            [$this, 'submenu_page_settings_callback']
+            [$this, 'submenu_page_settings_callback'],
+            4
         );
         add_submenu_page(
             DCMS_EVENT_MENU,
@@ -30,7 +31,8 @@ class Submenu{
             __('Inscritos por evento','dcms-events-users'),
             'manage_options',
             'inscribed-event',
-            [$this, 'submenu_page_inscribed_callback']
+            [$this, 'submenu_page_inscribed_callback'],
+            3
         );
     }
 
