@@ -33,12 +33,12 @@ use dcms\event\helpers\Helper;
 
                         <h3><?= $event->post_title ?></h3>
 
-                        <?php if ( ! $has_parent && ! $lock_inscriptions ) : ?>
-                            <section class="terms-conditions">
+                        <?php if ( false && ! $has_parent && ! $lock_inscriptions ) : ?>
+                            <!-- <section class="terms-conditions">
                                 <label><input type="checkbox" class="event-conditions">
                                 Aceptar la <a href="/declaracion-responsable/" target="_blank">Declaración de Responsabilidad</a> para habilitar el evento.
                                 </label>
-                            </section>
+                            </section> -->
                         <?php endif; ?>
 
                         <?php
@@ -88,7 +88,7 @@ use dcms\event\helpers\Helper;
                                 class="button btn-join <?= $is_joined ? 'nojoin': 'join' ?>"
                                 data-id="<?= $event->id_post ?>"
                                 data-joined="<?= $is_joined ?>"
-                                disabled
+                               <?php if ($is_joined || $lock_inscriptions) echo "disabled" ?>
                             >
                                 <?= $text_button ?>
                             </button>

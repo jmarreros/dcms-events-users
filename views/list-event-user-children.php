@@ -13,7 +13,7 @@ $id_event = $event->id_post;
         <?php if ( ! $lock_inscriptions ): ?>
         <section class="container-question">
             <label>
-                <input type="checkbox" class="question-children"name="question-<?= $id_event ?>" disabled> Quiero agregar acompañantes
+                <input type="checkbox" class="question-children"name="question-<?= $id_event ?>"> Quiero agregar abonado acompañante
             </label>
         </section>
         <?php endif; ?>
@@ -22,7 +22,7 @@ $id_event = $event->id_post;
 
         <section class="container-children-data">
         <div class="message-top">
-            <strong>Acompañantes agregados:</strong>
+            <strong>Abonado acompañante agregado:</strong>
         </div>
         <?php
             echo "<div class=></div>";
@@ -38,7 +38,7 @@ $id_event = $event->id_post;
         <?php if ( ! $lock_inscriptions ) : ?>
         <section class="container-question no-mark">
             <label>
-                <input type="checkbox" class="question-children"name="question-<?= $id_event ?>" disabled> Editar acompañantes
+                <input type="checkbox" class="question-children"name="question-<?= $id_event ?>"> Editar abonado acompañante
             </label>
         </section>
         <?php endif; ?>
@@ -51,7 +51,7 @@ $id_event = $event->id_post;
 
         <section class="container-children">
             <div class="message-top">
-                Ingresa el acompañante:
+                Ingresa el abonado acompañante:
             </div>
             <ul class="list-children">
 
@@ -107,7 +107,7 @@ $id_event = $event->id_post;
             </ul>
 
             <button type="button" class="button btn-add-children" >
-                Unirse con acompañante
+                Unirse con abonado acompañante
             </button>
 
             <section class="add-children message">

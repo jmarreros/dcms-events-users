@@ -40,27 +40,27 @@
 	});
 
     // Accept terms and conditions
-    $('.container-list-events .event-conditions').click(function(){
-        const button = $(this).closest('.item-event').find('.btn-join.join');
-        const container_event = $(this).closest('.item-event').find('.inscription-container');
-        const container_children = $(this).closest('.item-event').find('.container-children');
-        const allow_children = $(this).closest('.item-event').find('.container-question input');
-        const container_question = $(this).closest('.item-event').find('.container-question');
+    // $('.container-list-events .event-conditions').click(function(){
+    //     const button = $(this).closest('.item-event').find('.btn-join.join');
+    //     const container_event = $(this).closest('.item-event').find('.inscription-container');
+    //     const container_children = $(this).closest('.item-event').find('.container-children');
+    //     const allow_children = $(this).closest('.item-event').find('.container-question input');
+    //     const container_question = $(this).closest('.item-event').find('.container-question');
 
-        if ( $(this).prop('checked') ){
-            button.prop("disabled", false);
-            allow_children.prop("disabled", false);
-            container_event.addClass('accept');
-            container_question.addClass('mark');
-        } else {
-            button.prop("disabled", true);
-            container_children.hide();
-            allow_children.prop("disabled", true);
-            allow_children.prop( "checked", false );
-            container_event.removeClass('accept');
-            container_question.removeClass('mark');
-        }
-    });
+    //     if ( $(this).prop('checked') ){
+    //         button.prop("disabled", false);
+    //         allow_children.prop("disabled", false);
+    //         container_event.addClass('accept');
+    //         container_question.addClass('mark');
+    //     } else {
+    //         button.prop("disabled", true);
+    //         container_children.hide();
+    //         allow_children.prop("disabled", true);
+    //         allow_children.prop( "checked", false );
+    //         container_event.removeClass('accept');
+    //         container_question.removeClass('mark');
+    //     }
+    // });
 
     // Allow children
     $('.container-question .question-children').click(function(e){

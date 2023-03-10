@@ -40,7 +40,7 @@ final class Loader{
 
 	// Define all the constants we need
 	public function define_constants(){
-		define ('DCMS_EVENT_VERSION', '1.5.4');
+		define ('DCMS_EVENT_VERSION', '1.5.5');
 		define ('DCMS_EVENT_PATH', plugin_dir_path( __FILE__ ));
 		define ('DCMS_EVENT_URL', plugin_dir_url( __FILE__ ));
 		define ('DCMS_EVENT_BASE_NAME', plugin_basename( __FILE__ ));
