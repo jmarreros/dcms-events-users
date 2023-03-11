@@ -23,16 +23,16 @@ class Submenu{
             'manage_options',
             'event-settings',
             [$this, 'submenu_page_settings_callback'],
-            4
+            2
         );
         add_submenu_page(
             DCMS_EVENT_MENU,
-            __('Inscritos por evento','dcms-events-users'),
-            __('Inscritos por evento','dcms-events-users'),
+            __('Inscritos seleccionados','dcms-events-users'),
+            __('Inscritos seleccionados','dcms-events-users'),
             'manage_options',
-            'inscribed-event',
-            [$this, 'submenu_page_inscribed_callback'],
-            3
+            'inscribed-selected',
+            [$this, 'submenu_page_inscribed_selected_callback'],
+            2
         );
     }
 
@@ -42,7 +42,7 @@ class Submenu{
     }
 
     // Callback, show view
-    public function submenu_page_inscribed_callback(){
+    public function submenu_page_inscribed_selected_callback(){
 
         wp_enqueue_style('admin-event-style');
 
@@ -66,6 +66,6 @@ class Submenu{
         }
 
         $fields_table    = Helper::get_inscribed_user_fields();
-        include_once (DCMS_EVENT_PATH. 'backend/views/screen-inscribed.php');
+        include_once (DCMS_EVENT_PATH. 'backend/views/inscribed-selected.php');
     }
 }

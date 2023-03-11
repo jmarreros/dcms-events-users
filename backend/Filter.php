@@ -11,7 +11,7 @@ class Filter{
         add_action('wp_ajax_dcms_ajax_filter',[$this, 'filter_data']);
     }
 
-    public function filter_data(){
+    public function filter_data():void{
 
         // Get filters
         $numbers = array_map( 'intval', $_POST['numbers'] );
@@ -23,10 +23,11 @@ class Filter{
         $items = $db->filter_query_params($numbers, $abonado_types, $socio_types);
 
         // Send data
-        echo json_encode($items);
-        wp_die();
+	    echo json_encode($items);
+		wp_die();
     }
 }
+
 
 
 // // // Transform cols to row

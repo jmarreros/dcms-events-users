@@ -5,7 +5,7 @@ namespace dcms\event\backend;
 use dcms\event\includes\Database;
 use dcms\event\helpers\Helper;
 
-// Custom post type class
+
 class Single{
 
     public function __construct(){
@@ -14,7 +14,7 @@ class Single{
     }
 
     // Show filter area and users saved for event
-    public function add_filter_area( $post ){
+    public function add_filter_area( $post ) : void{
         $screen = get_current_screen();
         $id_post = $post->ID;
         $status_post = $post->post_status;
@@ -40,7 +40,7 @@ class Single{
     }
 
     // Save filter list
-    public function save_list_filter( $post_id, $post, $update ){
+    public function save_list_filter( $post_id, $post, $update ):void{
         $ids_insert = [];
         $ids_remove = [];
         $db = new Database();

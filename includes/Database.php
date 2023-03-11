@@ -6,22 +6,19 @@ use dcms\event\helpers\Helper;
 
 class Database{
     private $wpdb;
-    private $table_name;
-    private $user_meta;
-    private $post_event;
-    private $table_users;
-    private $view_users;
+    private string $event_users;
+    private string $user_meta;
+    private string $post_event;
+    private string $view_users;
 
     public function __construct(){
         global $wpdb;
 
         $this->wpdb = $wpdb;
-        $this->table_name   = $this->wpdb->prefix.'dcms_event_users';
+        $this->event_users   = $this->wpdb->prefix.'dcms_event_users';
         $this->view_users   = $this->wpdb->prefix.'dcms_view_users';
         $this->user_meta    = $this->wpdb->prefix.'usermeta';
         $this->post_event   = $this->wpdb->prefix.'posts';
-        $this->table_users  = $this->wpdb->prefix.'users';
-
     }
 
     // User Filters
@@ -65,7 +62,7 @@ class Database{
     // Init activation create table
     public function create_table(){
 
-        $sql = " CREATE TABLE IF NOT EXISTS {$this->table_name} (
+        $sql = " CREATE TABLE IF NOT EXISTS {$this->event_users} (
                     `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
                     `id_user` bigint(20) unsigned DEFAULT NULL,
                     `id_post` bigint(20) unsigned DEFAULT NULL,
@@ -117,7 +114,7 @@ class Database{
     // Delete users from a post event before insert
     public function remove_before_insert($post_id){
         // Delete all but not users joined
-        $sql = "DELETE FROM {$this->table_name}
+        $sql = "DELETE FROM {$this->event_users}
                 WHERE id_post = {$post_id} AND joined != 1";
 
         return $this->wpdb->query($sql);
@@ -133,7 +130,7 @@ class Database{
         $ids_parent = $this->get_parents_children($post_id, $str_ids_user);
 
         // Remove user event, delete specific users
-        $sql = "DELETE FROM {$this->table_name}
+        $sql = "DELETE FROM {$this->event_users}
                 WHERE id_post = {$post_id} AND id_user IN ($str_ids_user)";
         $res =  $this->wpdb->query($sql);
 
@@ -160,9 +157,9 @@ class Database{
     // Return sisters quantity for and specific user_id and event
     private function recount_children($id_parent, $post_id){
         // get id_parent
-        $sql = "UPDATE {$this->table_name} eu, (
+        $sql = "UPDATE {$this->event_users} eu, (
                     SELECT COUNT(id_parent) children
-                    FROM {$this->table_name}
+                    FROM {$this->event_users}
                     WHERE id_parent = $id_parent AND id_post = $post_id GROUP BY id_parent
                     ) teu
                 SET eu.children = teu.children
@@ -172,7 +169,7 @@ class Database{
 
         // No hay hijos, por lo tanto actualizamos a 0
         if ( $result == 0){
-            $sql ="UPDATE {$this->table_name} SET children = 0, parent = NULL
+            $sql ="UPDATE {$this->event_users} SET children = 0, parent = NULL
                     WHERE id_user = $id_parent AND id_post = $post_id";
             $result =  $this->wpdb->query($sql);
         }
@@ -184,7 +181,7 @@ class Database{
     // Get all the parents from as string of ids_users
     private function get_parents_children($post_id, $str_ids_user){
 
-        $sql = "SELECT DISTINCT id_parent FROM {$this->table_name}
+        $sql = "SELECT DISTINCT id_parent FROM {$this->event_users}
                 WHERE id_post = {$post_id} AND id_user IN ($str_ids_user)";
 
         return $this->wpdb->get_results($sql, ARRAY_A);
@@ -194,14 +191,14 @@ class Database{
     public function save_users_event($ids_user, $post_id){
 
         // All users joined for that $post_id
-        $sql = "SELECT id_user FROM {$this->table_name}
+        $sql = "SELECT id_user FROM {$this->event_users}
                     WHERE id_post = {$post_id} AND joined = 1";
 
         $joined =  $this->wpdb->get_results($sql, OBJECT_K); // keys have the id_user
 
 
         // Buil SQL insert
-        $sql_insert = "INSERT INTO {$this->table_name} (id_user, id_post) VALUES ";
+        $sql_insert = "INSERT INTO {$this->event_users} (id_user, id_post) VALUES ";
         $sql_values = "";
 
         foreach ($ids_user as $id_user) {
@@ -228,7 +225,7 @@ class Database{
     public function get_events_for_user($id_user){
 
         $sql = "SELECT eu.id_user, eu.id_post, eu.joined, eu.joined_date, eu.children, eu.parent, eu.id_parent, p.post_title, p.post_content
-                FROM {$this->table_name} eu
+                FROM {$this->event_users} eu
                 INNER JOIN {$this->post_event} p ON p.ID =  eu.id_post
                 WHERE eu.id_user = {$id_user} AND  p.post_status = 'publish'";
 
@@ -240,11 +237,11 @@ class Database{
     public function save_join_user_to_event($id_post, $id_user, $parent = 0){
 
         if ( $parent == 0 ){
-            $sql = "UPDATE {$this->table_name}
+            $sql = "UPDATE {$this->event_users}
             SET joined = 1, joined_date = NOW(), parent = NULL
             WHERE id_post = {$id_post} AND id_user = {$id_user}";
         } else {
-            $sql = "UPDATE {$this->table_name}
+            $sql = "UPDATE {$this->event_users}
             SET joined = 1, joined_date = NOW(), parent = {$parent}
             WHERE id_post = {$id_post} AND id_user = {$id_user}";
         }
@@ -256,7 +253,7 @@ class Database{
     public function update_count_user_meta($id_user, $is_remove = false){
         // Count elements in event_user table
         $sql = "SELECT COUNT(id)
-                FROM {$this->table_name}
+                FROM {$this->event_users}
                 WHERE id_user = {$id_user} AND joined = 1";
 
         $count = $this->wpdb->get_var($sql);
@@ -345,14 +342,14 @@ class Database{
 
     // Search user in event, return joined =  1 , 0 , null, null is not assignated to the event
     public function search_user_in_event($id_user, $id_post){
-        $sql ="SELECT joined FROM {$this->table_name} WHERE id_user = {$id_user} AND id_post = {$id_post}";
+        $sql ="SELECT joined FROM {$this->event_users} WHERE id_user = {$id_user} AND id_post = {$id_post}";
         return $this->wpdb->get_var( $sql);
     }
 
     // Save children
     public function save_children($id_children, $id_post, $parent, $id_user){
         // try update
-        $sql = "UPDATE {$this->table_name} SET
+        $sql = "UPDATE {$this->event_users} SET
                     joined = 1,
                     parent = {$parent},
                     id_parent = {$id_user},
@@ -369,7 +366,7 @@ class Database{
     // Get children user for the event
     public function get_children_user($id_user, $id_post){
         $sql = "SELECT eu.id_user, v.identify as `identify`, CONCAT(v.`name`, ' ' , v.`lastname`) as `name`
-                FROM {$this->table_name} eu
+                FROM {$this->event_users} eu
                 INNER JOIN {$this->view_users} v ON v.user_id = eu.id_user
                 WHERE eu.id_post = {$id_post} AND eu.id_parent = {$id_user} AND eu.joined = 1";
 
@@ -382,7 +379,7 @@ class Database{
     public function remove_child_event($id_user, $id_post){
         $id_parent = $this->get_id_parent_child_event($id_post, $id_user);
 
-        $sql = "UPDATE {$this->table_name} SET
+        $sql = "UPDATE {$this->event_users} SET
             joined = 0,
             children = 0,
             parent = NULL,
@@ -400,7 +397,7 @@ class Database{
 
     // Get parent child
     private function get_id_parent_child_event($id_post, $id_user){
-        $sql = "SELECT id_parent FROM {$this->table_name}
+        $sql = "SELECT id_parent FROM {$this->event_users}
         WHERE id_post = {$id_post} AND id_user = {$id_user}";
 
         return $this->wpdb->get_var($sql);
@@ -410,7 +407,7 @@ class Database{
     // Report incribed Events
     // =======================
 
-    // Get all aviable events
+    // Get all available events
     public function get_avaiable_events(){
         $sql = "SELECT * FROM {$this->post_event}
                 WHERE post_type = 'events_sporting' AND post_status in ('publish' , 'private' )
@@ -419,6 +416,5 @@ class Database{
         return $this->wpdb->get_results($sql);
     }
 
-    // Get all incribed for an specific event
 
 }

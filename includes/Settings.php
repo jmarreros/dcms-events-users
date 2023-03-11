@@ -11,7 +11,7 @@ class Settings{
         add_action('admin_init', [$this, 'init_configuration']);
     }
 
-    // Register seccions and fields
+    // Register sections and fields
     public function init_configuration(){
         register_setting('dcms_events_options_bd', 'dcms_events_options' );
 
@@ -93,7 +93,7 @@ class Settings{
         $id = $args['label_for'];
         $req = isset($args['required']) ? 'required' : '';
         $class = isset($args['class']) ? "class='".$args['class']."'" : '';
-        $desc = isset($args['description']) ? $args['description'] : '';
+        $desc = $args['description'] ?? '';
 
         $options = get_option( $dcms_option );
         $val = isset( $options[$id] ) ? $options[$id] : '';
@@ -109,7 +109,7 @@ class Settings{
     public function dcms_section_textarea_field( $args ){
         $dcms_option = $args['dcms_option'];
         $id = $args['label_for'];
-        $desc = isset($args['description']) ? $args['description'] : '';
+        $desc = $args['description'] ?? '';
 
         $options = get_option( $dcms_option );
         $val = $options[$id];
