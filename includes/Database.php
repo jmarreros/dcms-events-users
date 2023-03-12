@@ -72,6 +72,8 @@ class Database{
                     `children` tinyint unsigned DEFAULT 0,
                     `parent` bigint(20) unsigned DEFAULT NULL,
                     `id_parent` bigint(20) unsigned DEFAULT NULL,
+                    `selected` tinyint(1) DEFAULT 0,
+                    `id_order` bigint(20) unsigned DEFAULT NULL,
                     PRIMARY KEY (`id`)
             )";
 
@@ -81,10 +83,7 @@ class Database{
 
     // Select saved users event to export
     public function select_users_event_export($id_post, $only_joined){
-
         $fields_to_show = str_replace('"', '`', Helper::array_to_str_quotes(array_keys(Helper::get_fields_export())));
-
-        // return $this->select_users_event($id_post, $fields_to_show, $only_joined);
 
         $sql = "SELECT `user_id`,{$fields_to_show},`joined`
                 FROM wp_dcms_event_users eu

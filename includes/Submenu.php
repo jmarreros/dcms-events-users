@@ -2,7 +2,6 @@
 
 namespace dcms\event\includes;
 
-use dcms\event\includes\Database;
 use dcms\event\helpers\Helper;
 
 /**
@@ -46,7 +45,7 @@ class Submenu{
 
         wp_enqueue_style('admin-event-style');
 
-        wp_enqueue_script('admin-report-script');
+        wp_enqueue_script('admin-inscribed-selected');
         wp_localize_script('admin-report-script','dcms_report_event',[
             'ajaxurl'=>admin_url('admin-ajax.php'),
             'nonce' => wp_create_nonce('ajax-report-event')
@@ -55,14 +54,14 @@ class Submenu{
         $db = new Database();
 
         $id_event = $_POST['select_event']??0;
-        $aviable_events = $db->get_avaiable_events();
+        $available_events = $db->get_avaiable_events();
 
-        if ( !$id_event && count($aviable_events)){
-            $id_event  = $aviable_events[0]->ID; // get the recent aviable event
+        if ( !$id_event && count($available_events)){
+            $id_event  = $available_events[0]->ID; // get the recent available event
         }
 
         if ( $id_event ){
-            $suscribed_users = $db->select_users_event_export($id_event, true);
+            $subscribed_users = $db->select_users_event_export($id_event, true);
         }
 
         $fields_table    = Helper::get_inscribed_user_fields();

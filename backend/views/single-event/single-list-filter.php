@@ -77,4 +77,4 @@ $count_joins = 0;
 
 </section>
 
-<?php include_once('modal-list-filter.php'); ?>
+<?php include_once( 'partials/modal-list-filter.php' ); ?>

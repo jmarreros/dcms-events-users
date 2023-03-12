@@ -23,8 +23,8 @@ class Single{
         if( $screen->post_type == DCMS_EVENT_CPT ) {
 
             wp_enqueue_style('admin-event-style');
-            wp_enqueue_script('admin-event-script');
-            wp_localize_script('admin-event-script','dcms_vars',['ajaxurl'=>admin_url('admin-ajax.php')]);
+            wp_enqueue_script('admin-single-event');
+            wp_localize_script('admin-single-event','dcms_vars',['ajaxurl'=>admin_url('admin-ajax.php')]);
 
             if ( $status_post != 'auto-draft' ){
 
@@ -35,7 +35,7 @@ class Single{
             $fields = Helper::get_filter_fields();
             $count = count($data);
 
-            include_once ('views/single-list-filter.php');
+            include_once( 'views/single-event/single-list-filter.php' );
         }
     }
 
@@ -67,9 +67,5 @@ class Single{
     }
 }
 
-
-
-// $data = Helper::transform_columns_arr($items);
-// Helper::order_array_column($data); // Order by number
 
 

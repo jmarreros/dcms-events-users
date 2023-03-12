@@ -1,32 +1,31 @@
 <?php
-// $aviable_events
-// $id_event
-// $suscribed_users
-// $fields_table
+/** @var array $available_events */
+/** @var int $id_event */
+/** @var array $fields_table */
+/** @var array $subscribed_users */
 ?>
-
     <div class="wrap">
         <header>
             <form method="post" id="frm-filter" class="frm-filter" action="">
                 <div class="container-filter">
                     <label for="select_event">Seleccionar evento: </label>
-			        <?php if ( count( $aviable_events ) ) : ?>
-				        <?php
-				        echo "<select name='select_event' id='select_event'>";
-				        foreach ( $aviable_events as $event ) {
-					        echo "<option value='" . $event->ID . "' ";
-					        echo selected( $id_event, $event->ID ) . " >";
-					        echo $event->post_title;
-					        echo "</option>";
-				        }
-				        echo "</select>";
-				        ?>
+					<?php if ( count( $available_events ) ) : ?>
+						<?php
+						echo "<select name='select_event' id='select_event'>";
+						foreach ( $available_events as $event ) {
+							echo "<option value='" . $event->ID . "' ";
+							echo selected( $id_event, $event->ID ) . " >";
+							echo $event->post_title;
+							echo "</option>";
+						}
+						echo "</select>";
+						?>
                         <button type="submit" id="btn-filter-event" class="btn-search button button-primary">
                             Filtrar
                         </button>
-			        <?php else : ?>
+					<?php else : ?>
                         <strong>No hay eventos activos</strong>
-			        <?php endif; ?>
+					<?php endif; ?>
                 </div>
             </form>
         </header>
@@ -36,30 +35,30 @@
 
             <section class="container-inscribed">
                 <div class="header-info">
-                        <div class="user-event-info">
-					        <?= __( 'Total Joined: ', 'dcms-events-users' ) ?><strong> <span
-                                        class="total-info"><?= count( $suscribed_users ) ?></span> </strong>
-                        </div>
-                        <div class="butons-user-event">
-                            <a class="btn-export button button-primary"
-                               href="<?= admin_url() ?>admin-post.php?action=process_export_list_customers&id_post=<?= $id_event ?>&only_joined=1"
-                               target="_blank"><?php _e( 'Export Joined', 'dcms-events-users' ) ?></a>
-                        </div>
+                    <div class="user-event-info">
+						<?= __( 'Total Joined: ', 'dcms-events-users' ) ?><strong> <span
+                                    class="total-info"><?= count( $subscribed_users ) ?></span> </strong>
                     </div>
+                    <div class="butons-user-event">
+                        <a class="btn-export button button-primary"
+                           href="<?= admin_url() ?>admin-post.php?action=process_export_list_customers&id_post=<?= $id_event ?>&only_joined=1"
+                           target="_blank"><?php _e( 'Export Joined', 'dcms-events-users' ) ?></a>
+                    </div>
+                </div>
 
 
                 <div class="container-table">
                     <table class="dcms-table report-user-event">
                         <tr>
-					        <?php
-					        foreach ( $fields_table as $field ) {
-						        echo "<th>" . $field . "</th>";
-					        }
-					        ?>
+							<?php
+							foreach ( $fields_table as $field ) {
+								echo "<th>" . $field . "</th>";
+							}
+							?>
                             <th>Correo</th>
                         </tr>
 
-				        <?php foreach ( $suscribed_users as $row ): ?>
+						<?php foreach ( $subscribed_users as $row ): ?>
                             <tr>
                                 <td><?= $row['identify'] ?></td>
                                 <td><?= $row['pin'] ?></td>
@@ -78,7 +77,7 @@
                                        data-email="<?= $row['email'] ?>"
                                        href="#">Reenviar</a></td>
                             </tr>
-				        <?php endforeach; ?>
+						<?php endforeach; ?>
                     </table>
                 </div>
 
@@ -88,6 +87,22 @@
 
         <div class="general-container selected">
             <h2><?php _e( 'Seleccionados evento', 'dcms-events-users' ) ?></h2>
+
+            <div class="header-info">
+                <div class="user-event-info">
+					<?= __( 'Total selected: ', 'dcms-events-users' ) ?><strong> <span
+                                class="total-info">0</span> </strong>
+                </div>
+                <div class="import-file">
+                    <form enctype="multipart/form-data" method="post">
+                        Selecciona algún archivo:
+                        <div>
+                            <input name="upload-file" type="file"/>
+                            <input class="button button-primary" type="submit" value="Importar seleccionados"/>
+                        </div>
+                    </form>
+                </div>
+            </div>
 
             <section class="container-selected">
             </section>
