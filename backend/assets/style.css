@@ -19,7 +19,6 @@
     margin: auto;
     width: 500px;
     position: relative;
-    /* padding: 10px 16px 14px; */
 }
 
 .modal-content .efilters {
@@ -215,8 +214,13 @@
     margin-top: 15px;
 }
 
-.general-container .footer-info .save-notify{
-    margin-top:10px;
+.general-container .footer-info .save-notify {
+    margin-top: 10px;
+}
+
+.general-container .message {
+    margin-top: 10px;
+    font-weight: bold;
 }
 
 @media (max-width: 768px) {

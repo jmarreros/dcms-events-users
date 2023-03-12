@@ -24,10 +24,12 @@ use dcms\event\includes\Shortcode;
 use dcms\event\includes\Account;
 use dcms\event\includes\Event;
 use dcms\event\includes\Settings;
+use dcms\event\includes\Export;
 use dcms\event\backend\single\Single;
 use dcms\event\backend\single\Metabox;
 use dcms\event\backend\single\Filter;
-use dcms\event\includes\Export;
+use dcms\event\backend\inscribed\Selected;
+
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -94,6 +96,7 @@ final class Loader{
 		new Metabox();
 		new Filter();
 		new Export();
+		new Selected();
 	}
 
 }
