@@ -22,10 +22,11 @@ class Inscribed {
 
 		// Get subscribed users
 		if ( $id_event ) {
-			$subscribed_users = $db->select_users_event_export( $id_event, true );
+			$subscribed_users = $db->select_inscribed_users_event( $id_event );
+			$selected_users   = $db->select_selected_users_event( $id_event );
 		}
 
-		$fields_table = Helper::get_inscribed_user_fields();
+		$fields_inscribed_table = Helper::get_inscribed_user_fields();
 		include_once( DCMS_EVENT_PATH . 'backend/views/inscribed-selected/inscribed-selected.php' );
 	}
 }
