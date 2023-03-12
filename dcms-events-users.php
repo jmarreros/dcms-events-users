@@ -24,9 +24,9 @@ use dcms\event\includes\Shortcode;
 use dcms\event\includes\Account;
 use dcms\event\includes\Event;
 use dcms\event\includes\Settings;
-use dcms\event\backend\Single;
-use dcms\event\backend\Metabox;
-use dcms\event\backend\Filter;
+use dcms\event\backend\single\Single;
+use dcms\event\backend\single\Metabox;
+use dcms\event\backend\single\Filter;
 use dcms\event\includes\Export;
 
 if ( ! defined( 'ABSPATH' ) ) {

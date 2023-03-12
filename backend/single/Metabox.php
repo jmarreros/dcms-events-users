@@ -1,6 +1,6 @@
 <?php
 
-namespace dcms\event\backend;
+namespace dcms\event\backend\single;
 
 // Create Metabox for dates event in backend
 class Metabox {
@@ -28,7 +28,7 @@ class Metabox {
 		$enable_convivientes = get_post_meta( $post_id, DCMS_ENABLE_CONVIVIENTES, true );
 		$lock_inscriptions   = get_post_meta( $post_id, DCMS_LOCK_INSCRIPTIONS, true );
 
-		include_once( 'views/single-event/metabox.php' );
+		include_once( DCMS_EVENT_PATH . 'backend/views/single-event/metabox.php' );
 	}
 
 	// Save data metabox
