@@ -14,11 +14,11 @@
 
         if ( confirmation ){
             $.ajax({
-                url : dcms_report_event.ajaxurl,
+                url : dcms_inscribed_selected.ajaxurl,
                 type: 'post',
                 data: {
-                    action : 'dcms_ajax_resend_mail',
-                    nonce : dcms_report_event.nonce,
+                    action : 'dcms_ajax_resend_mail_join_event',
+                    nonce : dcms_inscribed_selected.nonce,
                     userID,
                     eventID,
                     userName,
@@ -27,7 +27,7 @@
                 })
                 .done( function(res) {
                     res = JSON.parse(res);
-                    if (res.status == 0){
+                    if (res.status === 0){
                         alert('Hubo algún error al enviar el correo');
                     }else {
                         $(e.target).text('✅');

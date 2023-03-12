@@ -2,7 +2,7 @@
 
 namespace dcms\event\includes;
 
-use dcms\event\helpers\Helper;
+use dcms\event\backend\inscribed\Inscribed;
 
 /**
  * Class for creating a dashboard submenu
@@ -42,29 +42,14 @@ class Submenu{
 
     // Callback, show view
     public function submenu_page_inscribed_selected_callback(){
+	    wp_enqueue_style('admin-event-style');
 
-        wp_enqueue_style('admin-event-style');
+	    wp_enqueue_script('admin-inscribed-selected');
+	    wp_localize_script('admin-inscribed-selected','dcms_inscribed_selected',[
+		    'ajaxurl'=>admin_url('admin-ajax.php'),
+		    'nonce' => wp_create_nonce('ajax-inscribed-selected')
+	    ]);
 
-        wp_enqueue_script('admin-inscribed-selected');
-        wp_localize_script('admin-report-script','dcms_report_event',[
-            'ajaxurl'=>admin_url('admin-ajax.php'),
-            'nonce' => wp_create_nonce('ajax-report-event')
-        ]);
-
-        $db = new Database();
-
-        $id_event = $_POST['select_event']??0;
-        $available_events = $db->get_avaiable_events();
-
-        if ( !$id_event && count($available_events)){
-            $id_event  = $available_events[0]->ID; // get the recent available event
-        }
-
-        if ( $id_event ){
-            $subscribed_users = $db->select_users_event_export($id_event, true);
-        }
-
-        $fields_table    = Helper::get_inscribed_user_fields();
-        include_once (DCMS_EVENT_PATH. 'backend/views/inscribed-selected.php');
+	    (new Inscribed())->get_inscribed_screen();
     }
 }

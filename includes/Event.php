@@ -15,7 +15,9 @@ class Event{
         add_action('wp_ajax_dcms_ajax_validate_children',[ $this, 'validate_identify_children' ]);
         add_action('wp_ajax_dcms_ajax_add_children',[ $this, 'add_children_event' ]);
         add_action('wp_ajax_dcms_ajax_remove_child',[ $this, 'remove_child_event' ]);
-        add_action('wp_ajax_dcms_ajax_resend_mail',[ $this, 'resend_email' ]);
+
+		// Mailing
+        add_action('wp_ajax_dcms_ajax_resend_mail_join_event',[ $this, 'resend_email_join_event' ]);
 
     }
 
@@ -245,9 +247,9 @@ class Event{
 
 
     // public function for resending emails
-    public function resend_email(){
+    public function resend_email_join_event(){
 
-        $this->validate_nonce('ajax-report-event');
+        $this->validate_nonce('ajax-inscribed-selected');
 
         // Event data
         $user_id    = intval($_POST['userID']);
@@ -282,8 +284,7 @@ class Event{
 
 
     // Make an Arr children data, for specific user and event
-    public function get_arr_children_user($id_user, $id_post){
-        $children_data = [];
+    public function get_arr_children_user($id_user, $id_post): array {
         $db = new Database();
         $children = $db->get_children_user($id_user, $id_post);
 
