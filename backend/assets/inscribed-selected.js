@@ -1,43 +1,42 @@
 (function( $ ) {
 	'use strict';
 
-    // $('#form-upload').submit(function(e){
-    //     e.preventDefault();
-    //
-    //     const fd = new FormData();
-    //     const files = $('#file')[0].files;
-    //
-    //     if (files.length <= 0 ) {
-    //         alert('Tienes que seleccionar algún archivo');
-    //         return;
-    //     }
-    //
-    //     const size = (files[0].size / 1024 / 1024 ).toFixed(2);
-    //     if ( size > 2){
-    //         alert(`Tu archivo pesa ${size}MB. No puedes subir archivos mayores a 2MB`);
-    //         return;
-    //     }
-    //
-    //     fd.append('file',files[0]);
-    //     fd.append('action', 'dcms_ajax_add_file');
-    //     fd.append('nonce', dcmsUpload.nonce);
-    //
-    //     $.ajax({
-    //         url: dcmsUpload.ajaxurl,
-    //         type: 'post',
-    //         dataType: 'json',
-    //         data: fd,
-    //         contentType: false,
-    //         processData: false,
-    //         beforeSend: function(){
-    //             $('#message').text('Enviando...');
-    //             $('#message').show();
-    //         },
-    //         success: function(res){
-    //             $('#message').text(res.message);
-    //         }
-    //     });
-    // });
+    $('#form-upload').submit(function(e){
+        e.preventDefault();
+
+        const fd = new FormData();
+        const files = $('#upload-file')[0].files;
+
+        if (files.length <= 0 ) {
+            alert('Tienes que seleccionar algún archivo');
+            return;
+        }
+
+        const size = (files[0].size / 1024 / 1024 ).toFixed(2);
+        if ( size > 4){
+            alert(`Tu archivo pesa ${size}MB. No puedes subir archivos mayores a 4MB`);
+            return;
+        }
+
+        fd.append('file',files[0]);
+        fd.append('action', 'dcms_ajax_add_file_import_selected');
+        fd.append('nonce', dcms_inscribed_selected.nonce);
+
+        $.ajax({
+            url: dcms_inscribed_selected.ajaxurl,
+            type: 'post',
+            dataType: 'json',
+            data: fd,
+            contentType: false,
+            processData: false,
+            beforeSend: function(){
+                $('#msg-upload').text('Enviando...').show();
+            },
+            success: function(res){
+                $('#msg-upload').text(res.message);
+            }
+        });
+    });
 
     // Resend functionality
     $('.container-inscribed .resend').click( function(e){

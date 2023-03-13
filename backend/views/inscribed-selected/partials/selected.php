@@ -68,7 +68,7 @@
                         <input name="upload-file" id="upload-file" type="file"/>
                         <input class="button button-primary" type="submit" value="Importar seleccionados"/>
                     </div>
-                    <div class="message">El archivo se importó</div>
+                    <div id="msg-upload" class="message"></div>
                 </form>
             </div>
             <div class="save-notify">

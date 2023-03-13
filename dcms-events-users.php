@@ -28,8 +28,7 @@ use dcms\event\includes\Export;
 use dcms\event\backend\single\Single;
 use dcms\event\backend\single\Metabox;
 use dcms\event\backend\single\Filter;
-use dcms\event\backend\inscribed\Selected;
-
+use dcms\event\backend\inscribed\Import;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -37,42 +36,42 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 /**
  * Plugin class to handle settings constants and loading files
-**/
-final class Loader{
+ **/
+final class Loader {
 
 	// Define all the constants we need
-	public function define_constants(){
-		define ('DCMS_EVENT_VERSION', '1.5.5');
-		define ('DCMS_EVENT_PATH', plugin_dir_path( __FILE__ ));
-		define ('DCMS_EVENT_URL', plugin_dir_url( __FILE__ ));
-		define ('DCMS_EVENT_BASE_NAME', plugin_basename( __FILE__ ));
-		define ('DCMS_EVENT_CPT', 'events_sporting');
-		define ('DCMS_EVENT_MENU', 'edit.php?post_type='.DCMS_EVENT_CPT);
-		define ('DCMS_EVENT_COUNT_META', 'dcms_count_event'); //count assign event to user, user meta data
+	public function define_constants() {
+		define( 'DCMS_EVENT_VERSION', '1.5.5' );
+		define( 'DCMS_EVENT_PATH', plugin_dir_path( __FILE__ ) );
+		define( 'DCMS_EVENT_URL', plugin_dir_url( __FILE__ ) );
+		define( 'DCMS_EVENT_BASE_NAME', plugin_basename( __FILE__ ) );
+		define( 'DCMS_EVENT_CPT', 'events_sporting' );
+		define( 'DCMS_EVENT_MENU', 'edit.php?post_type=' . DCMS_EVENT_CPT );
+		define( 'DCMS_EVENT_COUNT_META', 'dcms_count_event' ); //count assign event to user, user meta data
 
 		// Shortcodes
-		define( 'DCMS_EVENT_ACCOUNT', 'sporting-user-account');
-		define( 'DCMS_EVENT_SIDEBAR', 'sporting-sidebar-user');
-		define( 'DCMS_EVENT_LIST', 'sporting-event-list');
+		define( 'DCMS_EVENT_ACCOUNT', 'sporting-user-account' );
+		define( 'DCMS_EVENT_SIDEBAR', 'sporting-sidebar-user' );
+		define( 'DCMS_EVENT_LIST', 'sporting-event-list' );
 
 		// Convivientes
-		define( 'DCMS_ENABLE_CONVIVIENTES', 'event-enable-convivientes');
-		define( 'DCMS_LOCK_INSCRIPTIONS', 'event-lock-inscriptions');
-		define( 'DCMS_MAX_CHILDREN', 1);
+		define( 'DCMS_ENABLE_CONVIVIENTES', 'event-enable-convivientes' );
+		define( 'DCMS_LOCK_INSCRIPTIONS', 'event-lock-inscriptions' );
+		define( 'DCMS_MAX_CHILDREN', 1 );
 
 	}
 
 	// Load tex domain
-	public function load_domain(){
-		add_action('plugins_loaded', function(){
-			$path_languages = dirname(DCMS_EVENT_BASE_NAME).'/languages/';
-			load_plugin_textdomain('dcms-events-users', false, $path_languages );
-		});
+	public function load_domain() {
+		add_action( 'plugins_loaded', function () {
+			$path_languages = dirname( DCMS_EVENT_BASE_NAME ) . '/languages/';
+			load_plugin_textdomain( 'dcms-events-users', false, $path_languages );
+		} );
 	}
 
 	// Add link to plugin list
-	public function add_link_plugin(){
-		add_action( 'plugin_action_links_' . plugin_basename( __FILE__ ), function( $links ){
+	public function add_link_plugin() {
+		add_action( 'plugin_action_links_' . plugin_basename( __FILE__ ), function ( $links ) {
 			return array_merge( array(
 				'<a href="' . esc_url( admin_url( DCMS_EVENT_MENU ) ) . '">' . __( 'Settings', 'dcms-events-users' ) . '</a>'
 			), $links );
@@ -80,7 +79,7 @@ final class Loader{
 	}
 
 	// Initialize all
-	public function init(){
+	public function init() {
 		$this->define_constants();
 		$this->load_domain();
 		$this->add_link_plugin();
@@ -96,7 +95,7 @@ final class Loader{
 		new Metabox();
 		new Filter();
 		new Export();
-		new Selected();
+		new Import();
 	}
 
 }
