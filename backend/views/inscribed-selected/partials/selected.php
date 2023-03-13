@@ -21,7 +21,7 @@
         </div>
 
         <div class="container-table">
-            <table class="dcms-table report-user-event">
+            <table id="selected-users-table" class="dcms-table report-user-event">
                 <tr>
 					<?php
 					foreach ( $fields_inscribed_table as $field ) {
@@ -46,7 +46,7 @@
                         <td><?= $row['parent'] ?></td>
                         <td>
                             <a href="/wp-admin/post.php?post=<?= $row['id_order'] ?>&action=edit">
-	                            <?= $row['id_order'] ?>
+								<?= $row['id_order'] ?>
                             </a>
                         </td>
                         <td><a class="resend"
@@ -73,7 +73,7 @@
             </div>
             <div class="save-notify">
                 <a class="btn-export button button-primary">
-			        <?php _e( 'Guardar y notificar seleccionados', 'dcms-events-users' ) ?>
+					<?php _e( 'Guardar y notificar seleccionados', 'dcms-events-users' ) ?>
                 </a>
             </div>
         </div>

@@ -28,7 +28,7 @@ use dcms\event\includes\Export;
 use dcms\event\backend\single\Single;
 use dcms\event\backend\single\Metabox;
 use dcms\event\backend\single\Filter;
-use dcms\event\backend\inscribed\Import;
+use dcms\event\backend\inscribed\Selected;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -95,9 +95,8 @@ final class Loader {
 		new Metabox();
 		new Filter();
 		new Export();
-		new Import();
+		new Selected();
 	}
-
 }
 
 $dcms_event_process = new Loader();

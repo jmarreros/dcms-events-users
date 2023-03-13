@@ -174,6 +174,16 @@ class Helper{
         return '"' . implode('","', $arr) . '"';
     }
 
+	// For validating nonce
+	public static function validate_nonce($nonce_post, $nonce_action){
+		if ( ! wp_verify_nonce( $nonce_post, $nonce_action ) ) {
+			$res = [
+				'status' => 0,
+				'message' => '✋ Error nonce validation!!'
+			];
+			wp_send_json($res);
+		}
+	}
 }
 
 

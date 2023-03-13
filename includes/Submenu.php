@@ -50,6 +50,8 @@ class Submenu{
 		    'nonce' => wp_create_nonce('ajax-inscribed-selected')
 	    ]);
 
+	    wp_enqueue_script('admin-lib-sheet-js'); //library to read xls with javascript
+
 	    (new Inscribed())->get_inscribed_screen();
     }
 }
