@@ -3,6 +3,7 @@
 namespace dcms\event\backend\inscribed;
 
 use dcms\event\helpers\Helper;
+use dcms\event\includes\Database;
 
 class Selected {
 
@@ -14,18 +15,25 @@ class Selected {
 		// Validate nonce
 		Helper::validate_nonce( $_POST['nonce'], 'ajax-inscribed-selected' );
 
-		$identifies = $_POST['identifies'] ?? [];
-		$event_id   = $_POST['event_id'] ?? 0;
-
-		$identifies = join( ',', $identifies );
-
-		error_log( print_r( $event_id, true ) );
-		error_log( print_r( $identifies, true ) );
-
 		$res = [
 			'status'  => 0,
 			'message' => "Se guardaron los datos"
 		];
+
+		$identifies = $_POST['identifies'] ?? [];
+		$event_id   = $_POST['event_id'] ?? 0;
+
+		if ( count($identifies) > 0 ) {
+			$data = (new Database())->filter_users_event_selected_identifies($event_id, $identifies);
+			$event_name = get_the_title($event_id);
+
+		} else {
+
+		}
+
+
+
+
 		wp_send_json( $res );
 	}
 

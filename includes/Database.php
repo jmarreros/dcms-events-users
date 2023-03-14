@@ -82,7 +82,7 @@ class Database {
 	}
 
 	// Select saved users event to export
-	public function select_users_event_export( $id_post, $only_joined , $only_selected = false) {
+	public function select_users_event_export( $id_post, $only_joined, $only_selected = false ) {
 		$fields_to_show = str_replace( '"', '`', Helper::array_to_str_quotes( array_keys( Helper::get_fields_export() ) ) );
 
 		$sql = "SELECT `user_id`,{$fields_to_show},`joined`,`selected`,`id_order`
@@ -104,13 +104,13 @@ class Database {
 	}
 
 	// Select inscribed users in an event
-	public function select_inscribed_users_event($id_post){
-		return $this->select_users_event_export($id_post, true);
+	public function select_inscribed_users_event( $id_post ) {
+		return $this->select_users_event_export( $id_post, true );
 	}
 
 	// Select selected users inscribed in an event
 	public function select_selected_users_event( $id_post ): array {
-		return $this->select_users_event_export($id_post, true, true);
+		return $this->select_users_event_export( $id_post, true, true );
 	}
 
 	// Select saved users in a post event
@@ -424,8 +424,8 @@ class Database {
 	}
 
 
-	// Report inscribed Events
-	// =======================
+	// Inscribed Events
+	// ==================
 
 	// Get all available events
 	public function get_avaiable_events() {
@@ -434,6 +434,19 @@ class Database {
                 ORDER BY post_date DESC";
 
 		return $this->wpdb->get_results( $sql );
+	}
+
+	// Filter selected users inscribed event with identifies numbers
+	public function filter_users_event_selected_identifies( $id_event, $identifies ): array {
+		$sql = "SELECT id_user, children, id_parent 
+				FROM $this->event_users eu
+				INNER JOIN (
+					SELECT user_id FROM $this->user_meta
+					WHERE meta_key = 'identify' AND meta_value IN ( " . join( ',', $identifies ) . " ) 
+				) um ON eu.id_user = um.user_id
+				WHERE eu.id_post = $id_event AND joined = 1 AND selected = 0";
+
+		return $this->wpdb->get_results( $sql, ARRAY_A );
 	}
 
 

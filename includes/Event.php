@@ -73,19 +73,9 @@ class Event {
 		$pin      = $_POST['pin'] ?? null;
 		$id_user  = get_current_user_id();
 
+		( new User() )->validate_identify_and_pin( $identify, $pin );
 
-		// Validate identify and pin
-		$db     = new Database();
-		$result = $db->find_user_identify_pin( $identify, $pin );
-		if ( ! count( $result ) || $result[0]['count'] != 2 ) {
-			$res = [
-				'status'  => 0,
-				'message' => "Identificador o PIN no válido",
-			];
-
-			echo json_encode( $res );
-			wp_die();
-		}
+		$db = new Database();
 
 		// Id user children
 		$children_id = $result[0]['user_id'] ?? 0;
@@ -136,7 +126,7 @@ class Event {
 	// Remove specif child from event
 	public function remove_child_event() {
 		// Validate nonce
-		Helper::validate_nonce($_POST['nonce'], 'ajax-nonce-event-children');
+		Helper::validate_nonce( $_POST['nonce'], 'ajax-nonce-event-children' );
 
 		$id_user = intval( $_POST['id_user'] );
 		$id_post = intval( $_POST['id_event'] );
@@ -158,7 +148,7 @@ class Event {
 	// Add children
 	public function add_children_event() {
 		// Validate nonce
-		Helper::validate_nonce($_POST['nonce'], 'ajax-nonce-event-children');
+		Helper::validate_nonce( $_POST['nonce'], 'ajax-nonce-event-children' );
 
 		// Event data
 		$id_post       = intval( $_POST['id_post'] );
@@ -255,7 +245,7 @@ class Event {
 	public function resend_email_join_event() {
 
 		// Validate nonce
-		Helper::validate_nonce($_POST['nonce'], 'ajax-inscribed-selected');
+		Helper::validate_nonce( $_POST['nonce'], 'ajax-inscribed-selected' );
 
 		// Event data
 		$user_id   = intval( $_POST['userID'] );
@@ -268,7 +258,7 @@ class Event {
 		$event_excerpt = $event_data->post_excerpt;
 
 
-		$data_children = $this->get_arr_children_user( $user_id, $event_id );
+		$data_children = ( new User() )->get_arr_children_user( $user_id, $event_id );
 
 		$result = $this->send_email_join_event( $user_name, $email, $event_title, $event_excerpt, $data_children );
 
@@ -288,21 +278,6 @@ class Event {
 		wp_die();
 	}
 
-
-	// Make an Arr children data, for specific user and event
-	public function get_arr_children_user( $id_user, $id_post ): array {
-		$db       = new Database();
-		$children = $db->get_children_user( $id_user, $id_post );
-
-		$children_data = [];
-		foreach ( $children as $child ) {
-			$child_name                       = $child['name'];
-			$child_identify                   = $child['identify'];
-			$children_data[ $child_identify ] = $child_name;
-		}
-
-		return $children_data;
-	}
 
 	// Aux - Validate if the rows affected are > 0
 	private function validate_updated( $result ) {
