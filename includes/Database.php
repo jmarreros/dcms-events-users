@@ -437,16 +437,17 @@ class Database {
 	}
 
 	// Filter selected users inscribed event with identifies numbers
-	public function filter_users_event_selected_identifies( $id_event, $identifies ): array {
-		$sql = "SELECT id_user, children, id_parent 
+	public function filter_users_event_selected_identifies( $id_event, $identifies ) {
+		$sql = "SELECT id, id_user, name, lastname, email, children, id_parent 
 				FROM $this->event_users eu
 				INNER JOIN (
 					SELECT user_id FROM $this->user_meta
 					WHERE meta_key = 'identify' AND meta_value IN ( " . join( ',', $identifies ) . " ) 
 				) um ON eu.id_user = um.user_id
+				INNER JOIN $this->view_users u ON eu.id_user = u.user_id
 				WHERE eu.id_post = $id_event AND joined = 1 AND selected = 0";
 
-		return $this->wpdb->get_results( $sql, ARRAY_A );
+		return $this->wpdb->get_results( $sql );
 	}
 
 

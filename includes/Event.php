@@ -256,8 +256,7 @@ class Event {
 		$event_data    = get_post( $event_id );
 		$event_title   = $event_data->post_title;
 		$event_excerpt = $event_data->post_excerpt;
-
-
+		
 		$data_children = ( new User() )->get_arr_children_user( $user_id, $event_id );
 
 		$result = $this->send_email_join_event( $user_name, $email, $event_title, $event_excerpt, $data_children );
