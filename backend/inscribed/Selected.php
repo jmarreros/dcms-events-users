@@ -5,6 +5,7 @@ namespace dcms\event\backend\inscribed;
 use dcms\event\helpers\Helper;
 use dcms\event\includes\Database;
 use dcms\event\includes\Mail;
+use dcms\event\includes\User;
 
 class Selected {
 
@@ -24,52 +25,40 @@ class Selected {
 		$identifies = $_POST['identifies'] ?? [];
 		$event_id   = $_POST['event_id'] ?? 0;
 
-		if ( count( $identifies ) > 0 ) {
-			$users       = ( new Database() )->filter_users_event_selected_identifies( $event_id, $identifies );
-			$event_name = get_the_title( $event_id );
+		if ( is_array( $identifies ) && count( $identifies ) > 0 ) {
+			$selections = ( new Database() )->filter_users_event_selected_identifies( $event_id, $identifies );
 
-			error_log(print_r($users,true));
+			$mail = new Mail();
+			$user = new User();
 
-			foreach ( $users as $user ) {
-				// Not children
-				if ( empty($user->id_parent)) {
+			$event_sel = [
+				'title'   => get_the_title( $event_id ),
+				'excerpt' => get_the_excerpt( $event_id )
+			];
 
+			foreach ( $selections as $item ) {
+
+				// Not send email to child
+				if ( empty( $item->id_parent ) ) {
+					$user_sel = [
+						'name'         => $item->name,
+						'email'        => $item->email,
+						'convivientes' => $item->children ? $user->get_arr_children_user( $item->id_user, $event_id ) : []
+					];
+
+					$mail->send_mail_template( 'selection', $user_sel, $event_sel );
 				}
+
+				// TODO
+				// Mark as selected
+
 			}
 
-			error_log( print_r( $data, true ) );
 		}
 
 		wp_send_json( $res );
 	}
 
-
-	// Send mail join event
-	private function send_email_selected_notify( $name, $email, $event_title, $convivientes = [] ) {
-
-		$mail = new Mail();
-
-		$headers = [ 'Content-Type: text/html; charset=UTF-8' ];
-		$subject = $options['dcms_subject_email_inscription'];
-		$body    = $options['dcms_text_email_inscription'];
-		$body    = str_replace( '%name%', $name, $body );
-		$body    = str_replace( '%event_title%', $event_title, $body );
-		$body    = str_replace( '%event_extracto%', $event_excerpt, $body );
-
-		$str = '';
-		if ( $convivientes ) {
-			$str = "Convivientes: <br>";
-			$str .= "<ul>";
-			foreach ( $convivientes as $key => $value ) {
-				$str .= "<li> ID: " . $key . " - " . $value . "</li>";
-			}
-			$str .= "</ul>";
-		}
-		$body = str_replace( '%convivientes%', $str, $body );
-
-
-		return wp_mail( $email, $subject, $body, $headers );
-	}
 
 }
 

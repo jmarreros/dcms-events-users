@@ -24,6 +24,9 @@
                 event_id
             },
             beforeSend: function () {
+                //$('.save-notify .button')
+                // TODO
+                // Disable anchor
                 $('#msg-save-import').text('Enviando...').show();
             },
         })

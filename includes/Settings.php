@@ -142,7 +142,7 @@ class Settings{
         $desc = $args['description'] ?? '';
 
         $options = get_option( $dcms_option );
-        $val = isset( $options[$id] ) ? $options[$id] : '';
+        $val = $options[ $id ] ?? '';
 
         printf("<input id='%s' name='%s[%s]' class='regular-text' type='text' value='%s' %s %s>",
                 $id, $dcms_option, $id, $val, $req, $class);

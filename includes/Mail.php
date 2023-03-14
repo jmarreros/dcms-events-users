@@ -23,4 +23,35 @@ class Mail {
 		return $this->options['dcms_sender_name'];
 	}
 
+	// Generic email send with template and parameters
+	public function send_mail_template( $template_name, $user, $event ) {
+		$headers = [ 'Content-Type: text/html; charset=UTF-8' ];
+
+		$subject = $this->options[ 'dcms_subject_email_' . $template_name ];
+		$body    = $this->options[ 'dcms_text_email_' . $template_name ];
+
+		$user_name         = $user['name'];
+		$user_email        = $user['email'];
+		$user_convivientes = $user['convivientes'];
+
+		$event_title   = $event['title'];
+		$event_excerpt = $event['excerpt'];
+
+		$body = str_replace( '%name%', $user_name, $body );
+		$body = str_replace( '%event_title%', $event_title, $body );
+		$body = str_replace( '%event_extracto%', $event_excerpt, $body );
+
+		$str = '';
+		if ( count( $user_convivientes ) > 0 ) {
+			$str = "Convivientes: <br>";
+			$str .= "<ul>";
+			foreach ( $user_convivientes as $key => $value ) {
+				$str .= "<li> ID: " . $key . " - " . $value . "</li>";
+			}
+			$str .= "</ul>";
+		}
+		$body = str_replace( '%convivientes%', $str, $body );
+
+		return wp_mail( $user_email, $subject, $body, $headers );
+	}
 }
