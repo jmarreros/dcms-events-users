@@ -229,8 +229,8 @@ class Event {
 		} );
 
 		$headers = [ 'Content-Type: text/html; charset=UTF-8' ];
-		$subject = $options['dcms_subject_email'];
-		$body    = $options['dcms_text_email'];
+		$subject = $options['dcms_subject_email_inscription'];
+		$body    = $options['dcms_text_email_inscription'];
 		$body    = str_replace( '%name%', $name, $body );
 		$body    = str_replace( '%event_title%', $event_title, $body );
 		$body    = str_replace( '%event_extracto%', $event_excerpt, $body );

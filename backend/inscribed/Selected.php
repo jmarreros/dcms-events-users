@@ -14,18 +14,35 @@ class Selected {
 		// Validate nonce
 		Helper::validate_nonce( $_POST['nonce'], 'ajax-inscribed-selected' );
 
-		$identifies = $_POST['identifies']??[];
+		$identifies = $_POST['identifies'] ?? [];
+		$event_id   = $_POST['event_id'] ?? 0;
 
-		foreach ( $identifies as $identify ) {
+		$identifies = join( ',', $identifies );
 
-		}
+		error_log( print_r( $event_id, true ) );
+		error_log( print_r( $identifies, true ) );
 
 		$res = [
 			'status'  => 0,
-			'message' => "Se guardaron y enviaron los seleccionados"
+			'message' => "Se guardaron los datos"
 		];
 		wp_send_json( $res );
 	}
+
+
+//	// Send email with identify and pin
+//	private function send_email_pin( $email, $identify, $pin ){
+//		$options = get_option( 'dcms_pin_options' );
+//
+//		$headers = ['Content-Type: text/html; charset=UTF-8'];
+//		$subject = $options['dcms_subject_email'];
+//		$body    = $options['dcms_text_email'];
+//		$body = str_replace( '%id%', $identify, $body );
+//		$body = str_replace( '%pin%', $pin, $body );
+//
+//		return wp_mail( $email, $subject, $body, $headers );
+//	}
+//
 }
 
 

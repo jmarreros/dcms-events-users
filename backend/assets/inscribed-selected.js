@@ -4,6 +4,7 @@
     $('.container-selected .save-notify a').click(function (e) {
         e.preventDefault();
         let rows = $("#selected-users-table").find("tr:not(:first)").find("td:first");
+        const event_id = $("#selected-users-table").data('event-id');
 
         let identifies = [];
         for (let i = 0; i < rows.length; i++) {
@@ -17,14 +18,19 @@
             url: dcms_inscribed_selected.ajaxurl,
             type: 'post',
             data: {
-                action:'dcms_ajax_import_selected',
+                action: 'dcms_ajax_import_selected',
                 nonce: dcms_inscribed_selected.nonce,
-                identifies
+                identifies,
+                event_id
+            },
+            beforeSend: function () {
+                $('#msg-save-import').text('Enviando...').show();
             },
         })
-        .done(function (res) {
-            console.log(res);
-        });
+            .done(function (res) {
+                console.log(res);
+                $('#msg-save-import').text(res.message).show();
+            });
 
     });
 
@@ -145,14 +151,14 @@
                     email
                 },
             })
-            .done(function (res) {
-                res = JSON.parse(res);
-                if (res.status === 0) {
-                    alert('Hubo algún error al enviar el correo');
-                } else {
-                    $(obj).text('✅');
-                }
-            });
+                .done(function (res) {
+                    res = JSON.parse(res);
+                    if (res.status === 0) {
+                        alert('Hubo algún error al enviar el correo');
+                    } else {
+                        $(obj).text('✅');
+                    }
+                });
         }
     }
 

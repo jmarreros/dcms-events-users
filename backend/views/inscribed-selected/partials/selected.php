@@ -21,7 +21,7 @@
         </div>
 
         <div class="container-table">
-            <table id="selected-users-table" class="dcms-table report-user-event">
+            <table id="selected-users-table" class="dcms-table report-user-event" data-event-id="<?= $id_event ?>">
                 <tr>
 					<?php
 					foreach ( $fields_inscribed_table as $field ) {
@@ -75,6 +75,7 @@
                 <a class="btn-export button button-primary">
 					<?php _e( 'Guardar y notificar seleccionados', 'dcms-events-users' ) ?>
                 </a>
+                <div id="msg-save-import" class="message"></div>
             </div>
         </div>
 

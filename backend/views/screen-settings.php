@@ -34,7 +34,9 @@
 <form action="options.php" method="post">
     <?php
         settings_fields('dcms_events_options_bd');
-        do_settings_sections('dcms_events_sfields');
+        do_settings_sections('dcms_events_general_fields');
+        do_settings_sections('dcms_events_inscription_fields');
+        do_settings_sections('dcms_events_selection_fields');
         submit_button();
     ?>
 </form>

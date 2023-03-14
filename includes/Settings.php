@@ -21,16 +21,17 @@ class Settings{
     // Fields email configuration
     private function fields_email_config(){
 
-        add_settings_section('dcms_email_section',
-                        __('Texto por defecto en correo', 'dcms-events-users'),
+		// General
+        add_settings_section('dcms_general_section',
+                        __('Configuración correos', 'dcms-events-users'),
                                 [$this,'dcms_section_cb'],
-                                'dcms_events_sfields' );
+                                'dcms_events_general_fields' );
 
         add_settings_field('dcms_sender_email',
                             __('Correo Emisor', 'dcms-events-users'),
                             [$this, 'dcms_section_input_cb'],
-                            'dcms_events_sfields',
-                            'dcms_email_section',
+                            'dcms_events_general_fields',
+                            'dcms_general_section',
                             [
                                 'dcms_option' => 'dcms_events_options',
                                 'label_for' => 'dcms_sender_email',
@@ -41,8 +42,8 @@ class Settings{
         add_settings_field('dcms_sender_name',
                             __('Nombre emisor', 'dcms-events-users'),
                             [$this, 'dcms_section_input_cb'],
-                            'dcms_events_sfields',
-                            'dcms_email_section',
+                            'dcms_events_general_fields',
+                            'dcms_general_section',
                             [
                               'dcms_option' => 'dcms_events_options',
                               'label_for' => 'dcms_sender_name',
@@ -50,26 +51,33 @@ class Settings{
                             ]
         );
 
-        add_settings_field('dcms_subject_email',
+		// Inscription
+	    add_settings_section('dcms_inscription_section',
+		    __('Plantilla correo inscripción', 'dcms-events-users'),
+		    [$this,'dcms_section_cb'],
+		    'dcms_events_inscription_fields' );
+
+
+	    add_settings_field('dcms_subject_email_inscription',
                             __('Asunto correo', 'dcms-events-users'),
                             [$this, 'dcms_section_input_cb'],
-                            'dcms_events_sfields',
-                            'dcms_email_section',
+                            'dcms_events_inscription_fields',
+                            'dcms_inscription_section',
                             [
                               'dcms_option' => 'dcms_events_options',
-                              'label_for' => 'dcms_subject_email',
+                              'label_for' => 'dcms_subject_email_inscription',
                               'required' => true
                             ]
         );
 
-        add_settings_field('dcms_text_email',
+        add_settings_field('dcms_text_email_inscription',
                             __('Texto correo', 'dcms-events-users'),
                             [$this, 'dcms_section_textarea_field'],
-                            'dcms_events_sfields',
-                            'dcms_email_section',
+                            'dcms_events_inscription_fields',
+                            'dcms_inscription_section',
                             [
                              'dcms_option' => 'dcms_events_options',
-                             'label_for' => 'dcms_text_email',
+                             'label_for' => 'dcms_text_email_inscription',
                              'description' => __('Puedes usar las siguientes variables que se pueden reemplazar:
                              %name% (nombre de usuario),
                              %event_title% (título del evento),
@@ -78,6 +86,44 @@ class Settings{
                              ', 'dcms-events-users')
                             ]
         );
+
+
+	    // Selection
+	    add_settings_section('dcms_selection_section',
+		    __('Plantilla correo selección inscritos', 'dcms-events-users'),
+		    [$this,'dcms_section_cb'],
+		    'dcms_events_selection_fields' );
+
+
+	    add_settings_field('dcms_subject_email_selection',
+		    __('Asunto correo', 'dcms-events-users'),
+		    [$this, 'dcms_section_input_cb'],
+		    'dcms_events_selection_fields',
+		    'dcms_selection_section',
+		    [
+			    'dcms_option' => 'dcms_events_options',
+			    'label_for' => 'dcms_subject_email_selection',
+			    'required' => true
+		    ]
+	    );
+
+	    add_settings_field('dcms_text_email_selection',
+		    __('Texto correo', 'dcms-events-users'),
+		    [$this, 'dcms_section_textarea_field'],
+		    'dcms_events_selection_fields',
+		    'dcms_selection_section',
+		    [
+			    'dcms_option' => 'dcms_events_options',
+			    'label_for' => 'dcms_text_email_selection',
+			    'description' => __('Puedes usar las siguientes variables que se pueden reemplazar:
+                             %name% (nombre de usuario),
+                             %event_title% (título del evento),
+                             %event_extracto% (extracto del evento),
+                             %convivientes% (lista de convivientes)
+                             ', 'dcms-events-users')
+		    ]
+	    );
+
     }
 
     // Métodos auxiliares genéricos
