@@ -30,6 +30,7 @@ class Selected {
 
 			$mail = new Mail();
 			$user = new User();
+			$db   = new Database();
 
 			$event_sel = [
 				'title'   => get_the_title( $event_id ),
@@ -49,9 +50,7 @@ class Selected {
 					$mail->send_mail_template( 'selection', $user_sel, $event_sel );
 				}
 
-				// TODO
-				// Mark as selected
-
+				$db->selected_event_user( $item->id );
 			}
 
 		}

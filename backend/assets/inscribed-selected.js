@@ -95,7 +95,7 @@
 
         // Add body
         if (jsonData.length > 0) {
-            for (let i = 1; i < jsonData.length; i++) {
+            for (let i = 0; i < jsonData.length; i++) {
                 b[j++] = "<tr>";
                 b[j++] = `<td> ${jsonData[i]["Identificativo"] ?? ''}</td>`;
                 b[j++] = `<td> ${jsonData[i]["PIN"] ?? ''}</td>`;

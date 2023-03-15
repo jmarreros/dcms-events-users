@@ -447,8 +447,15 @@ class Database {
 				INNER JOIN $this->view_users u ON eu.id_user = u.user_id
 				WHERE eu.id_post = $id_event AND joined = 1 AND selected = 0";
 
+		error_log(print_r($sql,true));
+
 		return $this->wpdb->get_results( $sql );
 	}
 
+	// Selected user for the event, $id is the identify table
+	public function selected_event_user( $id ): int {
+		$sql = "UPDATE $this->event_users SET selected = 1 WHERE id = $id";
 
+		return $this->wpdb->query( $sql );
+	}
 }
