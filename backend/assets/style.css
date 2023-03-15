@@ -277,4 +277,9 @@
     }
 }
 
+.button.disabled-link {
+    pointer-events: none;
+    background-color: #a4a4a4;
+    border-color: #999;
+}
 

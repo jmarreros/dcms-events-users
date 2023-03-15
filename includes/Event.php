@@ -204,42 +204,21 @@ class Event {
 
 
 	// Send mail join event
-	private function send_email_join_event( $name, $email, $event_title, $event_excerpt = '', $convivientes = [] ) {
-		$options = get_option( 'dcms_events_options' );
+	private function send_email_join_event( $name, $email, $event_title, $event_excerpt = '', $convivientes = [] ) :bool {
+		$mail = new Mail();
+		$user_join = [
+			'name'         => $name,
+			'email'        => $email,
+			'convivientes' => $convivientes
+		];
 
-		add_filter( 'wp_mail_from', function () {
-			$options = get_option( 'dcms_events_options' );
+		$event_join = [
+			'title'   => $event_title,
+			'excerpt' => $event_excerpt
+		];
 
-			return $options['dcms_sender_email'];
-		} );
-		add_filter( 'wp_mail_from_name', function () {
-			$options = get_option( 'dcms_events_options' );
-
-			return $options['dcms_sender_name'];
-		} );
-
-		$headers = [ 'Content-Type: text/html; charset=UTF-8' ];
-		$subject = $options['dcms_subject_email_inscription'];
-		$body    = $options['dcms_text_email_inscription'];
-		$body    = str_replace( '%name%', $name, $body );
-		$body    = str_replace( '%event_title%', $event_title, $body );
-		$body    = str_replace( '%event_extracto%', $event_excerpt, $body );
-
-		$str = '';
-		if ( $convivientes ) {
-			$str = "Convivientes: <br>";
-			$str .= "<ul>";
-			foreach ( $convivientes as $key => $value ) {
-				$str .= "<li> ID: " . $key . " - " . $value . "</li>";
-			}
-			$str .= "</ul>";
-		}
-		$body = str_replace( '%convivientes%', $str, $body );
-
-
-		return wp_mail( $email, $subject, $body, $headers );
+		return $mail->send_mail_template( 'inscription', $user_join, $event_join );
 	}
-
 
 	// public function for resending emails
 	public function resend_email_join_event() {
@@ -256,7 +235,7 @@ class Event {
 		$event_data    = get_post( $event_id );
 		$event_title   = $event_data->post_title;
 		$event_excerpt = $event_data->post_excerpt;
-		
+
 		$data_children = ( new User() )->get_arr_children_user( $user_id, $event_id );
 
 		$result = $this->send_email_join_event( $user_name, $email, $event_title, $event_excerpt, $data_children );
@@ -315,3 +294,38 @@ class Event {
 //            wp_die();
 //        }
 //    }
+
+//
+//$options = get_option( 'dcms_events_options' );
+//
+//add_filter( 'wp_mail_from', function () {
+//	$options = get_option( 'dcms_events_options' );
+//
+//	return $options['dcms_sender_email'];
+//} );
+//add_filter( 'wp_mail_from_name', function () {
+//	$options = get_option( 'dcms_events_options' );
+//
+//	return $options['dcms_sender_name'];
+//} );
+//
+//$headers = [ 'Content-Type: text/html; charset=UTF-8' ];
+//$subject = $options['dcms_subject_email_inscription'];
+//$body    = $options['dcms_text_email_inscription'];
+//$body    = str_replace( '%name%', $name, $body );
+//$body    = str_replace( '%event_title%', $event_title, $body );
+//$body    = str_replace( '%event_extracto%', $event_excerpt, $body );
+//
+//$str = '';
+//if ( $convivientes ) {
+//	$str = "Convivientes: <br>";
+//	$str .= "<ul>";
+//	foreach ( $convivientes as $key => $value ) {
+//		$str .= "<li> ID: " . $key . " - " . $value . "</li>";
+//	}
+//	$str .= "</ul>";
+//}
+//$body = str_replace( '%convivientes%', $str, $body );
+//
+//
+//return wp_mail( $email, $subject, $body, $headers );

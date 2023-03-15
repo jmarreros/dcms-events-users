@@ -24,7 +24,7 @@ class Mail {
 	}
 
 	// Generic email send with template and parameters
-	public function send_mail_template( $template_name, $user, $event ) {
+	public function send_mail_template( $template_name, $user, $event ) :bool {
 		$headers = [ 'Content-Type: text/html; charset=UTF-8' ];
 
 		$subject = $this->options[ 'dcms_subject_email_' . $template_name ];

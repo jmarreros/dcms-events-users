@@ -24,14 +24,12 @@
                 event_id
             },
             beforeSend: function () {
-                //$('.save-notify .button')
-                // TODO
-                // Disable anchor
+                $('.save-notify .button').addClass('disabled-link');
                 $('#msg-save-import').text('Enviando...').show();
             },
         })
             .done(function (res) {
-                console.log(res);
+                $('.save-notify .button').removeClass('disabled-link');
                 $('#msg-save-import').text(res.message).show();
             });
 
