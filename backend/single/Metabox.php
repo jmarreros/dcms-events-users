@@ -49,6 +49,5 @@ class Metabox {
 			update_post_meta( $post_id, DCMS_EVENT_PRODUCT_ID, $product_id );
 		}
 	}
-
-
+	
 }

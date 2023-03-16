@@ -119,10 +119,15 @@ class Settings{
                              %name% (nombre de usuario),
                              %event_title% (título del evento),
                              %event_extracto% (extracto del evento),
-                             %convivientes% (lista de convivientes)
+                             %convivientes% (lista de convivientes),
+                             %params_integration% (Parámetros de integración con WooCommerce, debe ir como parte de la url que tiene el shortcode).
                              ', 'dcms-events-users')
 		    ]
 	    );
+
+
+
+
 
     }
 

@@ -29,6 +29,11 @@
     <strong>[<?php echo DCMS_EVENT_LIST ?>]</strong>
 </section>
 
+<section class="dcms-shortcode">
+    <span><?php _e('You can use this shortcode to show preview purchase') ?></span>
+    <strong>[<?php echo DCMS_SET_PURCHASE ?>]</strong>
+</section>
+
 </div>
 
 <form action="options.php" method="post">

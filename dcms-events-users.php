@@ -53,6 +53,7 @@ final class Loader {
 		define( 'DCMS_EVENT_ACCOUNT', 'sporting-user-account' );
 		define( 'DCMS_EVENT_SIDEBAR', 'sporting-sidebar-user' );
 		define( 'DCMS_EVENT_LIST', 'sporting-event-list' );
+		define( 'DCMS_SET_PURCHASE', 'Establecer_compra_evento' );
 
 		// Convivientes
 		define( 'DCMS_ENABLE_CONVIVIENTES', 'event-enable-convivientes' );
