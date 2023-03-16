@@ -1,3 +1,7 @@
+<?php
+/** @var int $product_id */
+/** @var array $products */
+?>
 <section class="dcms-convivientes">
 
 <p>
@@ -10,4 +14,22 @@
     <input type="checkbox" id="lock-inscriptions" name="<?= DCMS_LOCK_INSCRIPTIONS ?>" <?php checked($lock_inscriptions, 1) ?> > Bloquear inscripciones y ediciones
 </label>
 </p>
+
+</section>
+<hr>
+<section>
+    <p>
+        <label for="product-event">Producto asociado</label>
+        <br>
+        <select name="event-product-id" id="event-product-id">
+            <option value="0" <?php selected( $product_id, 0 ) ?> >
+	            - Ninguno -
+            </option>
+            <?php  foreach ( $products as $product ) : ?>
+                <option value="<?= $product->ID ?>" <?php selected( $product_id, $product->ID ) ?> >
+                    <?= $product->product_name . ' - ' . $product->price ?>
+                </option>
+            <?php endforeach; ?>
+        </select>
+    </p>
 </section>

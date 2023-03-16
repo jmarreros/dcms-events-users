@@ -10,15 +10,19 @@ class Database {
 	private string $user_meta;
 	private string $post_event;
 	private string $view_users;
+	private string $post_product;
+	private string $post_meta;
 
 	public function __construct() {
 		global $wpdb;
 
-		$this->wpdb        = $wpdb;
-		$this->event_users = $this->wpdb->prefix . 'dcms_event_users';
-		$this->view_users  = $this->wpdb->prefix . 'dcms_view_users';
-		$this->user_meta   = $this->wpdb->prefix . 'usermeta';
-		$this->post_event  = $this->wpdb->prefix . 'posts';
+		$this->wpdb         = $wpdb;
+		$this->event_users  = $this->wpdb->prefix . 'dcms_event_users';
+		$this->view_users   = $this->wpdb->prefix . 'dcms_view_users';
+		$this->user_meta    = $this->wpdb->prefix . 'usermeta';
+		$this->post_event   = $this->wpdb->prefix . 'posts';
+		$this->post_product = $this->wpdb->prefix . 'posts';
+		$this->post_meta    = $this->wpdb->prefix . 'postmeta';
 	}
 
 	// User Filters
@@ -447,8 +451,6 @@ class Database {
 				INNER JOIN $this->view_users u ON eu.id_user = u.user_id
 				WHERE eu.id_post = $id_event AND joined = 1 AND selected = 0";
 
-		error_log(print_r($sql,true));
-
 		return $this->wpdb->get_results( $sql );
 	}
 
@@ -458,4 +460,17 @@ class Database {
 
 		return $this->wpdb->query( $sql );
 	}
+
+
+	// Get all active products to metabox event
+	public function get_list_products() {
+		$sql = "SELECT p.ID, p.post_title product_name, pm.meta_value price 
+				FROM $this->post_product  p
+				INNER JOIN $this->post_meta pm ON p.ID = pm.post_id AND pm.meta_key = '_price'
+				WHERE p.post_type = 'product' AND p.post_status = 'publish'
+				ORDER BY p.post_title";
+		
+		return $this->wpdb->get_results( $sql );
+	}
+
 }

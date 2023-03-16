@@ -59,6 +59,8 @@ final class Loader {
 		define( 'DCMS_LOCK_INSCRIPTIONS', 'event-lock-inscriptions' );
 		define( 'DCMS_MAX_CHILDREN', 1 );
 
+		// Event
+		define ( 'DCMS_EVENT_PRODUCT_ID', 'event-product-id');
 	}
 
 	// Load tex domain
