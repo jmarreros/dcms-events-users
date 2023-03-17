@@ -120,7 +120,7 @@ class Settings{
                              %event_title% (título del evento),
                              %event_extracto% (extracto del evento),
                              %convivientes% (lista de convivientes),
-                             %params_integration% (Parámetros de integración con WooCommerce, debe ir como parte de la url que tiene el shortcode).
+                             %params_integration% (Parámetros de integración con WooCommerce, debe ir como parte de la url que tiene el shortcode: [' . DCMS_SET_PURCHASE .'] ).
                              ', 'dcms-events-users')
 		    ]
 	    );
