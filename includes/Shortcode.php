@@ -13,10 +13,17 @@ class Shortcode {
 
 	// Function to add shortcodes
 	public function create_shortcodes() {
+		global $wp;
+
 		add_shortcode( DCMS_EVENT_ACCOUNT, [ $this, 'show_user_account' ] );
 		add_shortcode( DCMS_EVENT_SIDEBAR, [ $this, 'show_user_sidebar' ] );
 		add_shortcode( DCMS_EVENT_LIST, [ $this, 'show_list_events' ] );
-		add_shortcode( DCMS_SET_PURCHASE, [ $this, 'show_setting_purchase' ] );
+		add_shortcode( DCMS_SET_PURCHASE, [ $this, 'show_set_purchase' ] );
+
+		// For link mail
+		$wp->add_query_var( 'idu' ); //id user
+		$wp->add_query_var( 'ide' ); //id event
+		$wp->add_query_var( 'idn' ); //id nonce
 	}
 
 	// Function show user account in the front-end
@@ -128,30 +135,45 @@ class Shortcode {
 	}
 
 	// To show form setting purchase
-	public function show_setting_purchase(){
-		$id_user = get_current_user_id();
-
-		if ( $id_user ) {
-
-			wp_enqueue_style( 'event-style' );
-			wp_enqueue_script( 'event-script' );
-
-			// Ajax event
-			wp_localize_script( 'event-script',
-				'dcms_uevents',
-				[
-					'ajaxurl' => admin_url( 'admin-ajax.php' ),
-					'nevent'  => wp_create_nonce( 'ajax-nonce-event' )
-				] );
-
-			ob_start();
-			include_once DCMS_EVENT_PATH . 'views/set-purchase.php';
-			$html_code = ob_get_contents();
-			ob_end_clean();
-
-			return $html_code;
+	public function show_set_purchase() {
+		// Validate user login
+		if ( ! is_user_logged_in() ) {
+			return '';
 		}
 
-		return '';
+		$id_user  = get_query_var( 'idu', 0 );
+		$id_event = get_query_var( 'ide', 0 );
+		$id_nonce = get_query_var( 'idn', 0 );
+
+		// Verify user id
+		// TODO descomentar esto
+//		if ( get_current_user_id() != $id_user ) {
+//			return 'Not valid user for link';
+//		}
+
+		// Verify link
+		if ( ! Helper::validate_sporting_nonce( $id_user, $id_event, $id_nonce ) ) {
+			return 'Not valid nonce';
+		}
+
+		wp_enqueue_style( 'event-style' );
+		wp_enqueue_script( 'event-script' );
+
+		// Ajax event
+		wp_localize_script( 'event-script',
+			'dcms_uevents',
+			[
+				'ajaxurl' => admin_url( 'admin-ajax.php' ),
+				'nevent'  => wp_create_nonce( 'ajax-nonce-event' )
+			] );
+
+		ob_start();
+		include_once DCMS_EVENT_PATH . 'views/set-purchase.php';
+		$html_code = ob_get_contents();
+		ob_end_clean();
+
+		return $html_code;
 	}
+
+
 }

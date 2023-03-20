@@ -442,7 +442,7 @@ class Database {
 
 	// Filter selected users inscribed event with identifies numbers
 	public function filter_users_event_selected_identifies( $id_event, $identifies ) {
-		$sql = "SELECT id, id_user, name, lastname, email, children, id_parent 
+		$sql = "SELECT id_user, name, lastname, email, children, id_parent 
 				FROM $this->event_users eu
 				INNER JOIN (
 					SELECT user_id FROM $this->user_meta
@@ -461,6 +461,10 @@ class Database {
 		return $this->wpdb->query( $sql );
 	}
 
+	// Get data selected user event
+	public function get_selected_event_user(){
+		$sql = "";
+	}
 
 	// Get all active products to metabox event
 	public function get_list_products() {

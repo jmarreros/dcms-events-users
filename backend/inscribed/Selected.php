@@ -33,6 +33,7 @@ class Selected {
 			$db   = new Database();
 
 			$event_sel = [
+				'id'      => $event_id,
 				'title'   => get_the_title( $event_id ),
 				'excerpt' => get_the_excerpt( $event_id )
 			];
@@ -42,6 +43,7 @@ class Selected {
 				// Not send email to child
 				if ( empty( $item->id_parent ) ) {
 					$user_sel = [
+						'id'           => $item->id_user,
 						'name'         => $item->name,
 						'email'        => $item->email,
 						'convivientes' => $item->children ? $user->get_arr_children_user( $item->id_user, $event_id ) : []
@@ -58,6 +60,10 @@ class Selected {
 		wp_send_json( $res );
 	}
 
+	// Get data selected user event
+	public function data_selected_user_event($id_user, $id_event){
+
+	}
 
 }
 
