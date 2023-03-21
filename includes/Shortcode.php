@@ -2,6 +2,7 @@
 
 namespace dcms\event\includes;
 
+use dcms\event\backend\inscribed\Selected;
 use dcms\event\helpers\Helper;
 
 // Class for grouping shortcodes functionality
@@ -156,6 +157,11 @@ class Shortcode {
 			return 'Not valid nonce';
 		}
 
+		$id_product = get_post_meta( $id_event, DCMS_EVENT_PRODUCT_ID );
+		if ( ! $id_product ) {
+			return 'No hay un producto asociado a este evento - consulta con el administrador del sitio';
+		}
+
 		wp_enqueue_style( 'event-style' );
 		wp_enqueue_script( 'event-script' );
 
@@ -167,10 +173,26 @@ class Shortcode {
 				'nevent'  => wp_create_nonce( 'ajax-nonce-event' )
 			] );
 
-		ob_start();
-		include_once DCMS_EVENT_PATH . 'views/set-purchase.php';
-		$html_code = ob_get_contents();
-		ob_end_clean();
+		$data_event = ( new Selected() )->data_selected_user_event( $id_user, $id_event );
+
+		if ( $data_event && ! $data_event['id_order'] ) {
+
+			if ( $data_event['children'] > 0 ) {
+				$user_name  = ( get_userdata( $id_user ) )->display_name;
+				$event_name = get_the_title( $id_event );
+				$children   = ( new User() )->get_arr_children_user( $id_user, $id_event );
+
+				ob_start();
+				include_once DCMS_EVENT_PATH . 'views/set-purchase.php';
+				$html_code = ob_get_contents();
+				ob_end_clean();
+			} else { // redirect
+				wp_redirect( wc_get_cart_url() . "?add-to-cart=$id_product&quantity=1" );
+			}
+
+		} else {
+			$html_code = "El enlace esta expirado o el evento ya ha sido pagado";
+		}
 
 		return $html_code;
 	}

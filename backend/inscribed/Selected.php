@@ -61,8 +61,8 @@ class Selected {
 	}
 
 	// Get data selected user event
-	public function data_selected_user_event($id_user, $id_event){
-
+	public function data_selected_user_event($id_user, $id_event):array{
+		return (new Database)->get_selected_event_user($id_user, $id_event);
 	}
 
 }

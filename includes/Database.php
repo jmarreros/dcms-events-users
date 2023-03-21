@@ -144,7 +144,6 @@ class Database {
 		$str_ids_user = '"' . implode( '","', $ids_user ) . '"';
 
 		// First get the id parent to recount children after delete users event
-		$ids_parent = [];
 		$ids_parent = $this->get_parents_children( $post_id, $str_ids_user );
 
 		// Remove user event, delete specific users
@@ -442,7 +441,7 @@ class Database {
 
 	// Filter selected users inscribed event with identifies numbers
 	public function filter_users_event_selected_identifies( $id_event, $identifies ) {
-		$sql = "SELECT id_user, name, lastname, email, children, id_parent 
+		$sql = "SELECT id, id_user, name, lastname, email, children, id_parent 
 				FROM $this->event_users eu
 				INNER JOIN (
 					SELECT user_id FROM $this->user_meta
@@ -462,8 +461,11 @@ class Database {
 	}
 
 	// Get data selected user event
-	public function get_selected_event_user(){
-		$sql = "";
+	public function get_selected_event_user( $id_user, $id_event ): array {
+		$sql = "SELECT * FROM $this->event_users 
+         		WHERE id_user = $id_user AND id_post = $id_event";
+
+		return $this->wpdb->get_row( $sql, ARRAY_A )??[];
 	}
 
 	// Get all active products to metabox event
@@ -473,7 +475,7 @@ class Database {
 				INNER JOIN $this->post_meta pm ON p.ID = pm.post_id AND pm.meta_key = '_price'
 				WHERE p.post_type = 'product' AND p.post_status = 'publish'
 				ORDER BY p.post_title";
-		
+
 		return $this->wpdb->get_results( $sql );
 	}
 
