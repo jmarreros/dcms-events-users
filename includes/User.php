@@ -28,11 +28,19 @@ class User {
 
 		$children_data = [];
 		foreach ( $children as $child ) {
-			$child_name                       = $child['name'];
-			$child_identify                   = $child['identify'];
+			$child_name     = $child['name'];
+			$child_identify = $child['identify'];
+
 			$children_data[ $child_identify ] = $child_name;
 		}
 
 		return $children_data;
+	}
+
+	// Get children user for specific event
+	public function get_children_user( $id_user, $id_post ): array {
+		$db = new Database();
+
+		return $db->get_children_user( $id_user, $id_post );
 	}
 }

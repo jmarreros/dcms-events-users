@@ -175,12 +175,13 @@ class Shortcode {
 
 		$data_event = ( new Selected() )->data_selected_user_event( $id_user, $id_event );
 
+		$html_code = '';
 		if ( $data_event && ! $data_event['id_order'] ) {
 
 			if ( $data_event['children'] > 0 ) {
 				$user_name  = ( get_userdata( $id_user ) )->display_name;
 				$event_name = get_the_title( $id_event );
-				$children   = ( new User() )->get_arr_children_user( $id_user, $id_event );
+				$children   = ( new User() )->get_children_user( $id_user, $id_event );
 
 				ob_start();
 				include_once DCMS_EVENT_PATH . 'views/set-purchase.php';

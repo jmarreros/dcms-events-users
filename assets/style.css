@@ -1,289 +1,319 @@
 .container-account-details {
-  margin: auto;
-  width: 100%;
-  max-width: 800px;
+    margin: auto;
+    width: 100%;
+    max-width: 800px;
 }
 
 .dcms-user-details {
-  width: 100%;
-  border: 1px solid #ccc;
+    width: 100%;
+    border: 1px solid #ccc;
 }
 
 .dcms-user-details th {
-  background-color: #eee;
-  border: 1px solid #ccc;
-  text-align: left;
-  padding: 4px 10px 4px 30px;
-  font-weight: bold;
-  height: 50px;
+    background-color: #eee;
+    border: 1px solid #ccc;
+    text-align: left;
+    padding: 4px 10px 4px 30px;
+    font-weight: bold;
+    height: 50px;
 }
 
 .dcms-user-details td {
-  padding: 4px 10px;
-  border: 1px solid #ccc;
+    padding: 4px 10px;
+    border: 1px solid #ccc;
 }
 
 .list-events {
-  padding: 0;
-  list-style-type: none;
+    padding: 0;
+    list-style-type: none;
 }
 
 .item-event .button,
 .frm-account-details .button {
-  cursor: pointer;
-  margin-top: 20px;
-  background-color: #bc2427;
-  padding: 10px 20px;
-  color: white;
-  border: none;
-  text-transform: uppercase;
-  border-radius: 4px;
+    cursor: pointer;
+    margin-top: 20px;
+    background-color: #bc2427;
+    padding: 10px 20px;
+    color: white;
+    border: none;
+    text-transform: uppercase;
+    border-radius: 4px;
 }
 
 .item-event .button {
-  margin-top: 5px;
+    margin-top: 5px;
 }
 
 .item-event .button:hover,
 .frm-account-details .button:hover {
-  background-color: #8d191f;
+    background-color: #8d191f;
 }
 
 .item-event button.nojoin:disabled,
 .item-event button.nojoin[disabled] {
-  border: 1px solid #999;
-  background-color: #ccc;
-  color: #555;
-  cursor: no-drop;
+    border: 1px solid #999;
+    background-color: #ccc;
+    color: #555;
+    cursor: no-drop;
 }
 
 .item-event .button.join:disabled {
-  opacity: 0.5;
-  cursor: no-drop;
+    opacity: 0.5;
+    cursor: no-drop;
 }
 
 .item-event .description {
-  margin-top: 12px;
+    margin-top: 12px;
 }
 
 .terms-conditions label a {
-  text-decoration: underline;
+    text-decoration: underline;
 }
 
 .container-question .question-children,
 .terms-conditions .event-conditions {
-  width: 20px;
-  height: 20px;
-  cursor: pointer;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
 }
 
 .terms-conditions label,
 .container-question label {
-  cursor: pointer;
+    cursor: pointer;
 }
 
 section.message,
 .frm-account-details .message {
-  background-color: #ceeed8;
-  color: #005a1e;
-  border: 1px solid #005a1e;
-  font-size: 14px;
-  padding: 5px 10px;
-  border-radius: 4px;
-  margin-top: 20px;
-  margin-bottom: 10px;
+    background-color: #ceeed8;
+    color: #005a1e;
+    border: 1px solid #005a1e;
+    font-size: 14px;
+    padding: 5px 10px;
+    border-radius: 4px;
+    margin-top: 20px;
+    margin-bottom: 10px;
 }
 
 section.message.error,
 .frm-account-details .message.error {
-  background-color: #fed5da;
-  color: #831c2c;
-  border-color: #831c2c;
+    background-color: #fed5da;
+    color: #831c2c;
+    border-color: #831c2c;
 }
 
 a.button.disabled {
-  opacity: 0.5;
-  pointer-events: none;
-  cursor: default;
+    opacity: 0.5;
+    pointer-events: none;
+    cursor: default;
 }
 
 /*Sidebar user*/
 .container-user-sidebar {
-  text-align: center;
+    text-align: center;
 }
 
 .container-user-sidebar span.gravatar {
-  font-size: 12px;
-  text-transform: uppercase;
-  display: block;
-  margin: 8px 0;
+    font-size: 12px;
+    text-transform: uppercase;
+    display: block;
+    margin: 8px 0;
 }
 
 .container-user-sidebar .usidebar-name {
-  text-transform: uppercase;
-  font-weight: bold;
-  border-top: 1px solid #ccc;
-  border-bottom: 1px solid #ccc;
-  padding: 10px;
-  margin-top: 20px;
+    text-transform: uppercase;
+    font-weight: bold;
+    border-top: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+    padding: 10px;
+    margin-top: 20px;
 }
 
 .container-user-sidebar .usidebar-number {
-  padding: 10px;
-  border-bottom: 1px solid #ccc;
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
 }
 
 /*Spinner*/
 .lds-ring {
-  display: inline-block;
-  position: relative;
-  width: 12px;
-  height: 12px;
+    display: inline-block;
+    position: relative;
+    width: 12px;
+    height: 12px;
 }
+
 .lds-ring div {
-  box-sizing: border-box;
-  display: block;
-  position: absolute;
-  width: 16px;
-  height: 16px;
-  margin: 3px;
-  border: 3px solid gray;
-  border-radius: 50%;
-  animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
-  border-color: gray transparent transparent transparent;
+    box-sizing: border-box;
+    display: block;
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    margin: 3px;
+    border: 3px solid gray;
+    border-radius: 50%;
+    animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+    border-color: gray transparent transparent transparent;
 }
+
 .lds-ring div:nth-child(1) {
-  animation-delay: -0.45s;
+    animation-delay: -0.45s;
 }
+
 .lds-ring div:nth-child(2) {
-  animation-delay: -0.3s;
+    animation-delay: -0.3s;
 }
+
 .lds-ring div:nth-child(3) {
-  animation-delay: -0.15s;
+    animation-delay: -0.15s;
 }
+
 @keyframes lds-ring {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
 }
 
 .inscription-container {
-  border: 1px solid #ccc;
-  background-color: #eeeeee;
-  margin-top: 16px;
-  padding: 10px 20px;
+    border: 1px solid #ccc;
+    background-color: #eeeeee;
+    margin-top: 16px;
+    padding: 10px 20px;
 }
 
 .inscription-container.accept {
-  background-color: white;
+    background-color: white;
 }
 
 .inscription-container .select-children {
-  margin: 10px auto;
+    margin: 10px auto;
 }
 
 .list-children {
-  list-style: none;
-  padding: 0;
+    list-style: none;
+    padding: 0;
 }
 
 .list-children .cclear {
-  color: #bc2427;
-  font-size: 14px;
-  display: none;
+    color: #bc2427;
+    font-size: 14px;
+    display: none;
 }
 
 .list-children .cvalidate {
-  font-size: 14px;
-  text-transform: none;
-  padding: 4px 8px !important;
+    font-size: 14px;
+    text-transform: none;
+    padding: 4px 8px !important;
 }
 
 .list-children .cinputs {
-  display: flex;
+    display: flex;
 }
 
 .list-children .cinputs input {
-  padding: 6px 8px;
-  width: 50%;
+    padding: 6px 8px;
+    width: 50%;
 }
 
 .list-children .cinputs input:first-child {
-  margin-right: 10px;
+    margin-right: 10px;
 }
 
 .list-children .cactions {
-  text-align: right;
-  margin-top: 8px;
+    text-align: right;
+    margin-top: 8px;
 }
 
 .list-children li {
-  padding: 10px;
-  padding-top: 14px;
-  border: 2px dashed grey;
-  margin-bottom: 20px;
-  background-color: #fbfbfb;
+    padding: 10px;
+    padding-top: 14px;
+    border: 2px dashed grey;
+    margin-bottom: 20px;
+    background-color: #fbfbfb;
 }
 
 .list-children.blocked li {
-  border: none;
-  padding: 0;
+    border: none;
+    padding: 0;
 }
 
 .container-children .message-top {
-  margin-top: 14px;
-  margin-bottom: 14px;
-  line-height: 20px;
+    margin-top: 14px;
+    margin-bottom: 14px;
+    line-height: 20px;
 }
 
 .container-children section.message {
-  line-height: 22px;
-  margin-top: 0;
-  display: none;
+    line-height: 22px;
+    margin-top: 0;
+    display: none;
 }
 
 .container-children section.add-children.message {
-  margin-top: 16px;
+    margin-top: 16px;
 }
 
 .container-children {
-  display: none;
+    display: none;
 }
 
 .container-children-data {
-  margin: 10px auto;
+    margin: 10px auto;
 }
 
 .container-children-data .message-top {
-  margin: 10px auto;
+    margin: 10px auto;
 }
 
 .list-children .cdata {
-  margin-top: 10px;
+    margin-top: 10px;
 }
 
 .container-question {
-  margin: 10px auto;
-  padding: 10px;
+    margin: 10px auto;
+    padding: 10px;
 }
 
 .mark {
-  background-color: yellow;
+    background-color: yellow;
 }
 
 .mark.no-mark {
-  background-color: transparent;
-  font-weight: bold;
+    background-color: transparent;
+    font-weight: bold;
 }
 
 .message-joined {
-  padding: 10px;
-  font-size: 14px;
-  line-height: 24px;
-  margin-top: 10px;
-  margin-bottom: 15px;
-  background-color: lightyellow;
+    padding: 10px;
+    font-size: 14px;
+    line-height: 24px;
+    margin-top: 10px;
+    margin-bottom: 15px;
+    background-color: lightyellow;
+}
+
+.setting-purchase{
+    max-width: 780px;
+    margin: auto;
+}
+
+.setting-purchase h2{
+    text-align: center;
+}
+
+.setting-purchase .buttons{
+    margin-top: 30px;
+    text-align: right;
+}
+
+.setting-purchase .child-name {
+    min-width: 300px;
+    display: inline-block;
+    font-size: 14px;
+}
+
+.setting-purchase .user-children .button {
+    font-size: 12px;
+    padding: 4px 10px;
 }

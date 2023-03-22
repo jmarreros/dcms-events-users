@@ -388,7 +388,7 @@ class Database {
 
 	// Get children user for the event
 	public function get_children_user( $id_user, $id_post ) {
-		$sql = "SELECT eu.id_user, v.identify as `identify`, CONCAT(v.`name`, ' ' , v.`lastname`) as `name`
+		$sql = "SELECT eu.id_user, eu.joined, eu.selected, v.identify as `identify`, CONCAT(v.`name`, ' ' , v.`lastname`) as `name`
                 FROM {$this->event_users} eu
                 INNER JOIN {$this->view_users} v ON v.user_id = eu.id_user
                 WHERE eu.id_post = {$id_post} AND eu.id_parent = {$id_user} AND eu.joined = 1";
