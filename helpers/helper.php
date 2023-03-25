@@ -196,35 +196,31 @@ class Helper {
 	public static function validate_sporting_nonce( $id_user, $id_event, $id_nonce ): bool {
 		return md5( $id_user . $id_event . 'sporting_nonce' ) === $id_nonce;
 	}
+
+
+
+	// Aux - Validate if the rows affected are > 0
+	public static function validate_updated( $result ) {
+		if ( ! $result ) {
+			$res = [
+				'status'  => 0,
+				'message' => '✋ No se puede actualizar su participación en el evento!'
+			];
+			echo json_encode( $res );
+			wp_die();
+		}
+	}
+
+	// Aux - Validate if the rows affected are > 0 for adding children
+	public static function validate_add_children( $result ) {
+		if ( ! $result ) {
+			$res = [
+				'status'  => 0,
+				'message' => '✋ No fue posible agregar algunos convivientes! - Refresca tu navegador'
+			];
+			echo json_encode( $res );
+			wp_die();
+		}
+	}
+
 }
-
-
-
-
-// Transform results cols to rows in arrays from $items object
-//    public static function transform_columns_arr($items){
-//         $id = 0;
-//         $arr = [];
-//         $result = [];
-//         foreach ($items as $item) {
-//
-//             if ( $item->user_id != $id && $id != 0 ){
-//                 $result[] = $arr;
-//                 $arr = [];
-//             }
-//
-//             if ( ! $arr ) {
-//                 $arr['user_id']= $item->user_id;
-//                 $arr['joined'] = $item->joined??0;
-//                 $arr['children'] = $item->children??0;
-//                 $arr['parent'] = $item->parent??0;
-//             }
-//
-//             $arr[$item->meta_key] = $item->meta_value;
-//
-//             $id = $item->user_id;
-//         }
-//         if ( $arr ) $result[] = $arr;
-//
-//         return $result;
-//    }

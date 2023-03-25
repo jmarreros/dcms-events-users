@@ -3,6 +3,7 @@
 namespace dcms\event\includes;
 
 use dcms\event\helpers\Helper;
+use PleskX\Api\Operator\EventLog;
 
 // Event class
 class Event {
@@ -17,6 +18,9 @@ class Event {
 
 		// Mailing
 		add_action( 'wp_ajax_dcms_ajax_resend_mail_join_event', [ $this, 'resend_email_join_event' ] );
+
+		// Payment
+		add_action( 'wp_ajax_dcms_ajax_continue_with_payment', [ $this, 'continue_with_payment' ] );
 
 	}
 
@@ -43,7 +47,7 @@ class Event {
 		$result = $db->save_join_user_to_event( $id_post, $id_user );
 
 		// Validate if updated rows > 0
-		$this->validate_updated( $result );
+		Helper::validate_updated( $result );
 
 		//Send email user
 		$this->send_email_join_event( $name, $email, $event_title, $event_excerpt );
@@ -189,7 +193,7 @@ class Event {
 			$this->send_email_join_event( $name, $email, $event_title, $event_excerpt, $children_data );
 		}
 
-		$this->validate_add_children( $result );
+		Helper::validate_add_children( $result );
 
 		// If all is ok
 		$res = [
@@ -204,8 +208,8 @@ class Event {
 
 
 	// Send mail join event
-	private function send_email_join_event( $name, $email, $event_title, $event_excerpt = '', $convivientes = [] ) :bool {
-		$mail = new Mail();
+	private function send_email_join_event( $name, $email, $event_title, $event_excerpt = '', $convivientes = [] ): bool {
+		$mail      = new Mail();
 		$user_join = [
 			'name'         => $name,
 			'email'        => $email,
@@ -257,75 +261,57 @@ class Event {
 	}
 
 
-	// Aux - Validate if the rows affected are > 0
-	private function validate_updated( $result ) {
-		if ( ! $result ) {
-			$res = [
-				'status'  => 0,
-				'message' => '✋ No se puede actualizar su participación en el evento!'
-			];
-			echo json_encode( $res );
-			wp_die();
+	// Setting purchase form
+	public function continue_with_payment() {
+		// Validate nonce
+		Helper::validate_nonce( $_POST['nonce'], 'ajax-nonce-event' );
+
+		$id_user      = $_POST['id_user'] ?? 0;
+		$id_event     = $_POST['id_event'] ?? 0;
+		$children_set = $_POST['children'] ?? [];
+
+		$db   = new Database();
+		$data = $db->get_selected_event_user( $id_user, $id_event );
+
+		$count_total = count( $children_set ) + 1;
+
+		// Get and validate product associate with event
+		$id_product = get_post_meta( $id_event, DCMS_EVENT_PRODUCT_ID, true );
+		if ( ! $id_product ) {
+			$res['message'] = "No hay un producto asignado al evento";
+			wp_send_json( $res );
 		}
+
+		// Validating data sent for the user, id user and user assigned to event
+		if ( get_current_user_id() == $id_user && ! empty( $data ) ) {
+
+			$children_user = array_column( $db->get_children_user( $id_user, $id_event ), 'id_user' );
+
+			// Validating if children have the event assigned
+			if ( ! empty( $children_set ) ) {
+
+				if ( ! empty( array_diff( $children_set, $children_user ) ) ) {
+					$res['message'] = "Uno de los acompañantes no tiene asignado el evento";
+					wp_send_json( $res );
+				}
+			}
+
+			$children_deselected = array_diff( $children_user, $children_set );
+			$db->deselect_children_event( $id_user, $children_deselected, $id_event );
+
+			// Build redirection to cart
+			$res = [
+				'status'  => 1,
+				'message' => "Redireccionando...",
+				'url'     => wc_get_cart_url() . "?add-to-cart=$id_product&quantity=$count_total"
+			];
+
+		} else {
+			$res['message'] = "El usuario conectado no coincide con el usuario del evento";
+		}
+
+		wp_send_json( $res );
 	}
 
-	// Aux - Validate if the rows affected are > 0 for adding children
-	private function validate_add_children( $result ) {
-		if ( ! $result ) {
-			$res = [
-				'status'  => 0,
-				'message' => '✋ No fue posible agregar algunos convivientes! - Refresca tu navegador'
-			];
-			echo json_encode( $res );
-			wp_die();
-		}
-	}
 }
 
-
-// Aux - Security, verify nonce
-//    private function validate_nonce( $nonce_name ){
-//        if ( ! wp_verify_nonce( $_POST['nonce'], $nonce_name ) ) {
-//            $res = [
-//                'status' => 0,
-//                'message' => '✋ Error nonce validation!!'
-//            ];
-//            echo json_encode($res);
-//            wp_die();
-//        }
-//    }
-
-//
-//$options = get_option( 'dcms_events_options' );
-//
-//add_filter( 'wp_mail_from', function () {
-//	$options = get_option( 'dcms_events_options' );
-//
-//	return $options['dcms_sender_email'];
-//} );
-//add_filter( 'wp_mail_from_name', function () {
-//	$options = get_option( 'dcms_events_options' );
-//
-//	return $options['dcms_sender_name'];
-//} );
-//
-//$headers = [ 'Content-Type: text/html; charset=UTF-8' ];
-//$subject = $options['dcms_subject_email_inscription'];
-//$body    = $options['dcms_text_email_inscription'];
-//$body    = str_replace( '%name%', $name, $body );
-//$body    = str_replace( '%event_title%', $event_title, $body );
-//$body    = str_replace( '%event_extracto%', $event_excerpt, $body );
-//
-//$str = '';
-//if ( $convivientes ) {
-//	$str = "Convivientes: <br>";
-//	$str .= "<ul>";
-//	foreach ( $convivientes as $key => $value ) {
-//		$str .= "<li> ID: " . $key . " - " . $value . "</li>";
-//	}
-//	$str .= "</ul>";
-//}
-//$body = str_replace( '%convivientes%', $str, $body );
-//
-//
-//return wp_mail( $email, $subject, $body, $headers );

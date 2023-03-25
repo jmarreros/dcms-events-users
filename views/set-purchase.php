@@ -1,6 +1,8 @@
 <?php
 /** @var string $event_name */
 /** @var string $user_name */
+/** @var int $id_event */
+/** @var int $id_user */
 /** @var array $children */
 ?>
 <section class="setting-purchase">
@@ -8,19 +10,26 @@
 
     <p>Hola <?= $user_name ?> tienes los siguientes inscritos:</p>
     <ul class="user-children">
-        <?php foreach ( $children as $child ) : ?>
-            <li>
+		<?php foreach ( $children as $child ) : ?>
+            <li class="user-child"
+                data-user="<?= $id_user ?>"
+                data-child="<?= $child['id_user'] ?>"
+                data-event="<?= $id_event ?>"
+            >
                 <span class="child-name">
                     <?= $child['name'] ?>
                 </span>
-                <span class="item-event">
-                    <a class="button" href="#">Eliminar</a>
-                </span>
+                <a class="button remove" href="#">Eliminar</a>
+                <a class="button add" href="#">Agregar</a>
             </li>
-        <?php endforeach; ?>
+		<?php endforeach; ?>
     </ul>
-    <div class="item-event buttons">
-        <a class="btn button" href="#">Continuar con el pago</a>
+    <div class="buttons-container">
+        <div class="lds-ring" style="display:none;"><div></div><div></div><div></div><div></div></div>
+        <a data-event="<?= $id_event ?>" data-user="<?= $id_user ?>" class="btn button" href="#">
+            Continuar con el pago
+        </a>
+        <div class="message"></div>
     </div>
 </section>
 

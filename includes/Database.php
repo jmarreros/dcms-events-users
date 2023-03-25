@@ -465,7 +465,7 @@ class Database {
 		$sql = "SELECT * FROM $this->event_users 
          		WHERE id_user = $id_user AND id_post = $id_event";
 
-		return $this->wpdb->get_row( $sql, ARRAY_A )??[];
+		return $this->wpdb->get_row( $sql, ARRAY_A ) ?? [];
 	}
 
 	// Get all active products to metabox event
@@ -477,6 +477,25 @@ class Database {
 				ORDER BY p.post_title";
 
 		return $this->wpdb->get_results( $sql );
+	}
+
+	// Deselecting children for the event
+	public function deselect_children_event( $id_parent, $children_deselected, $id_event ) {
+		// Set select = 1 for all children
+		$sql = "UPDATE $this->event_users SET selected = 1
+			 	WHERE id_parent = $id_parent AND id_post = $id_event";
+
+		$this->wpdb->query( $sql );
+
+		// Update select = 0 for children deselected
+		if ( ! empty( $children_deselected ) ) {
+			$sql = "UPDATE $this->event_users SET selected = 0 
+             		WHERE id_user IN ( " . join( ',', $children_deselected ) .") 
+             		AND id_post = $id_event";
+
+			$this->wpdb->query( $sql );
+		}
+
 	}
 
 }

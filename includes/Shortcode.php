@@ -157,7 +157,7 @@ class Shortcode {
 			return 'Not valid nonce';
 		}
 
-		$id_product = get_post_meta( $id_event, DCMS_EVENT_PRODUCT_ID );
+		$id_product = get_post_meta( $id_event, DCMS_EVENT_PRODUCT_ID , true);
 		if ( ! $id_product ) {
 			return 'No hay un producto asociado a este evento - consulta con el administrador del sitio';
 		}

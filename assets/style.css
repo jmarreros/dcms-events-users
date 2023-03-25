@@ -28,6 +28,7 @@
     list-style-type: none;
 }
 
+.setting-purchase .button,
 .item-event .button,
 .frm-account-details .button {
     cursor: pointer;
@@ -40,15 +41,18 @@
     border-radius: 4px;
 }
 
+.setting-purchase .button,
 .item-event .button {
     margin-top: 5px;
 }
 
+.setting-purchase .button:hover,
 .item-event .button:hover,
 .frm-account-details .button:hover {
     background-color: #8d191f;
 }
 
+.setting-purchase .user-child.not-selected .remove,
 .item-event button.nojoin:disabled,
 .item-event button.nojoin[disabled] {
     border: 1px solid #999;
@@ -293,18 +297,22 @@ a.button.disabled {
     background-color: lightyellow;
 }
 
-.setting-purchase{
+.setting-purchase {
     max-width: 780px;
     margin: auto;
 }
 
-.setting-purchase h2{
+.setting-purchase h2 {
     text-align: center;
 }
 
-.setting-purchase .buttons{
+.setting-purchase .buttons-container {
     margin-top: 30px;
     text-align: right;
+}
+
+.setting-purchase .buttons-container .button {
+    margin-left: 12px;
 }
 
 .setting-purchase .child-name {
@@ -316,4 +324,20 @@ a.button.disabled {
 .setting-purchase .user-children .button {
     font-size: 12px;
     padding: 4px 10px;
+}
+
+.setting-purchase .user-child .button.add {
+    display: none
+}
+
+.setting-purchase .user-child.not-selected .button.add {
+    display: inline;
+}
+
+.setting-purchase .user-child.not-selected .child-name {
+    text-decoration: line-through;
+}
+
+.setting-purchase .buttons-container .message {
+    margin-top: 10px;
 }
