@@ -68,7 +68,7 @@ class Selected {
 
 	// Update event user order
 	public function update_event_user_order( $order_id, $old_status, $new_status, $order ) {
-		$user_id = get_current_user_id();
+		$user_id = $order->get_user_id();
 
 		$db = new Database();
 

@@ -45,16 +45,18 @@
                         <td><?= $row['children'] ?></td>
                         <td><?= $row['parent'] ?></td>
                         <td>
+                        <?php if ( $row['id_order'] ) : ?>
                             <a href="/wp-admin/post.php?post=<?= $row['id_order'] ?>&action=edit">
-								<?= $row['id_order'] ?>
+                                <?= $row['id_order'] ?>
                             </a>
+                        <?php endif; ?>
                         </td>
-                        <td><a class="resend"
+                        <td><!-- <a class="resend"
                                data-event-id="<?= $id_event ?>"
                                data-user-id="<?= $row['user_id'] ?>"
                                data-user-name="<?= $row['name'] ?>"
                                data-email="<?= $row['email'] ?>"
-                               href="#">Reenviar</a></td>
+                               href="#">Reenviar</a></td> -->
                     </tr>
 				<?php endforeach; ?>
             </table>
