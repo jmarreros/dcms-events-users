@@ -137,6 +137,8 @@ class Shortcode {
 
 	// To show form setting purchase
 	public function show_set_purchase() {
+		global $woocommerce;
+
 		// Validate user login
 		if ( ! is_user_logged_in() ) {
 			return '';
@@ -147,20 +149,22 @@ class Shortcode {
 		$id_nonce = get_query_var( 'idn', 0 );
 
 		// Verify user id
-		// TODO descomentar esto
-//		if ( get_current_user_id() != $id_user ) {
-//			return 'Not valid user for link';
-//		}
+		if ( get_current_user_id() != $id_user ) {
+			return 'Usuario no válido para este enlace, conectate con el usuario correcto';
+		}
 
 		// Verify link
 		if ( ! Helper::validate_sporting_nonce( $id_user, $id_event, $id_nonce ) ) {
 			return 'Not valid nonce';
 		}
 
-		$id_product = get_post_meta( $id_event, DCMS_EVENT_PRODUCT_ID , true);
+		$id_product = get_post_meta( $id_event, DCMS_EVENT_PRODUCT_ID, true );
 		if ( ! $id_product ) {
 			return 'No hay un producto asociado a este evento - consulta con el administrador del sitio';
 		}
+
+		// Empty cart
+		$woocommerce->cart->empty_cart();
 
 		wp_enqueue_style( 'event-style' );
 		wp_enqueue_script( 'event-script' );
@@ -188,7 +192,12 @@ class Shortcode {
 				$html_code = ob_get_contents();
 				ob_end_clean();
 			} else { // redirect
-				wp_redirect( wc_get_cart_url() . "?add-to-cart=$id_product&quantity=1" );
+				try {
+					WC()->cart->add_to_cart( $id_product, 1 );
+					wp_redirect( wc_get_cart_url() );
+				} catch ( \Exception $e ) {
+					return 'Hubo un error al agregar al carrito - ' . $e->getMessage();
+				}
 			}
 
 		} else {

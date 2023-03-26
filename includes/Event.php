@@ -263,6 +263,8 @@ class Event {
 
 	// Setting purchase form
 	public function continue_with_payment() {
+		global $woocommerce;
+
 		// Validate nonce
 		Helper::validate_nonce( $_POST['nonce'], 'ajax-nonce-event' );
 
@@ -299,12 +301,20 @@ class Event {
 			$children_deselected = array_diff( $children_user, $children_set );
 			$db->deselect_children_event( $id_user, $children_deselected, $id_event );
 
-			// Build redirection to cart
-			$res = [
-				'status'  => 1,
-				'message' => "Redireccionando...",
-				'url'     => wc_get_cart_url() . "?add-to-cart=$id_product&quantity=$count_total"
-			];
+			// Empty cart
+			$woocommerce->cart->empty_cart();
+
+			try {
+				WC()->cart->add_to_cart( $id_product, $count_total );
+				// Build redirection to cart
+				$res = [
+					'status'  => 1,
+					'message' => "Redireccionando...",
+					'url'     => wc_get_cart_url()
+				];
+			} catch ( \Exception $e ) {
+				$res['message'] = "Hubo un error al agregar al carrito - " . $e->getMessage() ;
+			}
 
 		} else {
 			$res['message'] = "El usuario conectado no coincide con el usuario del evento";
