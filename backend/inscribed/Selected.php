@@ -11,6 +11,7 @@ class Selected {
 
 	public function __construct() {
 		add_action( 'wp_ajax_dcms_ajax_import_selected', [ $this, 'import_selected' ] );
+		add_action( 'woocommerce_order_status_changed', [ $this, 'update_event_user_order' ], 10, 4 );
 	}
 
 	public function import_selected() {
@@ -61,8 +62,32 @@ class Selected {
 	}
 
 	// Get data selected user event
-	public function data_selected_user_event($id_user, $id_event):array{
-		return (new Database)->get_selected_event_user($id_user, $id_event);
+	public function data_selected_user_event( $id_user, $id_event ): array {
+		return ( new Database )->get_selected_event_user( $id_user, $id_event );
 	}
+
+	// Update event user order
+	public function update_event_user_order( $order_id, $old_status, $new_status, $order ) {
+		$user_id = get_current_user_id();
+
+		$db = new Database();
+
+		foreach ( $order->get_items() as $item ) {
+			$product_id = $item->get_product_id();
+			$event_id   = $db->get_event_id_product( $product_id );
+
+			if ( ! $event_id ) {
+				error_log( print_r( "Error - not event associate with a product - $product_id", true ) );
+				return;
+			}
+
+			if ( $new_status === 'completed' ) {
+				$db->update_event_user_order( $user_id, $event_id, $order_id );
+			} elseif ( $old_status === 'completed' ) {
+				$db->update_event_user_order( $user_id, $event_id, 0 );
+			}
+		}
+	}
+
 
 }
