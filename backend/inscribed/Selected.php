@@ -10,11 +10,17 @@ use dcms\event\includes\User;
 class Selected {
 
 	public function __construct() {
-		add_action( 'wp_ajax_dcms_ajax_import_selected', [ $this, 'import_selected' ] );
+		add_action( 'wp_ajax_dcms_ajax_save_selected_and_notify', [ $this, 'save_selected_and_notify' ] );
 		add_action( 'woocommerce_order_status_changed', [ $this, 'update_event_user_order' ], 10, 4 );
+
+		add_action( 'wp_ajax_dcms_ajax_resend_mail_selected_for_payment', [
+			$this,
+			'resend_email_selected_for_payment'
+		] );
 	}
 
-	public function import_selected() {
+	// Save selected and notify to user
+	public function save_selected_and_notify() {
 		// Validate nonce
 		Helper::validate_nonce( $_POST['nonce'], 'ajax-inscribed-selected' );
 
@@ -78,6 +84,7 @@ class Selected {
 
 			if ( ! $event_id ) {
 				error_log( print_r( "Error - not event associate with a product - $product_id", true ) );
+
 				return;
 			}
 
@@ -89,5 +96,47 @@ class Selected {
 		}
 	}
 
+
+	// Resend email selected for payment
+	public function resend_email_selected_for_payment() {
+
+		Helper::validate_nonce( $_POST['nonce'], 'ajax-inscribed-selected' );
+
+		// Event data
+		$user_id    = intval( $_POST['userID'] );
+		$event_id   = intval( $_POST['eventID'] );
+		$user_name  = $_POST['userName'] ?? '';
+		$user_email = $_POST['email'];
+
+		$event_sel = [
+			'id'      => $event_id,
+			'title'   => get_the_title( $event_id ),
+			'excerpt' => get_the_excerpt( $event_id )
+		];
+
+		$user_sel = [
+			'id'           => $user_id,
+			'name'         => $user_name,
+			'email'        => $user_email,
+			'convivientes' => ( new User )->get_arr_children_user( $user_id, $event_id, true )
+		];
+
+		$result = ( new Mail )->send_mail_template( 'selection', $user_sel, $event_sel );
+
+		if ( ! $result ) {
+			$res = [
+				'status'  => 0,
+				'message' => "Ocurrió un problema en el reenvío del correo " . $user_email
+			];
+		} else {
+			$res = [
+				'status'  => 1,
+				'message' => "ok"
+			];
+		}
+
+		echo json_encode( $res );
+		wp_die();
+	}
 
 }

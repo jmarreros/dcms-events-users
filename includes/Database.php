@@ -393,9 +393,7 @@ class Database {
                 INNER JOIN {$this->view_users} v ON v.user_id = eu.id_user
                 WHERE eu.id_post = {$id_post} AND eu.id_parent = {$id_user} AND eu.joined = 1";
 
-		$result = $this->wpdb->get_results( $sql, ARRAY_A );
-
-		return $result;
+		return $this->wpdb->get_results( $sql, ARRAY_A );
 	}
 
 	// Remove child from specific event

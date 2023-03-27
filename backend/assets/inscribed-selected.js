@@ -18,7 +18,7 @@
             url: dcms_inscribed_selected.ajaxurl,
             type: 'post',
             data: {
-                action: 'dcms_ajax_import_selected',
+                action: 'dcms_ajax_save_selected_and_notify',
                 nonce: dcms_inscribed_selected.nonce,
                 identifies,
                 event_id
@@ -126,7 +126,7 @@
 
     $('.container-selected .resend').click(function (e) {
         e.preventDefault();
-        resend_mail(this, 'dcms_ajax_resend_mail_join_event');
+        resend_mail(this, 'dcms_ajax_resend_mail_selected_for_payment');
     });
 
 

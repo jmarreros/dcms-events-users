@@ -22,7 +22,7 @@ class User {
 
 
 	// Make an Arr children data, for specific user and event
-	public function get_arr_children_user( $id_user, $id_post ): array {
+	public function get_arr_children_user( $id_user, $id_post, $only_selected = false ): array {
 		$db       = new Database();
 		$children = $db->get_children_user( $id_user, $id_post );
 
@@ -30,6 +30,10 @@ class User {
 		foreach ( $children as $child ) {
 			$child_name     = $child['name'];
 			$child_identify = $child['identify'];
+
+			if ( $only_selected && $child['selected'] == 0 ) {
+				continue;
+			}
 
 			$children_data[ $child_identify ] = $child_name;
 		}

@@ -45,19 +45,21 @@
                         <td><?= $row['children'] ?></td>
                         <td><?= $row['parent'] ?></td>
                         <td>
-                        <?php if ( $row['id_order'] ) : ?>
-                            <a href="/wp-admin/post.php?post=<?= $row['id_order'] ?>&action=edit">
-                                <?= $row['id_order'] ?>
-                            </a>
-                        <?php endif; ?>
+							<?php if ( $row['id_order'] ) : ?>
+                                <a href="/wp-admin/post.php?post=<?= $row['id_order'] ?>&action=edit">
+									<?= $row['id_order'] ?>
+                                </a>
+							<?php endif; ?>
                         </td>
                         <td>
-                            <a class="resend"
-                               data-event-id="<?= $id_event ?>"
-                               data-user-id="<?= $row['user_id'] ?>"
-                               data-user-name="<?= $row['name'] ?>"
-                               data-email="<?= $row['email'] ?>"
-                               href="#">Reenviar</a>
+							<?php if ( empty( $row['parent'] ) || $row['parent'] === $row['identify'] ) : ?>
+                                <a class="resend"
+                                   data-event-id="<?= $id_event ?>"
+                                   data-user-id="<?= $row['user_id'] ?>"
+                                   data-user-name="<?= $row['name'] ?>"
+                                   data-email="<?= $row['email'] ?>"
+                                   href="#">Reenviar</a>
+							<?php endif; ?>
                         </td>
                     </tr>
 				<?php endforeach; ?>
@@ -76,7 +78,7 @@
                 </form>
             </div>
             <div class="save-notify">
-                <a class="btn-export button button-primary">
+                <a class="button button-primary">
 					<?php _e( 'Guardar y notificar seleccionados', 'dcms-events-users' ) ?>
                 </a>
                 <div id="msg-save-import" class="message"></div>
