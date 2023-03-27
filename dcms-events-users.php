@@ -28,6 +28,7 @@ use dcms\event\includes\Export;
 use dcms\event\backend\single\Single;
 use dcms\event\backend\single\Metabox;
 use dcms\event\backend\single\Filter;
+use dcms\event\backend\inscribed\Inscribed;
 use dcms\event\backend\inscribed\Selected;
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -99,6 +100,7 @@ final class Loader {
 		new Filter();
 		new Export();
 		new Selected();
+		new Inscribed();
 	}
 }
 

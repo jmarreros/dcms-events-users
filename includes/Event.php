@@ -16,9 +16,6 @@ class Event {
 		add_action( 'wp_ajax_dcms_ajax_add_children', [ $this, 'add_children_event' ] );
 		add_action( 'wp_ajax_dcms_ajax_remove_child', [ $this, 'remove_child_event' ] );
 
-		// Mailing
-		add_action( 'wp_ajax_dcms_ajax_resend_mail_join_event', [ $this, 'resend_email_join_event' ] );
-
 		// Payment
 		add_action( 'wp_ajax_dcms_ajax_continue_with_payment', [ $this, 'continue_with_payment' ] );
 
@@ -50,7 +47,7 @@ class Event {
 		Helper::validate_updated( $result );
 
 		//Send email user
-		$this->send_email_join_event( $name, $email, $event_title, $event_excerpt );
+		( new Mail )->send_email_join_event( $name, $email, $event_title, $event_excerpt );
 
 		// Update user meta
 		$db->update_count_user_meta( $id_user );
@@ -190,7 +187,7 @@ class Event {
 			$db->save_join_user_to_event( $id_post, $id_user, $parent );
 
 			//Send email user
-			$this->send_email_join_event( $name, $email, $event_title, $event_excerpt, $children_data );
+			(new Mail)->send_email_join_event( $name, $email, $event_title, $event_excerpt, $children_data );
 		}
 
 		Helper::validate_add_children( $result );
@@ -204,60 +201,6 @@ class Event {
 		echo json_encode( $res );
 		wp_die();
 
-	}
-
-
-	// Send mail join event
-	private function send_email_join_event( $name, $email, $event_title, $event_excerpt = '', $convivientes = [] ): bool {
-		$mail      = new Mail();
-		$user_join = [
-			'name'         => $name,
-			'email'        => $email,
-			'convivientes' => $convivientes
-		];
-
-		$event_join = [
-			'title'   => $event_title,
-			'excerpt' => $event_excerpt
-		];
-
-		return $mail->send_mail_template( 'inscription', $user_join, $event_join );
-	}
-
-	// public function for resending emails
-	public function resend_email_join_event() {
-
-		// Validate nonce
-		Helper::validate_nonce( $_POST['nonce'], 'ajax-inscribed-selected' );
-
-		// Event data
-		$user_id   = intval( $_POST['userID'] );
-		$event_id  = intval( $_POST['eventID'] );
-		$user_name = $_POST['userName'];
-		$email     = $_POST['email'];
-
-		$event_data    = get_post( $event_id );
-		$event_title   = $event_data->post_title;
-		$event_excerpt = $event_data->post_excerpt;
-
-		$data_children = ( new User() )->get_arr_children_user( $user_id, $event_id );
-
-		$result = $this->send_email_join_event( $user_name, $email, $event_title, $event_excerpt, $data_children );
-
-		if ( ! $result ) {
-			$res = [
-				'status'  => 0,
-				'message' => "Ocurrió un problema en el reenvío del correo " . $email
-			];
-		} else {
-			$res = [
-				'status'  => 1,
-				'message' => "ok"
-			];
-		}
-
-		echo json_encode( $res );
-		wp_die();
 	}
 
 
@@ -313,7 +256,7 @@ class Event {
 					'url'     => wc_get_cart_url()
 				];
 			} catch ( \Exception $e ) {
-				$res['message'] = "Hubo un error al agregar al carrito - " . $e->getMessage() ;
+				$res['message'] = "Hubo un error al agregar al carrito - " . $e->getMessage();
 			}
 
 		} else {

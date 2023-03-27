@@ -64,4 +64,21 @@ class Mail {
 
 		return wp_mail( $user_email, $subject, $body, $headers );
 	}
+
+
+	// Send mail join event
+	public function send_email_join_event( $name, $email, $event_title, $event_excerpt = '', $convivientes = [] ): bool {
+		$user_join = [
+			'name'         => $name,
+			'email'        => $email,
+			'convivientes' => $convivientes
+		];
+
+		$event_join = [
+			'title'   => $event_title,
+			'excerpt' => $event_excerpt
+		];
+
+		return $this->send_mail_template( 'inscription', $user_join, $event_join );
+	}
 }

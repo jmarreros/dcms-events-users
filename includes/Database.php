@@ -507,13 +507,10 @@ class Database {
 	}
 
 	// Update user event order
-	public function update_event_user_order($user_id, $event_id, $order_id){
+	public function update_event_user_order( $user_id, $event_id, $order_id ) {
 		$sql = "UPDATE $this->event_users SET id_order = $order_id
 				WHERE id_user = $user_id AND id_post = $event_id";
 
-		error_log(print_r($sql,true));
-		// TODO
-		// Estoy con el usuario administrador actualizando desde el backend
 		return $this->wpdb->query( $sql );
 	}
 
