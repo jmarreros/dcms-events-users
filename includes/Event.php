@@ -77,6 +77,7 @@ class Event {
 		( new User() )->validate_identify_and_pin( $identify, $pin );
 
 		$db = new Database();
+		$result = $db->find_user_identify_pin( $identify, $pin );
 
 		// Id user children
 		$children_id = $result[0]['user_id'] ?? 0;

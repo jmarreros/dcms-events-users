@@ -151,6 +151,9 @@
                     userName,
                     email
                 },
+                beforeSend: function () {
+                    $(obj).text('Enviando..');
+                },
             })
                 .done(function (res) {
                     res = JSON.parse(res);
