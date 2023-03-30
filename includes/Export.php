@@ -20,16 +20,25 @@ class Export{
         $writer = new Xlsx($spreadsheet);
         $sheet = $spreadsheet->getActiveSheet();
 
-        // Only Joined?
+
+	    // Get Id post
+	    $id_post  = intval($_GET['id_post']);
+
+	    // Only Joined?
         $only_joined = $_GET['only_joined']??0;
+		// Only selected
+	    $only_selected = $_GET['only_selected']??0;
 
-        // Get Id post
-        $id_post  = intval($_GET['id_post']);
 
-        // Get fields
-        $fields = Helper::get_fields_export();
+	    // Get fields for header
+		if ( $only_selected ){
+			$fields = Helper::get_fields_selected_export();
+		}  else {
+			$fields = Helper::get_fields_inscribed_export();
+		}
 
-        // Fill headers
+
+	    // Fill headers
         $icol = 1;
         foreach ($fields as $value) {
             $sheet->setCellValueByColumnAndRow($icol, 1, $value);
@@ -40,7 +49,7 @@ class Export{
 
         // Data
         $db = new Database();
-        $rows = $db->select_users_event_export($id_post, $only_joined);
+        $rows = $db->select_users_event_export($id_post, $only_joined, $only_selected);
 
         // Fill excel body
         $irow = 2;
@@ -63,7 +72,5 @@ class Export{
         $writer->save('php://output');
     }
 
-
-    // process_export_list_data_joined
 
 }

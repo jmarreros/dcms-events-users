@@ -87,7 +87,7 @@ class Database {
 
 	// Select saved users event to export
 	public function select_users_event_export( $id_post, $only_joined, $only_selected = false ) {
-		$fields_to_show = str_replace( '"', '`', Helper::array_to_str_quotes( array_keys( Helper::get_fields_export() ) ) );
+		$fields_to_show = str_replace( '"', '`', Helper::array_to_str_quotes( array_keys( Helper::get_fields_inscribed_export() ) ) );
 
 		$sql = "SELECT `user_id`,{$fields_to_show},`joined`,`selected`,`id_order`
                 FROM $this->event_users eu

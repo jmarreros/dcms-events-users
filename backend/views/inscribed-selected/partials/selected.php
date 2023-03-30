@@ -15,7 +15,7 @@
             </div>
             <div>
                 <a class="btn-export button button-primary"
-                   href="<?= admin_url() ?>admin-post.php?action=process_export_list_customers&id_post=<?= $id_event ?>&only_joined=1"
+                   href="<?= admin_url() ?>admin-post.php?action=process_export_list_customers&id_post=<?= $id_event ?>&only_selected=1"
                    target="_blank"><?php _e( 'Exportar seleccionados', 'dcms-events-users' ) ?></a>
             </div>
         </div>

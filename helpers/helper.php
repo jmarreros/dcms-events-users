@@ -33,7 +33,7 @@ class Helper {
 	}
 
 	// Get fields to export
-	public static function get_fields_export(): array {
+	public static function get_fields_inscribed_export(): array {
 		return [
 			'identify'     => 'Identificativo', // Login column
 			'pin'          => 'PIN', // Password Column
@@ -58,6 +58,16 @@ class Helper {
 			'parent'       => 'Inscrito por'
 		];
 	}
+
+	// Get fields to export
+	public static function get_fields_selected_export(): array {
+		$arr =  self::get_fields_inscribed_export();
+		$arr['selected'] = 'Seleccionado';
+		$arr['id_order'] = '# de Pedido';
+
+		return $arr;
+	}
+
 
 	//Style for headers to export
 	public static function get_style_header_cells(): array {
