@@ -4,6 +4,20 @@
     let str_ids = '';
     let count = 0;
 
+    // To show/hide wp-admin editor
+    $( document ).ready(function() {
+        $( "#page_template" ).trigger( "change" );
+    });
+        
+    $('#page_template').change(function(){
+        if ( $(this).val() === 'default' ){
+            $('body.wp-admin ').removeClass('hide');
+        } else {
+            $('body.wp-admin ').addClass('hide');
+        }
+    });
+
+
     // Clear button
     $(".btn-clear").click( function(e) {
         e.preventDefault();

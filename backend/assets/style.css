@@ -283,3 +283,12 @@
     border-color: #999;
 }
 
+
+/* Hide editor backend CPT events_sporting */
+.wp-admin.post-type-events_sporting.hide #fusion_builder_layout,
+.wp-admin.post-type-events_sporting.hide #fusion_main_editor_wrap,
+.wp-admin.post-type-events_sporting.hide .fusion-builder-toggle-buttons,
+.wp-admin.post-type-events_sporting.hide .container-user-event{
+    display:none!important;
+}
+
