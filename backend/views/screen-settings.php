@@ -34,6 +34,11 @@
     <strong>[<?php echo DCMS_SET_PURCHASE ?>]</strong>
 </section>
 
+<section class="dcms-shortcode">
+    <span><?php _e('You can use this shortcode to show form SEPA') ?></span>
+    <strong>[<?php echo DCMS_SET_FORM_SEPA ?>]</strong>
+</section>
+
 </div>
 
 <form action="options.php" method="post">

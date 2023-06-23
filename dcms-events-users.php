@@ -55,6 +55,7 @@ final class Loader {
 		define( 'DCMS_EVENT_SIDEBAR', 'sporting-sidebar-user' );
 		define( 'DCMS_EVENT_LIST', 'sporting-event-list' );
 		define( 'DCMS_SET_PURCHASE', 'establecer-compra-evento' );
+        define( 'DCMS_SET_FORM_SEPA', 'formulario-enviar-sepa' );
 
 		// Convivientes
 		define( 'DCMS_ENABLE_CONVIVIENTES', 'event-enable-convivientes' );

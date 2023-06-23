@@ -10,19 +10,19 @@ use dcms\event\backend\inscribed\Inscribed;
 class Submenu{
     // Constructor
     public function __construct(){
-        add_action('admin_menu', [$this, 'register_submenu']);
+        add_action('admin_menu', [$this, 'register_submenu'], 100);
     }
 
     // Register submenu
     public function register_submenu(){
         add_submenu_page(
             DCMS_EVENT_MENU,
-            __('Event Settings','dcms-events-users'),
-            __('Event Settings','dcms-events-users'),
+            __('Configuración','dcms-events-users'),
+            __('Configuración','dcms-events-users'),
             'manage_options',
             'event-settings',
             [$this, 'submenu_page_settings_callback'],
-            2
+            20
         );
         add_submenu_page(
             DCMS_EVENT_MENU,
@@ -33,11 +33,27 @@ class Submenu{
             [$this, 'submenu_page_inscribed_selected_callback'],
             2
         );
+
+        add_submenu_page(
+            DCMS_EVENT_MENU,
+            __('Envío SEPA','dcms-events-users'),
+            __('Envío SEPA','dcms-events-users'),
+            'manage_options',
+            'send-sepa',
+            [$this, 'submenu_page_send_sepa_callback'],
+            3
+        );
+
     }
 
     // Callback, show view
     public function submenu_page_settings_callback(){
         include_once (DCMS_EVENT_PATH. 'backend/views/screen-settings.php');
+    }
+
+    // Call back show send sepa view
+    public function submenu_page_send_sepa_callback(){
+        include_once (DCMS_EVENT_PATH. 'backend/views/send-sepa/screen-send-sepa.php');
     }
 
     // Callback, show view

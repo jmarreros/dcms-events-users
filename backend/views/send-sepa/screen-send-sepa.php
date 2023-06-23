@@ -1,0 +1,3 @@
+<?php
+
+echo "SEND SEPA";
