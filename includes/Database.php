@@ -512,4 +512,18 @@ class Database {
 		return $this->wpdb->query( $sql );
 	}
 
+
+	// Form SEPA report
+	public function get_users_sepa_file(){
+		$sql = "SELECT user_id, 
+					group_concat( case when (meta_key = 'identify') then meta_value end ) AS `identify`,
+					group_concat( case when (meta_key = 'pin') then meta_value end ) AS `pin`,
+					group_concat( case when (meta_key = 'first_name') then meta_value end ) AS `first_name`,
+					group_concat( case when (meta_key = 'lastname') then meta_value end ) AS `lastname`,
+					group_concat( case when (meta_key = 'sepa_file') then meta_value end ) AS `sepa_file`
+				FROM $this->user_meta WHERE meta_key in ('identify','pin','first_name', 'lastname', 'sepa_file') group by user_id 
+				HAVING sepa_file IS NOT NULL";
+
+		return $this->wpdb->get_results( $sql );
+	}
 }

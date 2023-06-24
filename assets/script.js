@@ -426,6 +426,8 @@
                     $('.message-sepa').addClass('error');
                 }
 
+                console.log(res);
+
                 $('.message-sepa').text(res.message);
             }
         });

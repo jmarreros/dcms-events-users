@@ -222,10 +222,17 @@ class Shortcode {
             ] );
 
 
-        ob_start();
-        include_once DCMS_EVENT_PATH . 'views/form-sepa.php';
-        $html_code = ob_get_contents();
-        ob_end_clean();
+	    $html_code = '';
+	    if ( is_user_logged_in() ) {
+
+		    $current_file = get_user_meta( get_current_user_id(), 'sepa_file', true );
+
+		    ob_start();
+		    include_once DCMS_EVENT_PATH . 'views/form-sepa.php';
+		    $html_code = ob_get_contents();
+		    ob_end_clean();
+	    }
+
         return $html_code;
     }
 

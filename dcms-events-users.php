@@ -56,7 +56,7 @@ final class Loader {
 		define( 'DCMS_EVENT_SIDEBAR', 'sporting-sidebar-user' );
 		define( 'DCMS_EVENT_LIST', 'sporting-event-list' );
 		define( 'DCMS_SET_PURCHASE', 'establecer-compra-evento' );
-        define( 'DCMS_SET_FORM_SEPA', 'formulario-enviar-sepa' );
+		define( 'DCMS_SET_FORM_SEPA', 'formulario-enviar-sepa' );
 
 		// Convivientes
 		define( 'DCMS_ENABLE_CONVIVIENTES', 'event-enable-convivientes' );
@@ -64,7 +64,11 @@ final class Loader {
 		define( 'DCMS_MAX_CHILDREN', 1 );
 
 		// Event
-		define ( 'DCMS_EVENT_PRODUCT_ID', 'event-product-id');
+		define( 'DCMS_EVENT_PRODUCT_ID', 'event-product-id' );
+
+		// Sepa PDF Path
+		define( 'DCMS_SEPA_FILES_PATH', WP_CONTENT_DIR . '/uploads/SEPA-files/' );
+		define( 'DCMS_SEPA_FILES_URL', content_url() . '/uploads/SEPA-files/' );
 	}
 
 	// Load tex domain
@@ -103,7 +107,7 @@ final class Loader {
 		new Export();
 		new Selected();
 		new Inscribed();
-        new FormSepa();
+		(new FormSepa())->init();
 	}
 }
 

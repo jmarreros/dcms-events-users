@@ -5,12 +5,17 @@ namespace dcms\event\includes;
 use dcms\event\helpers\Helper;
 
 class FormSepa {
-	public function __construct() {
+	public function init() {
 		add_action( 'wp_ajax_dcms_ajax_add_file_sepa', [ $this, 'add_file_sepa' ] );
 	}
 
+
 	public function add_file_sepa() {
-		$res = [];
+		$res = [
+			'status'  => 0,
+			'message' => "Existe un error en la subida del archivo"
+		];
+
 		Helper::validate_nonce( $_POST['nonce'] ?? '', 'ajax-nonce-sepa' );
 
 		if ( isset( $_FILES['file'] ) ) {
@@ -22,23 +27,23 @@ class FormSepa {
 			$tmp_name  = $_FILES['file']['tmp_name'];
 
 			$this->validate_extension_file( $name_file );
+			$this->validate_user_login();
 
-//            $content_directory = $wp_filesystem->wp_content_dir() . 'uploads/archivos-subidos/';
-//            $wp_filesystem->mkdir( $content_directory );
-//
-//            if( move_uploaded_file( $tmp_name, $content_directory . $name_file ) ) {
-                $res = [
-                    'status' => 1,
-                    'message' => "El archivo se agregó correctamente"
-                ];
-//            }
-//
-//        } else {
-//            $res = [
-//                'status' => 0,
-//                'message' => "Existe un error en la subida del archivo"
-//            ];
+			$ext = wp_check_filetype( $name_file)['ext'];
+			$name_file = get_current_user_id() . '-' . uniqid() . '.' . $ext;
 
+			if ( ! file_exists( DCMS_SEPA_FILES_PATH ) ) {
+				$wp_filesystem->mkdir( DCMS_SEPA_FILES_PATH );
+			}
+
+			if ( move_uploaded_file( $tmp_name, DCMS_SEPA_FILES_PATH . $name_file ) ) {
+				// Update user metadata
+				update_user_meta( get_current_user_id(), 'sepa_file', $name_file );
+				$res = [
+					'status'  => 1,
+					'message' => "El archivo se agregó correctamente"
+				];
+			}
 		}
 
 		wp_send_json( $res );
@@ -58,4 +63,16 @@ class FormSepa {
 			wp_send_json( $res );
 		}
 	}
+
+	// User conected validation
+	private function validate_user_login(){
+		if ( ! get_current_user_id() ){
+			$res = [
+				'status'  => 0,
+				'message' => "Usuario no conectado"
+			];
+			wp_send_json( $res );
+		}
+	}
+
 }
