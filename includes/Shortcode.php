@@ -20,6 +20,7 @@ class Shortcode {
 		add_shortcode( DCMS_EVENT_SIDEBAR, [ $this, 'show_user_sidebar' ] );
 		add_shortcode( DCMS_EVENT_LIST, [ $this, 'show_list_events' ] );
 		add_shortcode( DCMS_SET_PURCHASE, [ $this, 'show_set_purchase' ] );
+        add_shortcode( DCMS_SET_FORM_SEPA, [ $this, 'show_form_sepa' ] );
 
 		// For link mail
 		$wp->add_query_var( 'idu' ); //id user
@@ -207,6 +208,26 @@ class Shortcode {
 		return $html_code;
 	}
 
+
+    public function show_form_sepa(){
+        wp_enqueue_style( 'event-style' );
+        wp_enqueue_script( 'event-script' );
+
+        // Ajax event
+        wp_localize_script( 'event-script',
+            'dcms_frm_sepa',
+            [
+                'ajaxurl' => admin_url( 'admin-ajax.php' ),
+                'nonce_sepa' => wp_create_nonce( 'ajax-nonce-sepa' )
+            ] );
+
+
+        ob_start();
+        include_once DCMS_EVENT_PATH . 'views/form-sepa.php';
+        $html_code = ob_get_contents();
+        ob_end_clean();
+        return $html_code;
+    }
 
 
 }

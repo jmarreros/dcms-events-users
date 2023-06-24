@@ -30,6 +30,7 @@ use dcms\event\backend\single\Metabox;
 use dcms\event\backend\single\Filter;
 use dcms\event\backend\inscribed\Inscribed;
 use dcms\event\backend\inscribed\Selected;
+use dcms\event\includes\FormSepa;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -102,6 +103,7 @@ final class Loader {
 		new Export();
 		new Selected();
 		new Inscribed();
+        new FormSepa();
 	}
 }
 

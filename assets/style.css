@@ -98,6 +98,7 @@ section.message,
     margin-bottom: 10px;
 }
 
+
 section.message.error,
 .frm-account-details .message.error {
     background-color: #fed5da;
@@ -230,8 +231,7 @@ a.button.disabled {
 }
 
 .list-children li {
-    padding: 10px;
-    padding-top: 14px;
+    padding: 14px 10px 10px;
     border: 2px dashed grey;
     margin-bottom: 20px;
     background-color: #fbfbfb;
@@ -288,6 +288,7 @@ a.button.disabled {
     font-weight: bold;
 }
 
+.message-sepa,
 .message-joined {
     padding: 10px;
     font-size: 14px;
@@ -342,3 +343,29 @@ a.button.disabled {
     margin-top: 10px;
 }
 
+.form-sepa-upload > div{
+    margin-bottom: 12px;
+    border: 1px solid #ccc;
+    padding: 15px;
+}
+
+.form-sepa-upload input[type=file]::file-selector-button {
+    border: 1px solid #c00000;
+    padding: 6px 12px;
+    color: #c00000;
+    background-color: white;
+    cursor: pointer;
+}
+
+.form-sepa-upload input[type=file]{
+    font-weight: bold;
+}
+
+.form-sepa-upload label{
+    display: block;
+    margin-bottom: 4px;
+}
+
+.message-sepa:empty{
+    display: none;
+}

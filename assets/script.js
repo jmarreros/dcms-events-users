@@ -386,4 +386,49 @@
     })
 
 
+    // Formulario SEPA
+    $('.form-sepa-upload').submit(function (e) {
+        e.preventDefault();
+
+        const fd = new FormData();
+        const files = $('#upload-file')[0].files;
+
+        if (files.length <= 0) {
+            alert('Tienes que seleccionar algún archivo');
+            return;
+        }
+
+        const size = (files[0].size / 1024 / 1024).toFixed(2);
+        if (size > 2) {
+            alert(`Tu archivo pesa ${size}MB. No puedes subir archivos mayores a 2MB`);
+            return;
+        }
+
+        fd.append('file', files[0]);
+        fd.append('action', 'dcms_ajax_add_file_sepa');
+        fd.append('nonce', dcms_frm_sepa.nonce_sepa );
+
+        $.ajax({
+            url: dcms_frm_sepa.ajaxurl,
+            type: 'post',
+            dataType: 'json',
+            data: fd,
+            contentType: false,
+            processData: false,
+            beforeSend: function () {
+                $('.message-sepa').removeClass('message error');
+                $('.message-sepa').text('Enviando...');
+                $('.message-sepa').show();
+            },
+            success: function (res) {
+                $('.message-sepa').addClass('message');
+                if ( parseInt(res.status) === 0) {
+                    $('.message-sepa').addClass('error');
+                }
+
+                $('.message-sepa').text(res.message);
+            }
+        });
+    });
+
 })(jQuery);
