@@ -52,7 +52,7 @@ class FormSepa {
 	private function validate_extension_file( $name_file ) {
 		$path_parts       = pathinfo( $name_file );
 		$ext              = $path_parts['extension'];
-		$allow_extensions = [ 'txt', 'pdf' ];
+		$allow_extensions = [ 'pdf' ];
 
 		if ( ! in_array( $ext, $allow_extensions ) ) {
 			$res = [
