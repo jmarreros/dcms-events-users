@@ -29,7 +29,7 @@ class FormSepa {
 			$this->validate_user_login();
 
 			$ext = wp_check_filetype( $name_file)['ext'];
-			$name_file = get_current_user_id() . '-' . uniqid() . '.' . $ext;
+			$name_file = current_time( 'timestamp' ) . get_current_user_id() . '.' . $ext;
 
 			if ( ! file_exists( DCMS_SEPA_FILES_PATH ) ) {
 				$wp_filesystem->mkdir( DCMS_SEPA_FILES_PATH );

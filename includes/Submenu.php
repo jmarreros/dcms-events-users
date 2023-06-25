@@ -3,6 +3,7 @@
 namespace dcms\event\includes;
 
 use dcms\event\backend\includes\inscribed\Inscribed;
+use dcms\event\backend\includes\sepa\Sepa;
 
 /**
  * Class for creating a dashboard submenu
@@ -53,6 +54,10 @@ class Submenu{
 
     // Call back show send sepa view
     public function submenu_page_send_sepa_callback(){
+	    wp_enqueue_style('admin-event-style');
+
+	    $rows = (new Sepa())->get_users_with_sepa();
+
         include_once( DCMS_EVENT_PATH . 'backend/views/sepa/list-send-sepa.php' );
     }
 

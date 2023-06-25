@@ -424,9 +424,9 @@
                 $('.message-sepa').addClass('message');
                 if ( parseInt(res.status) === 0) {
                     $('.message-sepa').addClass('error');
+                } else {
+                    $('.form-sepa-upload').hide();
                 }
-
-                console.log(res);
 
                 $('.message-sepa').text(res.message);
             }
