@@ -513,8 +513,8 @@ class Database {
 	}
 
 
-	// Form SEPA report
-	public function get_users_sepa_file(){
+	// User list whose send sepa file
+	public function get_users_with_sepa(){
 		$sql = "SELECT user_id, 
 					group_concat( case when (meta_key = 'identify') then meta_value end ) AS `identify`,
 					group_concat( case when (meta_key = 'pin') then meta_value end ) AS `pin`,

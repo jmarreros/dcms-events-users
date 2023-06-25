@@ -1,9 +1,9 @@
 <?php
 
-namespace dcms\event\backend\single;
+namespace dcms\event\backend\includes\single;
 
-use dcms\event\includes\Database;
 use dcms\event\helpers\Helper;
+use dcms\event\includes\Database;
 
 
 class Single {

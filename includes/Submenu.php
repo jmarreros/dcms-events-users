@@ -2,7 +2,7 @@
 
 namespace dcms\event\includes;
 
-use dcms\event\backend\inscribed\Inscribed;
+use dcms\event\backend\includes\inscribed\Inscribed;
 
 /**
  * Class for creating a dashboard submenu
@@ -53,7 +53,7 @@ class Submenu{
 
     // Call back show send sepa view
     public function submenu_page_send_sepa_callback(){
-        include_once (DCMS_EVENT_PATH. 'backend/views/send-sepa/screen-send-sepa.php');
+        include_once( DCMS_EVENT_PATH . 'backend/views/sepa/list-send-sepa.php' );
     }
 
     // Callback, show view

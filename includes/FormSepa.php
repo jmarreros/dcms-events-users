@@ -9,7 +9,6 @@ class FormSepa {
 		add_action( 'wp_ajax_dcms_ajax_add_file_sepa', [ $this, 'add_file_sepa' ] );
 	}
 
-
 	public function add_file_sepa() {
 		$res = [
 			'status'  => 0,

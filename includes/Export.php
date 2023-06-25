@@ -8,7 +8,9 @@ use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 // Class for the operations of plugin
-class Export{
+class
+
+Export{
 
     public function __construct(){
         add_action('admin_post_process_export_list_customers', [$this, 'process_export_list_data']);

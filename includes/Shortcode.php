@@ -2,7 +2,7 @@
 
 namespace dcms\event\includes;
 
-use dcms\event\backend\inscribed\Selected;
+use dcms\event\backend\includes\inscribed\Selected;
 use dcms\event\helpers\Helper;
 
 // Class for grouping shortcodes functionality

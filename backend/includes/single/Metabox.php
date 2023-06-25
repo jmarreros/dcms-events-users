@@ -1,6 +1,6 @@
 <?php
 
-namespace dcms\event\backend\single;
+namespace dcms\event\backend\includes\single;
 
 // Create Metabox for dates event in backend
 use dcms\event\includes\Database;

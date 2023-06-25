@@ -1,6 +1,6 @@
 <?php
 
-namespace dcms\event\backend\inscribed;
+namespace dcms\event\backend\includes\inscribed;
 
 use dcms\event\helpers\Helper;
 use dcms\event\includes\Database;
