@@ -38,6 +38,7 @@ class FormSepa {
 			if ( move_uploaded_file( $tmp_name, DCMS_SEPA_FILES_PATH . $name_file ) ) {
 				// Update user metadata
 				update_user_meta( get_current_user_id(), 'sepa_file', $name_file );
+
 				$res = [
 					'status'  => 1,
 					'message' => "El archivo se agregó correctamente"

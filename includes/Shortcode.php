@@ -221,8 +221,9 @@ class Shortcode {
                 'nonce_sepa' => wp_create_nonce( 'ajax-nonce-sepa' )
             ] );
 
-
 	    $html_code = '';
+		$is_locked = get_user_meta( get_current_user_id(), 'sepa_locked', true );
+
 	    if ( is_user_logged_in() ) {
 
 		    $current_file = get_user_meta( get_current_user_id(), 'sepa_file', true );

@@ -45,6 +45,11 @@ class Enqueue {
 			DCMS_EVENT_VERSION,
 			true );
 
+		wp_register_script( 'admin-sepa',
+			DCMS_EVENT_URL . '/backend/assets/sepa.js',
+			[ 'jquery'],
+			DCMS_EVENT_VERSION,
+			true );
 
 		wp_register_style( 'admin-event-style',
 			DCMS_EVENT_URL . '/backend/assets/style.css',

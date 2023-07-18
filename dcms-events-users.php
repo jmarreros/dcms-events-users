@@ -21,6 +21,7 @@ use dcms\event\backend\includes\inscribed\Selected;
 use dcms\event\backend\includes\single\Filter;
 use dcms\event\backend\includes\single\Metabox;
 use dcms\event\backend\includes\single\Single;
+use dcms\event\backend\includes\sepa\Sepa;
 use dcms\event\includes\Account;
 use dcms\event\includes\Cpt;
 use dcms\event\includes\Enqueue;
@@ -108,6 +109,7 @@ final class Loader {
 		new Selected();
 		new Inscribed();
 		(new FormSepa())->init();
+		(new Sepa())->init();
 	}
 }
 

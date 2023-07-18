@@ -521,8 +521,9 @@ class Database {
 					group_concat( case when (meta_key = 'first_name') then meta_value end ) AS `first_name`,
 					group_concat( case when (meta_key = 'lastname') then meta_value end ) AS `last_name`,
 					group_concat( case when (meta_key = 'sepa_file') then meta_value end ) AS `sepa_file`,
+					group_concat( case when (meta_key = 'sepa_locked') then meta_value end ) AS `sepa_locked`,
 					group_concat( case when (meta_key = 'sepa_file') then CAST(SUBSTRING(meta_value,1, 10) AS UNSIGNED) end ) AS `unix_time`
-				FROM $this->user_meta WHERE meta_key in ('identify','pin','first_name', 'lastname', 'sepa_file') group by user_id 
+				FROM $this->user_meta WHERE meta_key in ('identify','pin','first_name', 'lastname', 'sepa_file', 'sepa_locked') group by user_id 
 				HAVING sepa_file IS NOT NULL
 				ORDER BY `unix_time`";
 

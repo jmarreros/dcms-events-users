@@ -27,6 +27,7 @@
                         <th>Apellido</th>
                         <th>Archivo</th>
                         <th>Enviado</th>
+                        <th>Bloquear</th>
                     </tr>
 
 					<?php foreach ( $rows as $row ): ?>
@@ -39,6 +40,9 @@
                                    target="_blank"><?= $row['sepa_file'] ?></a>
                             </td>
                             <td><?= $row['time'] ?></td>
+                            <td>
+                                <input class="locked-sepa" type="checkbox" value="<?= $row['user_id'] ?>" <?php checked( $row['sepa_locked'], 1 ); ?> />
+                            </td>
                         </tr>
 					<?php endforeach; ?>
                 </table>

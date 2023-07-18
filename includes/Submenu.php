@@ -56,6 +56,12 @@ class Submenu{
     public function submenu_page_send_sepa_callback(){
 	    wp_enqueue_style('admin-event-style');
 
+	    wp_enqueue_script('admin-sepa');
+	    wp_localize_script('admin-sepa','dcms_sepa',[
+		    'ajaxurl'=>admin_url('admin-ajax.php'),
+		    'nonce' => wp_create_nonce('ajax-sepa')
+	    ]);
+
 	    $rows = (new Sepa())->get_users_with_sepa();
 
         include_once( DCMS_EVENT_PATH . 'backend/views/sepa/list-send-sepa.php' );
