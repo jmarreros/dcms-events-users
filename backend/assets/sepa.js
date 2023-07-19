@@ -5,7 +5,8 @@
 
     $('.locked-sepa').on('click', function(e){
         const user_id = $(this).val();
-        // console.log($(this).is(':checked'));
+        const checked = $(this).is(':checked');
+
 
         $.ajax({
             url : dcms_sepa.ajaxurl,
@@ -13,13 +14,18 @@
             data: {
                 action : 'dcms_ajax_locked_sepa',
                 nonce : dcms_sepa.nonce,
+                checked,
                 user_id
             },
             beforeSend: function(){
-                // console.log('Antes de enviar');
+                $(e.target).prop('disabled', true);
             },
             success: function(res){
-              console.log(res);
+                if ( res.status ) {
+                    $(e.target).prop('disabled', false);
+                } else {
+                    alert('Ocurrió algún error al actualizar el estado del usuario');
+                }
             }
         });
 

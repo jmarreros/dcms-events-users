@@ -12,10 +12,13 @@ class Sepa {
 	public function locked_sepa() {
 		// Validate nonce
 		Helper::validate_nonce( $_POST['nonce'], 'ajax-sepa' );
+		$user_id = intval($_POST['user_id']??0);
+		$locked = filter_var($_POST['checked']??0, FILTER_VALIDATE_BOOLEAN);
+
+		$value = update_user_meta( $user_id, 'sepa_locked', $locked);
 
 		$res = [
-			'status'  => 0,
-			'message' => "No hay nuevos registros para guardar"
+			'status'  => boolval($value),
 		];
 
 		wp_send_json( $res );
