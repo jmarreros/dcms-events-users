@@ -173,6 +173,23 @@ class Event {
 		$db     = new Database();
 		if ( $ids_children && $count_children <= DCMS_MAX_CHILDREN ) {
 
+			// Validate if children have the event assigned
+			foreach ( $ids_children as $id_child ) {
+				$joined  = $db->search_user_in_event( $id_child, $id_post );
+
+				error_log(print_r("Se unió " . $joined . " - " . $id_child . " - " . $id_post,true));
+
+				if ( $joined == 1 ) {
+					$res = [
+						'status'  => 0,
+						'message' => "➜ Uno de los acompañantes ya participa en el evento, seleccione otro o elimine el acompañante"
+					];
+					echo json_encode( $res );
+					wp_die();
+				}
+			}
+
+			// Save children and user in event
 			foreach ( $ids_children as $id_child ) {
 
 				$result = $db->save_children( $id_child, $id_post, $parent, $id_user );
@@ -184,7 +201,7 @@ class Event {
 				$children_data[ $child_identify ] = $child_name;
 			}
 
-			// Update user inscription
+			// Update user inscription, assign parent the same id
 			$db->save_join_user_to_event( $id_post, $id_user, $parent );
 
 			//Send email user
