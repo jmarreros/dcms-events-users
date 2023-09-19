@@ -43,6 +43,38 @@ class Export{
 	    $this->build_export($fields, $rows, $filename,  $styleArray, 'A1:W1');
     }
 
+	// TODO: Revisar este método
+	public function get_selected_custom_order($rows): array {
+		$parents = [];
+		foreach($rows as $row){
+			if ($row['identify'] === $row['parent'] | is_null($row['parent'])){
+				$parents[] = $row;
+			}
+		}
+
+		$result = [];
+		foreach($parents as $parent){
+			$result[] = $parent;
+			if ( $parent['identify'] == $parent['parent'] ){
+				$children = $this->get_children_parent($parent['identify'], $rows);
+				$result[] = $children;
+			}
+		}
+
+		return $result;
+	}
+
+	private function get_children_parent($identify, $rows): array {
+		$children = [];
+		foreach($rows as $row){
+			if ($row['children'] == 0 && $row['parent'] == $identify){
+				$children[] = $row;
+			}
+		}
+		return $children;
+	}
+
+
 	public function process_export_users_sepa(){
 		$fields = [
 			"identify" => "Identificativo",

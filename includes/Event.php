@@ -3,7 +3,6 @@
 namespace dcms\event\includes;
 
 use dcms\event\helpers\Helper;
-use PleskX\Api\Operator\EventLog;
 
 // Event class
 class Event {
