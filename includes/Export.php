@@ -37,17 +37,21 @@ class Export{
         $db = new Database();
         $rows = $db->select_users_event_export($id_post, $only_joined, $only_selected);
 
+		if ( $only_selected ){
+			$rows = $this->get_custom_order_selected_rows($rows);
+		}
+
         $filename = 'list_user_event.xlsx';
 
 		// Export
 	    $this->build_export($fields, $rows, $filename,  $styleArray, 'A1:W1');
     }
 
-	// TODO: Revisar este método
-	public function get_selected_custom_order($rows): array {
+	// Order by parent and children
+	public function get_custom_order_selected_rows($rows): array {
 		$parents = [];
 		foreach($rows as $row){
-			if ($row['identify'] === $row['parent'] | is_null($row['parent'])){
+			if ($row['identify'] === $row['parent'] || is_null($row['parent'])){
 				$parents[] = $row;
 			}
 		}
@@ -57,13 +61,16 @@ class Export{
 			$result[] = $parent;
 			if ( $parent['identify'] == $parent['parent'] ){
 				$children = $this->get_children_parent($parent['identify'], $rows);
-				$result[] = $children;
+				foreach ($children as $child){
+					$result[] = $child;
+				}
 			}
 		}
 
 		return $result;
 	}
 
+	// Auxiliar function for getting children
 	private function get_children_parent($identify, $rows): array {
 		$children = [];
 		foreach($rows as $row){
