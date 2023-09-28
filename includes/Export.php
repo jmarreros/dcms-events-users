@@ -62,6 +62,7 @@ class Export{
 			if ( $parent['identify'] == $parent['parent'] ){
 				$children = $this->get_children_parent($parent['identify'], $rows);
 				foreach ($children as $child){
+					$child['id_order'] = $parent['id_order'];
 					$result[] = $child;
 				}
 			}
