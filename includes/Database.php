@@ -71,6 +71,7 @@ class Database {
                     `id_user` bigint(20) unsigned DEFAULT NULL,
                     `id_post` bigint(20) unsigned DEFAULT NULL,
                     `date` datetime DEFAULT CURRENT_TIMESTAMP,
+                    `maximum_date` datetime DEFAULT NULL,
                     `joined` tinyint(1) DEFAULT 0,
                     `joined_date` datetime DEFAULT NULL,
                     `children` tinyint unsigned DEFAULT 0,
@@ -83,6 +84,15 @@ class Database {
 
 		require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 		dbDelta( $sql );
+	}
+
+	// Getting maximum date for user group
+	public function group_users_by_created_date($id_post){
+		$sql = "SELECT DISTINCT DATE_FORMAT(`date`, '%Y-%m-%d %H:%i:00') group_date, maximum_date  
+				FROM $this->event_users WHERE id_post = $id_post
+				ORDER BY group_date";
+
+		return $this->wpdb->get_results( $sql );
 	}
 
 	// Select saved users event to export
