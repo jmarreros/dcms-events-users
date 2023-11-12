@@ -87,12 +87,23 @@ class Database {
 	}
 
 	// Getting maximum date for user group
-	public function group_users_by_created_date($id_post){
-		$sql = "SELECT DISTINCT DATE_FORMAT(`date`, '%Y-%m-%d %H:%i:00') group_date, maximum_date  
+	public function group_users_by_created_date( $id_post ) {
+		$sql = "SELECT DISTINCT DATE_FORMAT(`date`, '%Y-%m-%d') group_date, maximum_date  
 				FROM $this->event_users WHERE id_post = $id_post
 				ORDER BY group_date";
 
 		return $this->wpdb->get_results( $sql );
+	}
+
+	public function update_maximum_date_per_group( $post_id, $groups_maximum_date ): void {
+		foreach ( $groups_maximum_date as $group_id => $date ) {
+			$date = is_null( $date ) ? 'NULL' : "'$date'";
+
+			$sql  = "UPDATE $this->event_users SET maximum_date = $date
+					WHERE id_post = $post_id AND DATE_FORMAT(date, '%Y-%m-%d') = '$group_id'";
+
+			$this->wpdb->query( $sql );
+		}
 	}
 
 	// Select saved users event to export
@@ -524,7 +535,7 @@ class Database {
 
 
 	// User list whose send sepa file
-	public function get_users_with_sepa(){
+	public function get_users_with_sepa() {
 		$sql = "SELECT user_id, 
 					group_concat( case when (meta_key = 'identify') then meta_value end ) AS `identify`,
 					group_concat( case when (meta_key = 'pin') then meta_value end ) AS `pin`,

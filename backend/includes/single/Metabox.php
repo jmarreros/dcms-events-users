@@ -57,6 +57,7 @@ class Metabox {
 	// Save data metabox
 	public function save_metabox_data( $post_id ): void {
 		if ( get_post_type( $post_id ) === DCMS_EVENT_CPT ) {
+
 			// Save configuration
 			$enable_convivientes = isset( $_POST[ DCMS_ENABLE_CONVIVIENTES ] ) ? 1 : 0;
 			$lock_inscriptions   = isset( $_POST[ DCMS_LOCK_INSCRIPTIONS ] ) ? 1 : 0;
@@ -67,10 +68,14 @@ class Metabox {
 			update_post_meta( $post_id, DCMS_EVENT_PRODUCT_ID, $product_id );
 
 			// Save maximum date
-			if ( isset( $_POST[ 'group_date' ] ) ){
-				error_log(print_r($_POST[ 'group_date' ] ,true));
+			if ( isset( $_POST[ 'group_date' ] ) && isset($_POST[ 'group_id' ]) ) {
+				$groups_maximum_date = [];
+				foreach ( $_POST[ 'group_date' ] as $key => $date ) {
+					$group_id = $_POST[ 'group_id' ][ $key ];
+					$groups_maximum_date[ $group_id ] = empty($date) ? NULL : $date;
+				}
+				( new Database() )->update_maximum_date_per_group( $post_id, $groups_maximum_date );
 			}
-
 		}
 	}
 	
