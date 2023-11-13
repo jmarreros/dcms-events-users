@@ -99,7 +99,7 @@ class Database {
 		foreach ( $groups_maximum_date as $group_id => $date ) {
 			$date = is_null( $date ) ? 'NULL' : "'$date'";
 
-			$sql  = "UPDATE $this->event_users SET maximum_date = $date
+			$sql = "UPDATE $this->event_users SET maximum_date = $date
 					WHERE id_post = $post_id AND DATE_FORMAT(date, '%Y-%m-%d') = '$group_id'";
 
 			$this->wpdb->query( $sql );
@@ -110,7 +110,7 @@ class Database {
 	public function select_users_event_export( $id_post, $only_joined, $only_selected = false ) {
 		$fields_to_show = str_replace( '"', '`', Helper::array_to_str_quotes( array_keys( Helper::get_fields_inscribed_export() ) ) );
 
-		$sql = "SELECT `user_id`,{$fields_to_show},`joined`,`selected`,`id_order`
+		$sql = "SELECT vu.`user_id`,{$fields_to_show},eu.`joined`,eu.`selected`,eu.`id_order`, DATE_FORMAT(eu.`maximum_date`, '%Y-%m-%d') AS maximum_date  
                 FROM $this->event_users eu
                 INNER JOIN $this->view_users vu ON eu.id_user = vu.user_id
                 WHERE id_post = {$id_post}";
@@ -262,7 +262,7 @@ class Database {
 	// Get all events avaliable for a specific user
 	public function get_events_for_user( $id_user ) {
 
-		$sql = "SELECT eu.id_user, eu.id_post, eu.joined, eu.joined_date, eu.children, eu.parent, eu.id_parent, p.post_title, p.post_content
+		$sql = "SELECT eu.id_user, eu.id_post, eu.joined, eu.joined_date, eu.children, eu.parent, eu.id_parent, eu.maximum_date, p.post_title, p.post_content
                 FROM {$this->event_users} eu
                 INNER JOIN {$this->post_event} p ON p.ID =  eu.id_post
                 WHERE eu.id_user = {$id_user} AND  p.post_status = 'publish'";

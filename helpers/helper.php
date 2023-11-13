@@ -61,7 +61,7 @@ class Helper {
 
 	// Get fields to export
 	public static function get_fields_selected_export(): array {
-		$arr =  self::get_fields_inscribed_export();
+		$arr             = self::get_fields_inscribed_export();
 		$arr['selected'] = 'Seleccionado';
 		$arr['id_order'] = '# de Pedido';
 
@@ -128,7 +128,7 @@ class Helper {
 		];
 	}
 
-	// Fields to show in incribed screen
+	// Fields to show in inscribed screen
 	public static function get_inscribed_user_fields(): array {
 		return [
 			'identify'  => 'Identificativo', // Login column
@@ -208,7 +208,6 @@ class Helper {
 	}
 
 
-
 	// Aux - Validate if the rows affected are > 0
 	public static function validate_updated( $result ) {
 		if ( ! $result ) {
@@ -231,6 +230,18 @@ class Helper {
 			echo json_encode( $res );
 			wp_die();
 		}
+	}
+
+	// Aux - Validate a date with today
+	public static function is_greater_than_today( $custom_date ) : bool{
+		if ( is_null( $custom_date ) ) {
+			return true;
+		}
+
+		$today        = date( "Y-m-d H:i:s" );
+		$compare_date = date( 'Y-m-d H:i:s', strtotime( $custom_date ) );
+
+		return $today < $compare_date;
 	}
 
 }

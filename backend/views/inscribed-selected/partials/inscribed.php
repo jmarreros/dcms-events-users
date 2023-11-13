@@ -29,6 +29,7 @@
 						echo "<th>" . $field . "</th>";
 					}
 					?>
+                    <th>Fecha Máxima</th>
                     <th>Correo</th>
                 </tr>
 
@@ -44,6 +45,7 @@
                         <td><?= $row['email'] ?></td>
                         <td><?= $row['children'] ?></td>
                         <td><?= $row['parent'] ?></td>
+                        <td><?= $row['maximum_date'] ?></td>
                         <td>
 							<?php if ( empty($row['parent']) || $row['parent'] === $row['identify'] ) : ?>
                                 <a class="resend"

@@ -20,7 +20,7 @@ class Shortcode {
 		add_shortcode( DCMS_EVENT_SIDEBAR, [ $this, 'show_user_sidebar' ] );
 		add_shortcode( DCMS_EVENT_LIST, [ $this, 'show_list_events' ] );
 		add_shortcode( DCMS_SET_PURCHASE, [ $this, 'show_set_purchase' ] );
-        add_shortcode( DCMS_SET_FORM_SEPA, [ $this, 'show_form_sepa' ] );
+		add_shortcode( DCMS_SET_FORM_SEPA, [ $this, 'show_form_sepa' ] );
 
 		// For link mail
 		$wp->add_query_var( 'idu' ); //id user
@@ -159,10 +159,29 @@ class Shortcode {
 			return 'Not valid nonce';
 		}
 
+		// Verify event product association
 		$id_product = get_post_meta( $id_event, DCMS_EVENT_PRODUCT_ID, true );
 		if ( ! $id_product ) {
 			return 'No hay un producto asociado a este evento - consulta con el administrador del sitio';
 		}
+
+		// Verify event data
+		$data_event = ( new Selected() )->data_selected_user_event( $id_user, $id_event );
+		$link_home = " - <a href='" . get_bloginfo('url') . "'>Ir al inicio</a>";
+		if ( ! $data_event ) {
+			return "El evento no existe o ha expirado" . $link_home;
+		}
+
+		if ( $data_event['id_order'] ) {
+			return "El evento ya ha sido pagado" . $link_home;
+		}
+
+		if ( $data_event['maximum_date'] ) {
+			if ( ! Helper::is_greater_than_today( $data_event['maximum_date'] ) ){
+				return "Tu enlace ha expirado" . $link_home;
+			}
+		}
+
 
 		// Empty cart
 		$woocommerce->cart->empty_cart();
@@ -178,64 +197,56 @@ class Shortcode {
 				'nevent'  => wp_create_nonce( 'ajax-nonce-event' )
 			] );
 
-		$data_event = ( new Selected() )->data_selected_user_event( $id_user, $id_event );
-
 		$html_code = '';
-		if ( $data_event && ! $data_event['id_order'] ) {
+		if ( $data_event['children'] > 0 ) {
+			$user_name  = ( get_userdata( $id_user ) )->display_name;
+			$event_name = get_the_title( $id_event );
+			$children   = ( new User() )->get_children_user( $id_user, $id_event );
 
-			if ( $data_event['children'] > 0 ) {
-				$user_name  = ( get_userdata( $id_user ) )->display_name;
-				$event_name = get_the_title( $id_event );
-				$children   = ( new User() )->get_children_user( $id_user, $id_event );
-
-				ob_start();
-				include_once DCMS_EVENT_PATH . 'views/set-purchase.php';
-				$html_code = ob_get_contents();
-				ob_end_clean();
-			} else { // redirect
-				try {
-					WC()->cart->add_to_cart( $id_product, 1 );
-					wp_redirect( wc_get_cart_url() );
-				} catch ( \Exception $e ) {
-					return 'Hubo un error al agregar al carrito - ' . $e->getMessage();
-				}
+			ob_start();
+			include_once DCMS_EVENT_PATH . 'views/set-purchase.php';
+			$html_code = ob_get_contents();
+			ob_end_clean();
+		} else { // redirect
+			try {
+				WC()->cart->add_to_cart( $id_product );
+				wp_redirect( wc_get_cart_url() );
+			} catch ( \Exception $e ) {
+				$html_code = 'Hubo un error al agregar al carrito - ' . $e->getMessage();
 			}
-
-		} else {
-			$html_code = "El enlace esta expirado o el evento ya ha sido pagado";
 		}
 
 		return $html_code;
 	}
 
 
-    public function show_form_sepa(){
-        wp_enqueue_style( 'event-style' );
-        wp_enqueue_script( 'event-script' );
+	public function show_form_sepa() {
+		wp_enqueue_style( 'event-style' );
+		wp_enqueue_script( 'event-script' );
 
-        // Ajax event
-        wp_localize_script( 'event-script',
-            'dcms_frm_sepa',
-            [
-                'ajaxurl' => admin_url( 'admin-ajax.php' ),
-                'nonce_sepa' => wp_create_nonce( 'ajax-nonce-sepa' )
-            ] );
+		// Ajax event
+		wp_localize_script( 'event-script',
+			'dcms_frm_sepa',
+			[
+				'ajaxurl'    => admin_url( 'admin-ajax.php' ),
+				'nonce_sepa' => wp_create_nonce( 'ajax-nonce-sepa' )
+			] );
 
-	    $html_code = '';
+		$html_code = '';
 		$is_locked = get_user_meta( get_current_user_id(), 'sepa_locked', true );
 
-	    if ( is_user_logged_in() ) {
+		if ( is_user_logged_in() ) {
 
-		    $current_file = get_user_meta( get_current_user_id(), 'sepa_file', true );
+			$current_file = get_user_meta( get_current_user_id(), 'sepa_file', true );
 
-		    ob_start();
-		    include_once DCMS_EVENT_PATH . 'views/form-sepa.php';
-		    $html_code = ob_get_contents();
-		    ob_end_clean();
-	    }
+			ob_start();
+			include_once DCMS_EVENT_PATH . 'views/form-sepa.php';
+			$html_code = ob_get_contents();
+			ob_end_clean();
+		}
 
-        return $html_code;
-    }
+		return $html_code;
+	}
 
 
 }
