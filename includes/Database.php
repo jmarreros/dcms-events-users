@@ -488,14 +488,31 @@ class Database {
 	}
 
 	// Get all active products to metabox event
-	public function get_list_products() {
-		$sql = "SELECT p.ID, p.post_title product_name, pm.meta_value price 
-				FROM $this->post_product  p
-				INNER JOIN $this->post_meta pm ON p.ID = pm.post_id AND pm.meta_key = '_price'
-				WHERE p.post_type = 'product' AND p.post_status = 'publish'
-				ORDER BY p.post_title";
+	public function get_list_products(): array {
+		$args = [
+			'limit'   => - 1,
+			'status'  => 'publish',
+			'orderby' => 'name',
+			'order'   => 'ASC'
+		];
 
-		return $this->wpdb->get_results( $sql );
+		$products = wc_get_products( $args );
+
+		$results = [];
+		foreach ( $products as $product ) {
+			$result['id']    = $product->get_id();
+			$result['name']  = $product->get_name();
+			$result['price'] = number_format( (float) $product->get_regular_price(), 2 );
+
+			if ( $product->get_type() === 'variable' ) {
+				$product_price_min = $product->get_variation_regular_price( 'min' );
+				$product_price_max = $product->get_variation_regular_price( 'max' );
+				$result['price']   = $product_price_min . '-' . $product_price_max;
+			}
+			$results[] = $result;
+		}
+
+		return $results;
 	}
 
 	// Deselecting children for the event

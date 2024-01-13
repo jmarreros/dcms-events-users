@@ -62,7 +62,7 @@ final class Loader {
 		// Convivientes
 		define( 'DCMS_ENABLE_CONVIVIENTES', 'event-enable-convivientes' );
 		define( 'DCMS_LOCK_INSCRIPTIONS', 'event-lock-inscriptions' );
-		define( 'DCMS_MAX_CHILDREN', 1 );
+		define( 'DCMS_MAX_CHILDREN', 3 );
 
 		// Event
 		define( 'DCMS_EVENT_PRODUCT_ID', 'event-product-id' );

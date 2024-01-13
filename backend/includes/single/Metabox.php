@@ -14,7 +14,7 @@ class Metabox {
 
 	public function create_metaboxes(): void {
 
-		//For enable/disable convivientes behavior
+		//For enable/disable convivientes behavior and associate with a product
 		add_meta_box( 'dcms_conviviente_metaboxes',
 			__( 'Opciones Evento', 'dcms-events-users' ),
 			[ $this, 'show_metabox_configuration' ],

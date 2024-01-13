@@ -26,8 +26,8 @@
 	            - Ninguno -
             </option>
             <?php  foreach ( $products as $product ) : ?>
-                <option value="<?= $product->ID ?>" <?php selected( $product_id, $product->ID ) ?> >
-                    <?= $product->product_name . ' - ' . $product->price ?>
+                <option value="<?= $product['id'] ?>" <?php selected( $product_id, $product['id'] ) ?> >
+                    <?= $product['name'] . ' : ' . $product['price'] ?>
                 </option>
             <?php endforeach; ?>
         </select>
