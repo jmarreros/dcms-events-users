@@ -550,6 +550,45 @@ class Database {
 		return $this->wpdb->query( $sql );
 	}
 
+	public function get_totals_group_user_type($ids):array{
+		if ( empty($ids)) {
+			return [];
+		}
+
+		$sql = "SELECT meta_value soc_type, COUNT(meta_value) qty_type
+				FROM $this->user_meta 
+				WHERE
+					meta_key = 'soc_type' AND user_id IN (" . implode(',', $ids) . ")
+					GROUP BY meta_value";
+
+		$items = $this->wpdb->get_results( $sql, ARRAY_A );
+
+		// Format results
+		$results = [];
+		foreach ( $items as $item ) {
+			$results[$item['soc_type']] = $item['qty_type'];
+		}
+
+		return $results;
+	}
+
+	public function get_variations_product($id_product):array{
+		$product = wc_get_product($id_product);
+
+		if ( $product->get_type() !== 'variable') {
+			return [];
+		}
+
+		$variations = $product->get_available_variations();
+
+		$results = [];
+		foreach($variations as $variation){
+			$name = $variation['attributes']['attribute_pa_tipo-socio'];
+			$results[$name] = $variation['variation_id'];
+		}
+
+		return $results;
+	}
 
 	// User list whose send sepa file
 	public function get_users_with_sepa() {

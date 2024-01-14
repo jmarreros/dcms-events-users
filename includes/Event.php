@@ -235,8 +235,6 @@ class Event {
 		$db   = new Database();
 		$data = $db->get_selected_event_user( $id_user, $id_event );
 
-		$count_total = count( $children_set ) + 1;
-
 		// Get and validate product associate with event
 		$id_product = get_post_meta( $id_event, DCMS_EVENT_PRODUCT_ID, true );
 		if ( ! $id_product ) {
@@ -261,11 +259,30 @@ class Event {
 			$children_deselected = array_diff( $children_user, $children_set );
 			$db->deselect_children_event( $id_user, $children_deselected, $id_event );
 
+			// Get users groups
+			$ids = $children_set;
+			$ids[] = $id_user; // At least the main user has to be in the group
+
+			$groups_user = $db->get_totals_group_user_type($ids);
+			if ( empty ( $groups_user) ) {
+				$res['message'] = "No hay grupos asignados a los usuarios";
+				wp_send_json( $res );
+			}
+
+			// If it is a variable product, get the variations, or if it is a simple product return []
+			$variations_product = $db->get_variations_product($id_product);
+
+			// get an array [id_variation = qty] (variable product) or [id_product = qty] ( simple product)
+			$products_qty = $this->get_qty_variable_products($id_product, $groups_user, $variations_product);
+
 			// Empty cart
 			$woocommerce->cart->empty_cart();
 
 			try {
-				WC()->cart->add_to_cart( $id_product, $count_total );
+				foreach ( $products_qty as $product_id => $qty ) {
+					WC()->cart->add_to_cart( $product_id, $qty );
+				}
+
 				// Build redirection to cart
 				$res = [
 					'status'  => 1,
@@ -281,6 +298,25 @@ class Event {
 		}
 
 		wp_send_json( $res );
+	}
+
+	private function get_qty_variable_products($id_product, $groups_user, $variations_product):array{
+		$results = [];
+		foreach($groups_user as $type => $qty){
+			$type_slug = sanitize_title($type);
+			if ( array_key_exists($type_slug, $variations_product) ){
+				$id_variation = $variations_product[$type_slug];
+				$results[$id_variation] = $qty;
+			}
+
+		}
+
+		// If it is a simple product, return the qty, sum of all users groups
+		if ( empty($results) ) {
+			$results[$id_product] = array_sum($groups_user);
+		}
+
+		return $results;
 	}
 
 }
