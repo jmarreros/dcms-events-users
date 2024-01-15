@@ -207,9 +207,16 @@ class Shortcode {
 			include_once DCMS_EVENT_PATH . 'views/set-purchase.php';
 			$html_code = ob_get_contents();
 			ob_end_clean();
-		} else { // redirect
+		} else { // redirect with product group
+			$event = new Event();
+			$products_qty = $event->get_qty_variable_products( $id_product, $id_user, []);
+
 			try {
-				WC()->cart->add_to_cart( $id_product );
+				// Only one product
+				foreach ( $products_qty as $product_id => $qty ) {
+					WC()->cart->add_to_cart( $product_id, $qty );
+				}
+
 				wp_redirect( wc_get_cart_url() );
 			} catch ( \Exception $e ) {
 				$html_code = 'Hubo un error al agregar al carrito - ' . $e->getMessage();

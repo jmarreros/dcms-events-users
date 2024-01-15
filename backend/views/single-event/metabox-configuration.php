@@ -19,7 +19,7 @@
 <hr>
 <section>
     <p>
-        <label for="product-event">Producto asociado</label>
+        <label for="product-event">Producto único asociado a este evento:</label>
         <br>
         <select name="event-product-id" id="event-product-id">
             <option value="0" <?php selected( $product_id, 0 ) ?> >

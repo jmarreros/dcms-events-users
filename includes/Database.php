@@ -491,9 +491,7 @@ class Database {
 	public function get_list_products(): array {
 		$args = [
 			'limit'   => - 1,
-			'status'  => 'publish',
-			'orderby' => 'name',
-			'order'   => 'ASC'
+			'status'  => 'publish'
 		];
 
 		$products = wc_get_products( $args );

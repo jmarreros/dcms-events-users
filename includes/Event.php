@@ -75,7 +75,7 @@ class Event {
 
 		( new User() )->validate_identify_and_pin( $identify, $pin );
 
-		$db = new Database();
+		$db     = new Database();
 		$result = $db->find_user_identify_pin( $identify, $pin );
 
 		// Id user children
@@ -174,9 +174,9 @@ class Event {
 
 			// Validate if children have the event assigned
 			foreach ( $ids_children as $id_child ) {
-				$joined  = $db->search_user_in_event( $id_child, $id_post );
+				$joined = $db->search_user_in_event( $id_child, $id_post );
 
-				error_log(print_r("Se unió " . $joined . " - " . $id_child . " - " . $id_post,true));
+				error_log( print_r( "Se unió " . $joined . " - " . $id_child . " - " . $id_post, true ) );
 
 				if ( $joined == 1 ) {
 					$res = [
@@ -204,7 +204,7 @@ class Event {
 			$db->save_join_user_to_event( $id_post, $id_user, $parent );
 
 			//Send email user
-			(new Mail)->send_email_join_event( $name, $email, $event_title, $event_excerpt, $children_data );
+			( new Mail )->send_email_join_event( $name, $email, $event_title, $event_excerpt, $children_data );
 		}
 
 		Helper::validate_add_children( $result );
@@ -259,21 +259,8 @@ class Event {
 			$children_deselected = array_diff( $children_user, $children_set );
 			$db->deselect_children_event( $id_user, $children_deselected, $id_event );
 
-			// Get users groups
-			$ids = $children_set;
-			$ids[] = $id_user; // At least the main user has to be in the group
-
-			$groups_user = $db->get_totals_group_user_type($ids);
-			if ( empty ( $groups_user) ) {
-				$res['message'] = "No hay grupos asignados a los usuarios";
-				wp_send_json( $res );
-			}
-
-			// If it is a variable product, get the variations, or if it is a simple product return []
-			$variations_product = $db->get_variations_product($id_product);
-
 			// get an array [id_variation = qty] (variable product) or [id_product = qty] ( simple product)
-			$products_qty = $this->get_qty_variable_products($id_product, $groups_user, $variations_product);
+			$products_qty = $this->get_qty_variable_products( $id_product, $id_user, $children_set );
 
 			// Empty cart
 			$woocommerce->cart->empty_cart();
@@ -300,20 +287,36 @@ class Event {
 		wp_send_json( $res );
 	}
 
-	private function get_qty_variable_products($id_product, $groups_user, $variations_product):array{
-		$results = [];
-		foreach($groups_user as $type => $qty){
-			$type_slug = sanitize_title($type);
-			if ( array_key_exists($type_slug, $variations_product) ){
-				$id_variation = $variations_product[$type_slug];
-				$results[$id_variation] = $qty;
-			}
+	public function get_qty_variable_products( $id_product, $id_user, $children_ids ): array {
 
+		// Get users groups
+		$ids   = $children_ids;
+		$ids[] = $id_user; // At least the main user has to be in the group
+
+		$db   = new Database();
+
+		// Get count users by group
+		$groups_user = $db->get_totals_group_user_type( $ids );
+
+		// If it is a variable product, get the variations, or if it is a simple product return []
+		$variations_product = $db->get_variations_product( $id_product );
+
+		$results = [];
+
+		// Get the qty of each variation
+		if ( ! empty( $variations_product ) ){
+			foreach ( $groups_user as $type => $qty ) {
+				$type_slug = sanitize_title( $type );
+				if ( array_key_exists( $type_slug, $variations_product ) ) {
+					$id_variation             = $variations_product[ $type_slug ];
+					$results[ $id_variation ] = $qty;
+				}
+			}
 		}
 
 		// If it is a simple product, return the qty, sum of all users groups
-		if ( empty($results) ) {
-			$results[$id_product] = array_sum($groups_user);
+		if ( empty( $results ) && ! empty( $groups_user ) ) {
+			$results[ $id_product ] = array_sum( $groups_user );
 		}
 
 		return $results;
