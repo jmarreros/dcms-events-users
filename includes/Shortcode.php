@@ -210,17 +210,22 @@ class Shortcode {
 		} else { // redirect with product group
 			$event = new Event();
 			$products_qty = $event->get_qty_variable_products( $id_product, $id_user, []);
+			
+			if ( $products_qty ) {
+				try {
+					// Only one product
+					foreach ( $products_qty as $product_id => $qty ) {
+						WC()->cart->add_to_cart( $product_id, $qty );
+					}
 
-			try {
-				// Only one product
-				foreach ( $products_qty as $product_id => $qty ) {
-					WC()->cart->add_to_cart( $product_id, $qty );
+					wp_redirect( wc_get_cart_url() );
+				} catch ( \Exception $e ) {
+					$html_code = 'Hubo un error al agregar al carrito - ' . $e->getMessage();
 				}
-
-				wp_redirect( wc_get_cart_url() );
-			} catch ( \Exception $e ) {
-				$html_code = 'Hubo un error al agregar al carrito - ' . $e->getMessage();
+			} else { // If is empty, not need to buy
+				$html_code = '<div class="message-joined">Estimado/a abonado/a no necesita realizar la compra del suplemento, puede acceder directamente con su carné de abonado/a</div>';
 			}
+
 		}
 
 		return $html_code;

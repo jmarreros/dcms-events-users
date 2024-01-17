@@ -44,7 +44,7 @@ class Export{
         $filename = 'list_user_event.xlsx';
 
 		// Export
-	    $this->build_export($fields, $rows, $filename,  $styleArray, 'A1:W1');
+	    $this->build_export($fields, $rows, $filename,  $styleArray, 'A1:X1');
     }
 
 	// Order by parent and children

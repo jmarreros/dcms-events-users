@@ -553,10 +553,19 @@ class Database {
 			return [];
 		}
 
+		// Get totals by sub_type and exclude observation_person = 'SOCIO DE HONOR'
 		$sql = "SELECT meta_value soc_type, COUNT(meta_value) qty_type
 				FROM $this->user_meta 
 				WHERE
-					meta_key = 'soc_type' AND user_id IN (" . implode(',', $ids) . ")
+				    user_id IN (" . implode(',', $ids) . ") AND
+					meta_key = 'sub_type' AND
+					user_id NOT IN (
+						SELECT user_id FROM $this->user_meta  
+						WHERE 
+							user_id IN (" . implode(',', $ids) . ") AND 
+							meta_key = 'observation_person' AND 
+							meta_value = 'SOCIO DE HONOR'
+					)
 					GROUP BY meta_value";
 
 		$items = $this->wpdb->get_results( $sql, ARRAY_A );

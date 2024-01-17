@@ -35,27 +35,28 @@ class Helper {
 	// Get fields to export
 	public static function get_fields_inscribed_export(): array {
 		return [
-			'identify'     => 'Identificativo', // Login column
-			'pin'          => 'PIN', // Password Column
-			'number'       => 'Numero',
-			'reference'    => 'Referencia',
-			'nif'          => 'N.I.F.',
-			'name'         => 'Nombre',
-			'lastname'     => 'Apellidos',
-			'birth'        => 'Fecha Nacimiento',
-			'sub_type'     => 'Tipo de Abono',
-			'address'      => 'Domicilio Completo',
-			'postal_code'  => 'Código Postal',
-			'local'        => 'Localidad',
-			'email'        => 'E-MAIL',
-			'phone'        => 'Teléfono',
-			'mobile'       => 'Teléfono Móvil',
-			'soc_type'     => 'Tipo de Socio',
-			'observation7' => 'Observa 7',
-			'observation5' => 'Observa 5',
-			'sub_permit'   => 'Permiso Abono',
-			'children'     => 'Cant Convivientes',
-			'parent'       => 'Inscrito por'
+			'identify'           => 'Identificativo', // Login column
+			'pin'                => 'PIN', // Password Column
+			'number'             => 'Numero',
+			'reference'          => 'Referencia',
+			'nif'                => 'N.I.F.',
+			'name'               => 'Nombre',
+			'lastname'           => 'Apellidos',
+			'birth'              => 'Fecha Nacimiento',
+			'sub_type'           => 'Tipo de Abono',
+			'address'            => 'Domicilio Completo',
+			'postal_code'        => 'Código Postal',
+			'local'              => 'Localidad',
+			'email'              => 'E-MAIL',
+			'phone'              => 'Teléfono',
+			'mobile'             => 'Teléfono Móvil',
+			'soc_type'           => 'Tipo de Socio',
+			'observation7'       => 'Observa 7',
+			'observation5'       => 'Observa 5',
+			'sub_permit'         => 'Permiso Abono',
+			'observation_person' => 'Observaciones Persona',
+			'children'           => 'Cant Convivientes',
+			'parent'             => 'Inscrito por'
 		];
 	}
 
@@ -233,7 +234,7 @@ class Helper {
 	}
 
 	// Aux - Validate a date with today
-	public static function is_greater_than_today( $custom_date ) : bool{
+	public static function is_greater_than_today( $custom_date ): bool {
 		if ( is_null( $custom_date ) ) {
 			return true;
 		}

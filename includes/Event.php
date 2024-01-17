@@ -266,16 +266,23 @@ class Event {
 			$woocommerce->cart->empty_cart();
 
 			try {
-				foreach ( $products_qty as $product_id => $qty ) {
-					WC()->cart->add_to_cart( $product_id, $qty );
-				}
+				if ( $products_qty ) {
+					foreach ( $products_qty as $product_id => $qty ) {
+						WC()->cart->add_to_cart( $product_id, $qty );
+					}
 
-				// Build redirection to cart
-				$res = [
-					'status'  => 1,
-					'message' => "Redireccionando...",
-					'url'     => wc_get_cart_url()
-				];
+					// Build redirection to cart
+					$res = [
+						'status'  => 1,
+						'message' => "Redireccionando...",
+						'url'     => wc_get_cart_url()
+					];
+				} else {
+					$res = [
+						'status'  => 0,
+						'message' => 'Estimado/a abonado/a no necesita realizar la compra del suplemento, puede acceder directamente con su carné de abonado/a'
+					];
+				}
 			} catch ( \Exception $e ) {
 				$res['message'] = "Hubo un error al agregar al carrito - " . $e->getMessage();
 			}
@@ -306,7 +313,7 @@ class Event {
 		// Get the qty of each variation
 		if ( ! empty( $variations_product ) ){
 			foreach ( $groups_user as $type => $qty ) {
-				$type_slug = sanitize_title( $type );
+				$type_slug = $this->custom_sanitize_slug( $type );
 				if ( array_key_exists( $type_slug, $variations_product ) ) {
 					$id_variation             = $variations_product[ $type_slug ];
 					$results[ $id_variation ] = $qty;
@@ -320,6 +327,11 @@ class Event {
 		}
 
 		return $results;
+	}
+
+	// Some groups key have dot "." in it's name , this function replace it with "-2" to match with the slug of the variation
+	private function custom_sanitize_slug($type):string{
+		return sanitize_title(str_replace('.','-2',$type));
 	}
 
 }
