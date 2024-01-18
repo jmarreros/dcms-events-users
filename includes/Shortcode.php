@@ -126,7 +126,11 @@ class Shortcode {
 			$events = $db->get_events_for_user( $id_user );
 
 			ob_start();
+
+
 			include_once DCMS_EVENT_PATH . 'views/list-events-user.php';
+
+
 			$html_code = ob_get_contents();
 			ob_end_clean();
 

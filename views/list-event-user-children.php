@@ -8,7 +8,7 @@ $count_children = DCMS_MAX_CHILDREN;
 $id_event = $event->id_post;
 ?>
 
-    <?php if ( count($children) == 0 ) : ?>
+    <?php if ( count($children) == 0 ) : // Not children yet ?>
 
         <?php if ( ! $lock_inscriptions ): ?>
         <section class="container-question">
@@ -18,7 +18,7 @@ $id_event = $event->id_post;
         </section>
         <?php endif; ?>
 
-    <?php else : ?>
+    <?php else : // Has children ?>
 
         <section class="container-children-data">
         <div class="message-top">
