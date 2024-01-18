@@ -32,4 +32,9 @@
             <?php endforeach; ?>
         </select>
     </p>
+    <p>
+        <label>
+            <input type="checkbox" id="direct-purchase" name="<?= DCMS_DIRECT_PURCHASE ?>" <?php checked($direct_purchase, 1) ?> > Comprar directamente sin selección <small>(aparecerá un botón tras la inscripción)</small>
+        </label>
+    </p>
 </section>
