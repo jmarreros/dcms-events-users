@@ -59,7 +59,7 @@ class Selected {
 					$mail->send_mail_template( 'selection', $user_sel, $event_sel );
 				}
 
-				$db->selected_event_user( $item->id );
+				$db->update_selected_event_user_by_id( $item->id );
 			}
 
 		}

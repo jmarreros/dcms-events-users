@@ -41,15 +41,18 @@ class Event {
 
 		$db     = new Database();
 		$result = $db->save_join_user_to_event( $id_post, $id_user );
-
-		// Validate if updated rows > 0
-		Helper::validate_updated( $result );
-
-		//Send email user
-		( new Mail )->send_email_join_event( $name, $email, $event_title, $event_excerpt );
+		Helper::validate_updated( $result ); // Validate if updated rows > 0
 
 		// Update user meta
 		$db->update_count_user_meta( $id_user );
+
+
+		// Direct purchase process
+		$this->process_direct_purchase($id_post, $id_user);
+
+
+		//Send email user
+		( new Mail )->send_email_join_event( $name, $email, $event_title, $event_excerpt );
 
 		// If all is ok
 		$res = [
@@ -58,8 +61,32 @@ class Event {
 			'message' => "✅ Te has inscrito correctamente al Evento, <br> En unas horas recibirás en tu email la confirmación por parte del Club. <br> Si no lo recibes, no olvides revisar la bandeja de no deseados, Spam, y Promociones",
 		];
 
-		echo json_encode( $res );
-		wp_die();
+		wp_send_json( $res );
+	}
+
+
+	public function process_direct_purchase($id_event, $id_user){
+		// Direct purchase process
+		$direct_purchase     = get_post_meta( $id_event, DCMS_DIRECT_PURCHASE, true );
+
+		if ( ! $direct_purchase ) {
+			return;
+		}
+
+		// Direct purchase selected user automatically
+		$db = new Database();
+		$db->update_selected_event_user( $id_event, $id_user);
+
+		$url_page_purchase = DCMS_URL_PAGE_PURCHASE . Helper::set_params_url_purchase( $id_user, $id_event );
+
+		$res = [
+			'status'  => 1,
+			'joined'  => 1,
+			'redirect' => $url_page_purchase,
+			'message' => "✅ Te has inscrito correctamente al Evento, redireccionando a zona de pago...",
+		];
+
+		wp_send_json( $res);
 	}
 
 
@@ -192,6 +219,7 @@ class Event {
 			foreach ( $ids_children as $id_child ) {
 
 				$result = $db->save_children( $id_child, $id_post, $parent, $id_user );
+				Helper::validate_add_children( $result );
 
 				//Children data
 				$user_data                        = get_user_meta( $id_child );
@@ -200,14 +228,17 @@ class Event {
 				$children_data[ $child_identify ] = $child_name;
 			}
 
+
 			// Update user inscription, assign parent the same id
 			$db->save_join_user_to_event( $id_post, $id_user, $parent );
+
+			// Process direct purchase
+			$this->process_direct_purchase($id_post, $id_user);
 
 			//Send email user
 			( new Mail )->send_email_join_event( $name, $email, $event_title, $event_excerpt, $children_data );
 		}
 
-		Helper::validate_add_children( $result );
 
 		// If all is ok
 		$res = [
@@ -215,9 +246,7 @@ class Event {
 			'message' => "➜ Los acompañantes se agregaron correctamente <br> En unas horas recibirás en tu email la confirmación por parte del Club. <br> Si no lo recibes, no olvides revisar la bandeja de no deseados, Spam, y Promociones"
 		];
 
-		echo json_encode( $res );
-		wp_die();
-
+		wp_send_json( $res);
 	}
 
 
@@ -280,6 +309,7 @@ class Event {
 				} else {
 					$res = [
 						'status'  => 0,
+						'addClass' => 'message-joined',
 						'message' => 'Estimado/a abonado/a no necesita realizar la compra del suplemento, puede acceder directamente con su carné de abonado/a'
 					];
 				}
@@ -333,6 +363,7 @@ class Event {
 	private function custom_sanitize_slug($type):string{
 		return sanitize_title(str_replace('.','-2',$type));
 	}
+
 
 }
 

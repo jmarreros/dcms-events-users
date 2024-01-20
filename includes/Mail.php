@@ -41,11 +41,11 @@ class Mail {
 		$event_title   = $event['title'];
 		$event_excerpt = $event['excerpt'];
 
-		$params = '';
-		if ( $user_id && $event_id){
-			$params = "?idu=$user_id&ide=$event_id&idn=" .
-			          urlencode_deep( Helper::set_sporting_nonce( $user_id, $event_id ) );
-		}
+		$params = Helper::set_params_url_purchase( $user_id, $event_id );
+//		if ( $user_id && $event_id){
+//			$params = "?idu=$user_id&ide=$event_id&idn=" .
+//			          urlencode_deep( Helper::set_sporting_nonce( $user_id, $event_id ) );
+//		}
 
 		$body = str_replace( '%name%', $user_name, $body );
 		$body = str_replace( '%event_title%', $event_title, $body );

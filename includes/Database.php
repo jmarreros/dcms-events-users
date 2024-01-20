@@ -1,6 +1,6 @@
 <?php
 
-namespace dcms\event\includes;
+	namespace dcms\event\includes;
 
 use dcms\event\helpers\Helper;
 
@@ -402,7 +402,9 @@ class Database {
 
 		$result = $this->wpdb->query( $sql );
 
-		$this->recount_children( $id_user, $id_post );
+		if ( $result ) {
+			$this->recount_children( $id_user, $id_post );
+		}
 
 		return $result;
 	}
@@ -473,8 +475,17 @@ class Database {
 	}
 
 	// Selected user for the event, $id is the identify table
-	public function selected_event_user( $id ): int {
+	public function update_selected_event_user_by_id( $id ): int {
 		$sql = "UPDATE $this->event_users SET selected = 1 WHERE id = $id";
+
+		return $this->wpdb->query( $sql );
+	}
+
+	// Selected user for the event with user_id and event_id, also select children if exist
+	public function update_selected_event_user( $event_id, $user_id ): int {
+		$sql = "UPDATE $this->event_users 
+				SET selected = 1 
+             	WHERE id_post = $event_id AND (id_user = $user_id OR id_parent = $user_id)";
 
 		return $this->wpdb->query( $sql );
 	}
@@ -546,6 +557,13 @@ class Database {
 				WHERE id_user = $user_id AND id_post = $event_id";
 
 		return $this->wpdb->query( $sql );
+	}
+
+	public function get_order_id( $user_id, $event_id ): int {
+		$sql = "SELECT id_order FROM $this->event_users
+				WHERE id_user = $user_id AND id_post = $event_id";
+
+		return intval( $this->wpdb->get_var( $sql ) );
 	}
 
 	public function get_totals_group_user_type($ids):array{

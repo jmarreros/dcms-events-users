@@ -72,6 +72,9 @@ final class Loader {
 		// Sepa PDF Path
 		define( 'DCMS_SEPA_FILES_PATH', WP_CONTENT_DIR . '/uploads/SEPA-files/' );
 		define( 'DCMS_SEPA_FILES_URL', content_url() . '/uploads/SEPA-files/' );
+
+		// URL page for purchase, also it is in the mail message body
+		define( 'DCMS_URL_PAGE_PURCHASE', home_url( '/establecer-compra/' ) );
 	}
 
 	// Load tex domain

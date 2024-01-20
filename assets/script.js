@@ -113,8 +113,6 @@
             }
         })
             .done(function (res) {
-                res = JSON.parse(res);
-
                 $(e.target).prop("disabled", false);
 
                 if (res.status) {
@@ -131,6 +129,11 @@
                 }
 
                 show_message(res, smessage);
+
+                if ( res.redirect ) {
+                    window.location.href = res.redirect;
+                }
+
             })
             .always(function () {
                 $(e.target).parent().find('.lds-ring').remove();
@@ -276,11 +279,8 @@
             }
         })
             .done(function (res) {
-
                 // user inscription
                 // button_join.trigger('click');
-
-                res = JSON.parse(res);
 
                 if (res.status) {
                     // Revisar clases
@@ -296,6 +296,11 @@
                 }
 
                 show_message(res, cmessage);
+
+                if ( res.redirect ) {
+                    window.location.href = res.redirect;
+                }
+
             })
             .always(function () {
                 $(e.target).prop("disabled", false);
@@ -376,6 +381,10 @@
             .done(function (res) {
                 $('.setting-purchase .buttons-container .message').text(res.message);
                 $('.setting-purchase .buttons-container .lds-ring').hide();
+
+                if ( res.addClass ) {
+                    $('.setting-purchase .buttons-container .message').addClass(res.addClass);
+                }
                 if (res.status === 1) {
                     location.href = res.url;
                 }

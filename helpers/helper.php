@@ -203,6 +203,15 @@ class Helper {
 		return md5( $id_user . $id_event . 'sporting_nonce' );
 	}
 
+	public static function set_params_url_purchase($user_id, $event_id): string {
+		$params = '';
+		if ( $user_id && $event_id){
+			$params = "?idu=$user_id&ide=$event_id&idn=" .
+			          urlencode_deep( Helper::set_sporting_nonce( $user_id, $event_id ) );
+		}
+		return $params;
+	}
+
 	// Validate custom sporting nonce
 	public static function validate_sporting_nonce( $id_user, $id_event, $id_nonce ): bool {
 		return md5( $id_user . $id_event . 'sporting_nonce' ) === $id_nonce;
