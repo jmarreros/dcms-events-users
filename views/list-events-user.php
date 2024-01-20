@@ -29,13 +29,17 @@ use dcms\event\helpers\Helper;
                         <h3><?= $event->post_title ?></h3>
                         <section class="inscription-container">
 							<?php
+
 							error_log( print_r( $event, true ) );
+
 							// Validate joined by another user
 							if ( $event->id_parent > 0 ) {
 								$parent_user     = $db->get_user_meta( $event->id_parent );
 								$parent_name     = Helper::search_field_in_meta( $parent_user, 'name' );
 								$parent_lastname = Helper::search_field_in_meta( $parent_user, 'lastname' );
 								echo "<p><strong>Inscrito por:</strong> " . $parent_name . " " . $parent_lastname . "</p>";
+								echo '<div class="description">' . do_shortcode( $event->post_content ) . '</div>';
+								echo "</section></li>";
 								continue;
 							}
 

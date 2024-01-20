@@ -4,6 +4,7 @@ namespace dcms\event\includes;
 
 use dcms\event\backend\includes\inscribed\Selected;
 use dcms\event\helpers\Helper;
+use PleskX\Api\Operator\EventLog;
 
 // Class for grouping shortcodes functionality
 class Shortcode {
@@ -123,6 +124,7 @@ class Shortcode {
 				] );
 
 
+			error_log(print_r("El ID: " . $id_user ,true));
 			$events = $db->get_events_for_user( $id_user );
 
 
