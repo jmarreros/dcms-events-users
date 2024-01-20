@@ -125,6 +125,7 @@ class Shortcode {
 
 			$events = $db->get_events_for_user( $id_user );
 
+
 			ob_start();
 
 

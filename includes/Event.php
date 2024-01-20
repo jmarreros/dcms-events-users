@@ -364,6 +364,5 @@ class Event {
 		return sanitize_title(str_replace('.','-2',$type));
 	}
 
-
 }
 
