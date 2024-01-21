@@ -267,8 +267,6 @@ class Database {
                 INNER JOIN {$this->post_event} p ON p.ID =  eu.id_post
                 WHERE eu.id_user = {$id_user} AND  p.post_status = 'publish'";
 
-		error_log(print_r($sql,true));
-
 		return $this->wpdb->get_results( $sql );
 	}
 
