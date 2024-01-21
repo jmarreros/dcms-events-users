@@ -369,3 +369,12 @@ a.button.disabled {
 .message-sepa:empty{
     display: none;
 }
+
+
+.btn.btn-payment{
+    font-size: 13px;
+    margin-top: 5px;
+    display: inline-block;
+    padding: 6px 15px;
+}
+

@@ -83,7 +83,7 @@ class Event {
 			'status'  => 1,
 			'joined'  => 1,
 			'redirect' => $url_page_purchase,
-			'message' => "✅ Te has inscrito correctamente al Evento, redireccionando a zona de pago...",
+			'message' => "✅ Te has inscrito correctamente al Evento, <br> Te redireccionaremos a la zona de pago...",
 		];
 
 		wp_send_json( $res);
@@ -310,7 +310,7 @@ class Event {
 					$res = [
 						'status'  => 0,
 						'addClass' => 'message-joined',
-						'message' => 'Estimado/a abonado/a no necesita realizar la compra del suplemento, puede acceder directamente con su carné de abonado/a'
+						'message' => 'Estimado/a abonado/a no necesita realizar la compra del suplemento, puede acceder directamente con su carné de abonado/a usted y sus acompañantes inscritos'
 					];
 				}
 			} catch ( \Exception $e ) {

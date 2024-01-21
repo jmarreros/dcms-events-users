@@ -66,13 +66,16 @@
     $('.container-question .question-children').click(function (e) {
         const container_children = $(this).closest('.item-event').find('.container-children');
         const btn_join = $(this).closest('.item-event').find('.button.btn-join');
+        const btn_payment = $(this).closest('.item-event').find('.button.btn-payment');
 
         if ($(this).prop('checked')) {
             container_children.show();
             btn_join.hide();
+            btn_payment.hide();
         } else {
             container_children.hide();
             btn_join.show();
+            btn_payment.show();
         }
     });
 

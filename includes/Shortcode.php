@@ -124,9 +124,7 @@ class Shortcode {
 				] );
 
 
-			error_log(print_r("El ID: " . $id_user ,true));
 			$events = $db->get_events_for_user( $id_user );
-
 
 			ob_start();
 
