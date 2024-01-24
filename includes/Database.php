@@ -584,7 +584,8 @@ class Database {
 							meta_key = 'observation_person' AND 
 							meta_value = 'SOCIO DE HONOR'
 					)
-					GROUP BY meta_value";
+					GROUP BY meta_value
+					HAVING soc_type <> 'JUNIOR'";
 
 		$items = $this->wpdb->get_results( $sql, ARRAY_A );
 
