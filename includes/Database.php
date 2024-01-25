@@ -545,8 +545,12 @@ class Database {
 
 	// Get id_event associate with the product
 	public function get_event_id_product( $id_product ): int {
-		$sql = "SELECT post_id FROM $this->post_meta
-				WHERE meta_key = '" . DCMS_EVENT_PRODUCT_ID . "' AND meta_value = $id_product";
+		$sql = "SELECT pm.post_id FROM $this->post_meta pm
+               INNER JOIN $this->post_event  p ON pm.post_id = p.ID
+				WHERE pm.meta_key = '" . DCMS_EVENT_PRODUCT_ID . "' 
+				AND pm.meta_value = $id_product
+				AND p.post_status = 'publish'
+				ORDER BY post_id DESC LIMIT 1";
 
 		return intval( $this->wpdb->get_var( $sql ) );
 	}
