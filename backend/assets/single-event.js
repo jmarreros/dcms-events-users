@@ -47,6 +47,10 @@
             socio_types.push($(this).val());
         } );
 
+        let exclude_observation_person = [];
+        $('.efilter.observation_person input:checked').each( function(){
+            exclude_observation_person.push($(this).val());
+        } );
 
 		$.ajax({
 			url : dcms_vars.ajaxurl,
@@ -56,7 +60,8 @@
                 nonce : dcms_vars.nonce,
                 numbers,
                 abonado_types,
-                socio_types
+                socio_types,
+                exclude_observation_person
 			},
             beforeSend: function(){
                 $('.btn-filter .lds-ring').show();

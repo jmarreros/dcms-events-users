@@ -29,7 +29,7 @@ class Database {
 	// =============
 
 	// Filter usermeta, filter for the poup
-	public function filter_query_params( $numbers, $abonado_types, $socio_types ) {
+	public function filter_query_params( $numbers, $abonado_types, $socio_types, $exclude_observation_person ) {
 		$sql = "SELECT `user_id`, `number`, `name`, `lastname`, `sub_type`, `soc_type`, `observation7`,
                 0 as `joined`, 0 as `children`, 0 as `parent`
                 FROM {$this->view_users} WHERE identify <> ''";
@@ -52,6 +52,11 @@ class Database {
 		// socio type
 		if ( ! empty( $socio_types ) ) {
 			$sql .= " AND soc_type IN ({$socio_types})";
+		}
+		
+		// Exclude observation person
+		if ( ! empty( $exclude_observation_person ) ) {
+			$sql .= " AND ( observation_person NOT IN ({$exclude_observation_person}) OR observation_person IS NULL OR observation_person = '')";
 		}
 
 		$sql .= " ORDER BY CAST(`number` AS UNSIGNED)";

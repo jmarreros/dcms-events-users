@@ -3,6 +3,7 @@ use dcms\event\helpers\Helper;
 
 $abonado_type = Helper::get_abonado_type();
 $socio_type = Helper::get_socio_type();
+$observation_person = Helper::get_observation_person();
 
 ?>
 
@@ -46,6 +47,15 @@ $socio_type = Helper::get_socio_type();
                 <label><input type="checkbox" id="<?= $key ?>" value="<?= $key ?>"><?= $value ?></label>
             <?php }?>
         </div>
+
+        <div class="efilter observation_person">
+            <span><?= __('Exclude', 'dcms-events-users')?></span>
+
+	        <?php foreach ($observation_person as $key => $value) { ?>
+                <label><input type="checkbox" id="<?= $key ?>" value="<?= $key ?>"><?= $value ?></label>
+	        <?php }?>
+        </div>
+
         <!-- Events before -->
         <div class="efilter">
             <span><?= __('Number events before', 'dcms-events-users')?></span>

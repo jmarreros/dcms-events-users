@@ -7,18 +7,19 @@ class Helper {
 
 	public static function get_abonado_type(): array {
 		return [
-			'ADULTO'         => 'ADULTO',
-			'ADULTO.'        => 'ADULTO.',
-			'DISCAPACITADO'  => 'DISCAPACITADO',
-			'DISCAPACITADO.' => 'DISCAPACITADO.',
-			'JUNIOR'         => 'JUNIOR',
-			'JUNIOR.'        => 'JUNIOR.',
-			'JUVENIL'        => 'JUVENIL',
-			'JUVENIL.'       => 'JUVENIL.',
-			'SUB-26'         => 'SUB-26',
-			'SUB-26.'        => 'SUB-26.',
-			'JUBILADO'       => 'JUBILADO',
-			'YOGURÍN'        => 'YOGURÍN',
+			'ADULTO'               => 'ADULTO',
+			'ADULTO.'              => 'ADULTO.',
+			'DISCAPACITADO'        => 'DISCAPACITADO',
+			'DISCAPACITADO.'       => 'DISCAPACITADO.',
+			'JUNIOR'               => 'JUNIOR',
+			'JUNIOR.'              => 'JUNIOR.',
+			'JUVENIL'              => 'JUVENIL',
+			'JUVENIL.'             => 'JUVENIL.',
+			'SUB-26'               => 'SUB-26',
+			'SUB-26.'              => 'SUB-26.',
+			'JUBILADO'             => 'JUBILADO',
+			'YOGURÍN'              => 'YOGURÍN',
+			'DIVERSIDAD FUNCIONAL' => 'DIVERSIDAD FUNCIONAL',
 		];
 	}
 
@@ -29,6 +30,15 @@ class Helper {
 			'OPCION C' => 'C',
 			'OPCION D' => 'D',
 			'OPCION E' => 'E'
+		];
+	}
+
+	// Observation person
+	public static function get_observation_person(): array {
+		return [
+			'SOCIO DE HONOR'   => 'SOCIO DE HONOR',
+			'SOCIO PLATA'      => 'SOCIO PLATA',
+			'SOCIO ITINERANTE' => 'SOCIO ITINERANTE',
 		];
 	}
 
@@ -203,12 +213,13 @@ class Helper {
 		return md5( $id_user . $id_event . 'sporting_nonce' );
 	}
 
-	public static function set_params_url_purchase($user_id, $event_id): string {
+	public static function set_params_url_purchase( $user_id, $event_id ): string {
 		$params = '';
-		if ( $user_id && $event_id){
+		if ( $user_id && $event_id ) {
 			$params = "?idu=$user_id&ide=$event_id&idn=" .
 			          urlencode_deep( Helper::set_sporting_nonce( $user_id, $event_id ) );
 		}
+
 		return $params;
 	}
 
