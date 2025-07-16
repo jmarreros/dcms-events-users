@@ -154,10 +154,10 @@ a.button.disabled {
     width: 16px;
     height: 16px;
     margin: 3px;
-    border: 3px solid white;
+    border: 3px solid grey;
     border-radius: 50%;
     animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
-    border-color: white transparent transparent transparent;
+    border-color: grey transparent transparent transparent;
 }
 
 .lds-ring div:nth-child(1) {
@@ -428,4 +428,9 @@ a.button.disabled {
 
 .single-modules-sporting .list-children .cvalidate{
     padding: 8px 20px!important;
+}
+
+.single-modules-sporting .lds-ring div {
+    border: 3px solid white;
+    border-color: white transparent transparent transparent;
 }
