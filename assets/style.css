@@ -54,7 +54,8 @@
 
 .setting-purchase .user-child.not-selected .remove,
 .item-event button.nojoin:disabled,
-.item-event button.nojoin[disabled] {
+.item-event button.nojoin[disabled],
+.item-event button.nojoin[disabled]:hover{
     border: 1px solid #999;
     background-color: #ccc;
     color: #555;
@@ -153,10 +154,10 @@ a.button.disabled {
     width: 16px;
     height: 16px;
     margin: 3px;
-    border: 3px solid gray;
+    border: 3px solid white;
     border-radius: 50%;
     animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
-    border-color: gray transparent transparent transparent;
+    border-color: white transparent transparent transparent;
 }
 
 .lds-ring div:nth-child(1) {
@@ -378,3 +379,53 @@ a.button.disabled {
     padding: 6px 15px;
 }
 
+
+
+.single-modules-sporting .inscription-container{
+    background-color:#8f0d0d;
+    border:none;
+    border-radius:15px;
+}
+
+.single-modules-sporting .message-joined{
+    border-radius: 12px;
+}
+
+.single-modules-sporting .message-joined{
+    color: #505050;
+}
+
+.single-modules-sporting button:hover{
+    background-color:#a22929;
+}
+
+.single-modules-sporting .inscription-container .list-children li{
+    background-color: transparent;
+    border-color: rgba(255,255,255,0.5);
+    border-radius: 10px;
+}
+
+.single-modules-sporting .inscription-container .list-children .cclear{
+    color:#f77e7e;
+}
+
+.single-modules-sporting button.button:hover{
+    background-color:#a22929;
+}
+
+.single-modules-sporting button.button{
+    border-radius: 20px;
+}
+
+.single-modules-sporting .message,
+.single-modules-sporting .message-joined{
+    border-radius: 12px;
+}
+
+.single-modules-sporting .inscription-container .list-children li{
+    border-radius: 10px;
+}
+
+.single-modules-sporting .list-children .cvalidate{
+    padding: 8px 20px!important;
+}
