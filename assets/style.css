@@ -409,6 +409,11 @@ a.button.disabled {
     color:#f77e7e;
 }
 
+.single-modules-sporting .button.btn-payment{
+    border-radius: 20px;
+}
+
+.single-modules-sporting .button.btn-payment:hover,
 .single-modules-sporting button.button:hover{
     background-color:#a22929;
 }
@@ -434,3 +439,4 @@ a.button.disabled {
     border: 3px solid white;
     border-color: white transparent transparent transparent;
 }
+

@@ -42,16 +42,16 @@ use dcms\event\helpers\Helper;
 							}
 
 
-							$is_joined = $event->joined;
-                            $msg_joined = "Te has inscrito correctamente al evento, en unas horas recibirás en tu email la confirmación por parte del Club. <br> Si no lo recibes, no olvides revisar la bandeja de no deseados, Spam, y Promociones";
+							$is_joined  = $event->joined;
+							$msg_joined = "Te has inscrito correctamente al evento, en unas horas recibirás en tu email la confirmación por parte del Club. <br> Si no lo recibes, no olvides revisar la bandeja de no deseados, Spam, y Promociones";
 
 							$direct_purchase = get_post_meta( $event->id_post, DCMS_DIRECT_PURCHASE, true );
-                            if ( $direct_purchase ){
-                                $msg_joined = "Te has inscrito correctamente al evento.";
-                                if ( $event->id_order <= 0 ){
-                                    $msg_joined .= "<br> Recuerda que para poder asistir al evento, debes realizar el pago de la entrada.";
-                                }
-                            }
+							if ( $direct_purchase ) {
+								$msg_joined = "Te has inscrito correctamente al evento.";
+								if ( $event->id_order <= 0 ) {
+									$msg_joined .= "<br> Recuerda que para poder asistir al evento, debes realizar el pago de la entrada.";
+								}
+							}
 
 							if ( $is_joined ) {
 								echo "<div class='message-joined'>";
@@ -72,7 +72,7 @@ use dcms\event\helpers\Helper;
 							}
 
 							include 'list-event-user.php';
-							if ( $direct_purchase && $is_joined && $event->id_order <= 0) {
+							if ( ( $direct_purchase && $is_joined && $event->id_order <= 0 ) || ( $event->selected && $event->id_order <= 0 ) ) {
 								$url_page_purchase = DCMS_URL_PAGE_PURCHASE . Helper::set_params_url_purchase( $event->id_user, $event->id_post );
 								include 'button-payment.php';
 							}

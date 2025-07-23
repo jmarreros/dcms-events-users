@@ -3,7 +3,7 @@
 Plugin Name: Sporting Event users
 Plugin URI: https://webservi.es
 Description: Integrates events users
-Version: 1.7.1
+Version: 1.7.2
 Author: Webservi.es
 Author URI: https://decodecms.com
 Text Domain: dcms-events-users
@@ -44,7 +44,7 @@ final class Loader {
 
 	// Define all the constants we need
 	public function define_constants() {
-		define( 'DCMS_EVENT_VERSION', '1.7.1' );
+		define( 'DCMS_EVENT_VERSION', '1.7.2' );
 		define( 'DCMS_EVENT_PATH', plugin_dir_path( __FILE__ ) );
 		define( 'DCMS_EVENT_URL', plugin_dir_url( __FILE__ ) );
 		define( 'DCMS_EVENT_BASE_NAME', plugin_basename( __FILE__ ) );

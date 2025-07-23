@@ -267,10 +267,13 @@ class Database {
 	// Get all events avaliable for a specific user
 	public function get_events_for_user( $id_user ) {
 
-		$sql = "SELECT eu.id_user, eu.id_post, eu.joined, eu.joined_date, eu.children, eu.parent, eu.id_parent, eu.maximum_date, eu.id_order, p.post_title, p.post_content
+		$sql = "SELECT eu.id_user, eu.id_post, eu.joined, eu.joined_date, eu.children, eu.parent, eu.id_parent, eu.maximum_date, eu.id_order, p.post_title, p.post_content, eu.selected
                 FROM {$this->event_users} eu
                 INNER JOIN {$this->post_event} p ON p.ID =  eu.id_post
                 WHERE eu.id_user = {$id_user} AND  p.post_status = 'publish'";
+
+		error_log(print_r('Consulta',true));
+		error_log(print_r($sql,true));
 
 		return $this->wpdb->get_results( $sql );
 	}
