@@ -5,12 +5,11 @@
 use dcms\event\helpers\Helper;
 
 class Database {
-	private $wpdb;
+	private \wpdb $wpdb;
 	private string $event_users;
 	private string $user_meta;
 	private string $post_event;
-	private string $view_users;
-	private string $post_product;
+	private string $table_user_data;
 	private string $post_meta;
 
 	public function __construct() {
@@ -18,10 +17,9 @@ class Database {
 
 		$this->wpdb         = $wpdb;
 		$this->event_users  = $this->wpdb->prefix . 'dcms_event_users';
-		$this->view_users   = $this->wpdb->prefix . 'dcms_view_users';
+		$this->table_user_data   = $this->wpdb->prefix . 'dcms_user_data';
 		$this->user_meta    = $this->wpdb->prefix . 'usermeta';
 		$this->post_event   = $this->wpdb->prefix . 'posts';
-		$this->post_product = $this->wpdb->prefix . 'posts';
 		$this->post_meta    = $this->wpdb->prefix . 'postmeta';
 	}
 
@@ -32,7 +30,7 @@ class Database {
 	public function filter_query_params( $numbers, $abonado_types, $socio_types, $exclude_observation_person ) {
 		$sql = "SELECT `user_id`, `number`, `name`, `lastname`, `sub_type`, `soc_type`, `observation7`,
                 0 as `joined`, 0 as `children`, 0 as `parent`
-                FROM {$this->view_users} WHERE identify <> ''";
+                FROM {$this->table_user_data} WHERE identify <> ''";
 
 		// Number filter
 		if ( isset( $numbers ) && array_sum( $numbers ) > 0 ) {
@@ -117,7 +115,7 @@ class Database {
 
 		$sql = "SELECT vu.`user_id`,{$fields_to_show},eu.`joined`,eu.`selected`,eu.`id_order`, DATE_FORMAT(eu.`maximum_date`, '%Y-%m-%d') AS maximum_date  
                 FROM $this->event_users eu
-                INNER JOIN $this->view_users vu ON eu.id_user = vu.user_id
+                INNER JOIN $this->table_user_data vu ON eu.id_user = vu.user_id
                 WHERE id_post = {$id_post}";
 
 		if ( $only_joined ) {
@@ -148,7 +146,7 @@ class Database {
 		$sql = "SELECT `user_id`, `number`, `name`, `lastname`, `sub_type`, `soc_type`, `observation7`,
                 `joined`, `children`, `parent`
                 FROM $this->event_users eu
-                INNER JOIN $this->view_users vu ON eu.id_user = vu.user_id
+                INNER JOIN $this->table_user_data vu ON eu.id_user = vu.user_id
                 WHERE id_post = {$id_post}
                 ORDER BY CAST(`number` AS UNSIGNED)";
 
@@ -421,7 +419,7 @@ class Database {
 	public function get_children_user( $id_user, $id_post ) {
 		$sql = "SELECT eu.id_user, eu.joined, eu.selected, v.identify as `identify`, CONCAT(v.`name`, ' ' , v.`lastname`) as `name`
                 FROM {$this->event_users} eu
-                INNER JOIN {$this->view_users} v ON v.user_id = eu.id_user
+                INNER JOIN {$this->table_user_data} v ON v.user_id = eu.id_user
                 WHERE eu.id_post = {$id_post} AND eu.id_parent = {$id_user} AND eu.joined = 1";
 
 		return $this->wpdb->get_results( $sql, ARRAY_A );
@@ -476,7 +474,7 @@ class Database {
 					SELECT user_id FROM $this->user_meta
 					WHERE meta_key = 'identify' AND meta_value IN ( " . join( ',', $identifies ) . " ) 
 				) um ON eu.id_user = um.user_id
-				INNER JOIN $this->view_users u ON eu.id_user = u.user_id
+				INNER JOIN $this->table_user_data u ON eu.id_user = u.user_id
 				WHERE eu.id_post = $id_event AND joined = 1 AND selected = 0";
 
 		return $this->wpdb->get_results( $sql );
