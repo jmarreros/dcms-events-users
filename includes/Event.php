@@ -97,7 +97,7 @@ class Event {
 
 		$id_post  = intval( $_POST['id_post'] );
 		$identify = $_POST['identify'] ?? null;
-		$pin      = $_POST['pin'] ?? null;
+		$pin      = isset($_POST['pin']) ? ltrim($_POST['pin'], '0') : null;
 		$id_user  = get_current_user_id();
 
 		( new User() )->validate_identify_and_pin( $identify, $pin );
