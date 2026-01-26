@@ -57,6 +57,7 @@ class Helper {
 			'address'            => 'Domicilio Completo',
 			'postal_code'        => 'Código Postal',
 			'local'              => 'Localidad',
+			'provincia'          => 'Provincia',
 			'email'              => 'E-MAIL',
 			'phone'              => 'Teléfono',
 			'mobile'             => 'Teléfono Móvil',
