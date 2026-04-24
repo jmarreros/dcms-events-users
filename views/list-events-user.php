@@ -68,6 +68,7 @@ use dcms\event\helpers\Helper;
 
 							if ( $enable_convivientes ) {
 								$children = $db->get_children_user( $event->id_user, $event->id_post );
+                                $is_selected = $event->selected;
 								include 'list-event-user-children.php';
 							}
 
